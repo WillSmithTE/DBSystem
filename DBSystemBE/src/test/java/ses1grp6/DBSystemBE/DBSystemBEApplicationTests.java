@@ -1,4 +1,4 @@
-package com.willsmithte.DBSystemBE;
+package ses1grp6.DBSystemBE;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

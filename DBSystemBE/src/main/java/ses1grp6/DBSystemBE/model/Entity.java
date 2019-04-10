@@ -1,4 +1,4 @@
-package com.willsmithte.DBSystemBE.model;
+package ses1grp6.DBSystemBE.model;
 
 
 import javax.persistence.*;

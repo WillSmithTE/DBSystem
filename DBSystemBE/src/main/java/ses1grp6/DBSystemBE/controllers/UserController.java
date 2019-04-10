@@ -1,7 +1,7 @@
-package com.willsmithte.DBSystemBE.controllers;
+package ses1grp6.DBSystemBE.controllers;
 
-import com.willsmithte.DBSystemBE.model.User;
-import com.willsmithte.DBSystemBE.repositories.UserRepository;
+import ses1grp6.DBSystemBE.model.User;
+import ses1grp6.DBSystemBE.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,6 +1,6 @@
-package com.willsmithte.DBSystemBE.repositories;
+package ses1grp6.DBSystemBE.repositories;
 
-import com.willsmithte.DBSystemBE.model.User;
+import ses1grp6.DBSystemBE.model.User;
 import org.springframework.data.repository.CrudRepository;
 
 /**

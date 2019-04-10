@@ -1,10 +1,10 @@
-package com.willsmithte.DBSystemBE.controllers;
+package ses1grp6.DBSystemBE.controllers;
 
-import com.willsmithte.DBSystemBE.model.LoginRequest;
-import com.willsmithte.DBSystemBE.model.RegistrationRequest;
-import com.willsmithte.DBSystemBE.model.Response;
-import com.willsmithte.DBSystemBE.model.User;
-import com.willsmithte.DBSystemBE.repositories.UserRepository;
+import ses1grp6.DBSystemBE.model.LoginRequest;
+import ses1grp6.DBSystemBE.model.Response;
+import ses1grp6.DBSystemBE.repositories.UserRepository;
+import ses1grp6.DBSystemBE.model.RegistrationRequest;
+import ses1grp6.DBSystemBE.model.User;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

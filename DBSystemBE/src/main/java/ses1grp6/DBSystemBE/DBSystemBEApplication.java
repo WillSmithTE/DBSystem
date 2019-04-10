@@ -1,4 +1,4 @@
-package com.willsmithte.DBSystemBE;
+package ses1grp6.DBSystemBE;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

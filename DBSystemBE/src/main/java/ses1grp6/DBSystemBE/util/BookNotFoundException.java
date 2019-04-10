@@ -1,4 +1,4 @@
-package com.willsmithte.DBSystemBE.util;
+package ses1grp6.DBSystemBE.util;
 
 /**
  * Created by Will Smith on 15/3/19.
