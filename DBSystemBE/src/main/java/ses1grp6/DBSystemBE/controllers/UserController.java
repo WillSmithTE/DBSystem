@@ -25,6 +25,21 @@ public class UserController {
     public @ResponseBody User getById(@PathVariable("id")int id) {
         return repository.findById(id);
     }
+    
+    @RequestMapping(value = "/{first_name}", method = RequestMethod.GET)
+    public @ResponseBody User getByFirstName(@PathVariable("first_name")String first_name){
+        return repository.findByFirstName(first_name);
+    }
+
+    @RequestMapping(value = "/{last_name}", method = RequestMethod.GET)
+    public @ResponseBody User getByLastName(@PathVariable("last_name")String last_name){
+        return repository.findByFirstName(last_name);
+    }
+
+    @RequestMapping(value = "/{email}", method = RequestMethod.GET)
+    public @ResponseBody User getByEmail(@PathVariable("email")String email){
+        return repository.findByEmail(email);
+    }
 
 //    @RequestMapping(value = "/", method = RequestMethod.POST)
 //    public User createUser(@Valid @RequestBody User user) {

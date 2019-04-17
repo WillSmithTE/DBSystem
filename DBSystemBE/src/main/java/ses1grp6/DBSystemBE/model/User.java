@@ -13,7 +13,8 @@ public class User extends Entity {
 
     public User(RegistrationRequest registrationRequest) {
         this(
-                registrationRequest.getName(),
+                registrationRequest.getFirstName(),
+                registrationRequest.getLastName(),
                 registrationRequest.getEmail(),
                 registrationRequest.getPassword(),
                 registrationRequest.getLocation()
