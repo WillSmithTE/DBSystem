@@ -7,8 +7,8 @@ package ses1grp6.DBSystemBE.model;
 @javax.persistence.Entity
 public class User extends Entity {
 
-    public User(String name, String email, String password, int location) {
-        super(name, email, password, location);
+    public User(String name, String email, String password, int locationId) {
+        super(name, email, password, locationId);
     }
 
     public User(RegistrationRequest registrationRequest) {

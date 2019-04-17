@@ -30,8 +30,6 @@ public class AuthController {
 
     @PostMapping(value = "/register")
     public Response register(@RequestBody RegistrationRequest registrationRequest) {
-        Key key = MacProvider.generateKey(SignatureAlgorithm.HS256);
-        Key otherKeyThing = new SecretKeySpec(key.getEncoded(), SignatureAlgorithm.HS256.getJcaName());
         User preExistingUser = userRepository.findByEmail(registrationRequest.getEmail());
         if (preExistingUser == null) {
             User newUser = userRepository.save(new User(registrationRequest));
