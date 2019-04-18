@@ -1,4 +1,4 @@
-package ses1group6.dbandroid;
+package ses1grp6.dbsystemandroid;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -17,10 +17,10 @@ import static org.junit.Assert.*;
 @RunWith(AndroidJUnit4.class)
 public class ExampleInstrumentedTest {
     @Test
-    public void useAppContext() throws Exception {
+    public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("ses1group6.dbandroid", appContext.getPackageName());
+        assertEquals("ses1grp6.dbsystemandroid", appContext.getPackageName());
     }
 }

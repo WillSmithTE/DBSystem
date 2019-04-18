@@ -1,11 +1,7 @@
-package ses1group6.dbandroid;
+package ses1grp6.dbsystemandroid;
 
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-
-/**
- * Created by Will Smith on 9/4/19.
- */
+import android.os.Bundle;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -14,5 +10,4 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
     }
-
 }
