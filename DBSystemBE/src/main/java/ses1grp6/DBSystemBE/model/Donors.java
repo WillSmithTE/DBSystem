@@ -1,30 +1,53 @@
 package ses1grp6.DBSystemBE.model;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import java.util.List;
 
-/**
- * Created by Will Smith on 4/4/19.
- */
 
-public class RegistrationRequest {
+// @javax.persistence.Entity
+@Entity
+public class Donors {
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private int userId;
-    private String email;
     private String firstName;
     private String lastName;
+    private String email;
     private String contactNumber;
     private String password;
     private int locationId;
     private int emailConfirmed;
 
-    public RegistrationRequest(int userId, String email, String firstName, String lastName, String contactNumber, String password, int locationId, int emailConfirmed) {
+    public Donors(int userId, String firstName, String lastName, String email, String contactNumber, String password, int locationId, int emailConfirmed) {
         this.userId = userId;
-        this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.email = email;
         this.contactNumber = contactNumber;
         this.password = password;
         this.locationId = locationId;
         this.emailConfirmed = emailConfirmed;
     }
 
+    public Donors(RegistrationRequest registrationRequest) {
+        this(
+                registrationRequest.getUserId(),
+                registrationRequest.getFirstName(),
+                registrationRequest.getLastName(),
+                registrationRequest.getEmail(),
+                registrationRequest.getContactNumber(),
+                registrationRequest.getPassword(),
+                registrationRequest.getLocationId(),
+                registrationRequest.getEmailConfirmed()
+        );
+    }
+
+    public Donors() {}
+
+
+    
     public int getUserId() {
         return userId;
     }

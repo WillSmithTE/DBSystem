@@ -2,9 +2,9 @@ package ses1grp6.DBSystemBE.controllers;
 
 import ses1grp6.DBSystemBE.model.LoginRequest;
 import ses1grp6.DBSystemBE.model.Response;
-import ses1grp6.DBSystemBE.repositories.UserRepository;
+import ses1grp6.DBSystemBE.repositories.DonorRepository;
 import ses1grp6.DBSystemBE.model.RegistrationRequest;
-import ses1grp6.DBSystemBE.model.User;
+import ses1grp6.DBSystemBE.model.Donors;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -26,32 +26,32 @@ import java.util.Date;
 @RequestMapping("/auth")
 public class AuthController {
     @Autowired
-    private UserRepository userRepository;
+    private DonorRepository donorRepository;
 
-    @PostMapping(value = "/register")
-    public Response register(@RequestBody RegistrationRequest registrationRequest) {
-        User preExistingUser = userRepository.findByEmail(registrationRequest.getEmail());
-        if (preExistingUser == null) {
-            User newUser = userRepository.save(new User(registrationRequest));
-            return Response.success(newUser);
-        } else {
-            return Response.fail("Email taken.");
-        }
-    }
+    // @PostMapping(value = "/register")
+    // public Response register(@RequestBody RegistrationRequest registrationRequest) {
+    //     Donors preExistingUser = donorRepository.findByEmail(registrationRequest.getEmail());
+    //     if (preExistingUser == null) {
+    //         Donors newUser = donorRepository.save(new Donors(registrationRequest));
+    //         return Response.success(newUser);
+    //     } else {
+    //         return Response.fail("Email taken.");
+    //     }
+    // }
 
-    @PostMapping(value = "/login")
-    public Response login(@RequestBody LoginRequest loginRequest) {
-        User preExistingUser = userRepository.findByEmail(loginRequest.getEmail());
-        if (preExistingUser.getPassword().equals(loginRequest.getPassword())) {
-            if (preExistingUser.isEmailConfirmed()) {
-                return Response.success(AuthController.createToken());
-            } else {
-                return Response.fail("Email not confirmed. Confirmation email resent.");
-            }
-        } else {
-            return Response.fail("Login failed.");
-        }
-    }
+    // @PostMapping(value = "/login")
+    // public Response login(@RequestBody LoginRequest loginRequest) {
+    //     Donors preExistingUser = donorRepository.findByEmail(loginRequest.getEmail());
+    //     if (preExistingUser.getPassword().equals(loginRequest.getPassword())) {
+    //         if (preExistingUser.isEmailConfirmed()) {
+    //             return Response.success(AuthController.createToken());
+    //         } else {
+    //             return Response.fail("Email not confirmed. Confirmation email resent.");
+    //         }
+    //     } else {
+    //         return Response.fail("Login failed.");
+    //     }
+    // }
 
     private static String createToken() {
         SignatureAlgorithm algorithm = SignatureAlgorithm.HS256;

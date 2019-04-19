@@ -4,37 +4,56 @@ package ses1grp6.DBSystemBE.model;
 import javax.persistence.*;
 import java.util.List;
 
-/**
- * Created by Will Smith on 4/4/19.
- */
 
 @MappedSuperclass
 public class Entity {
-
-    private String name;
     @Id
-    @Column(unique = true, nullable = false)
+    @Column(name="user_id", unique = true, nullable = false)
+    private int userId;
+    @Column(name="first_name")
+    private String firstName;
+    @Column(name="last_name")
+    private String lastName;
     private String email;
+    @Column(name="contact_number")
+    private String contactNumber;
     private String password;
     private int locationId;
-    private String description;
-    private boolean emailConfirmed = false;
+    @Column(name="email_confirmed")
+    private int emailConfirmed;
+    
 
     public Entity() {}
 
-    public Entity(String name, String email, String password, int locationId) {
-        this.name = name;
+    public Entity(int userId, String firstName, String lastName, String email, String contactNumber, String password, int locationId) {
+        this.userId = userId;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
+        this.contactNumber = contactNumber;
         this.password = password;
         this.locationId = locationId;
     }
 
-    public String getName() {
-        return name;
+
+    public int getUserId() {
+        return userId;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+    
+    public String getLastName() {
+        return lastName;
+    }
+    
     public String getEmail() {
         return email;
+    }
+
+    public String getContactNumber() {
+        return contactNumber;
     }
 
     public String getPassword() {
@@ -45,15 +64,9 @@ public class Entity {
         return locationId;
     }
 
-    public String getDescription() {
-        return description;
-    }
 
-    public boolean isEmailConfirmed() {
-        return emailConfirmed;
-    }
 
-    public void confirmEmail() {
-        this.emailConfirmed = true;
-    }
+    // public void confirmEmail() {
+    //     this.email_confirmed = true;
+    // }
 }
