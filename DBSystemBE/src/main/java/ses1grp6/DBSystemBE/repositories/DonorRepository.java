@@ -9,9 +9,10 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface DonorRepository extends CrudRepository<Donor, Integer> {
     
+    Donor findByUserId(int userId);
     Donor findByEmail(String email);
 
-    Iterable<Donor> findByFirstName(String firstName);
+    Donor findByLastName(String lastName);
 
     Iterable<Donor> findByLocationId(int locationId);
 }
