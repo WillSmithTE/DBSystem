@@ -1,17 +1,17 @@
 package ses1grp6.DBSystemBE.repositories;
-import java.util.List;
-import ses1grp6.DBSystemBE.model.Donors;
+
+import ses1grp6.DBSystemBE.model.Donor;
 import org.springframework.data.repository.CrudRepository;
 
 /**
  * Created by Will Smith on 16/3/19.
  */
 
-public interface DonorRepository extends CrudRepository<Donors, Integer> {
+public interface DonorRepository extends CrudRepository<Donor, Integer> {
     
-    List<Donors> findByEmail(String email);
+    Donor findByEmail(String email);
 
-    List<Donors> findByFirstName(String firstName);
+    Iterable<Donor> findByFirstName(String firstName);
 
-    Iterable<Donors> findByLocationId(int locationId);
+    Iterable<Donor> findByLocationId(int locationId);
 }

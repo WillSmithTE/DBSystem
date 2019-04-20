@@ -3,12 +3,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.util.List;
 
 
 // @javax.persistence.Entity
 @Entity
-public class Donors {
+public class Donor {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int userId;
@@ -20,7 +19,7 @@ public class Donors {
     private int locationId;
     private int emailConfirmed;
 
-    public Donors(int userId, String firstName, String lastName, String email, String contactNumber, String password, int locationId, int emailConfirmed) {
+    public Donor(int userId, String firstName, String lastName, String email, String contactNumber, String password, int locationId, int emailConfirmed) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -31,7 +30,7 @@ public class Donors {
         this.emailConfirmed = emailConfirmed;
     }
 
-    public Donors(RegistrationRequest registrationRequest) {
+    public Donor(RegistrationRequest registrationRequest) {
         this(
                 registrationRequest.getUserId(),
                 registrationRequest.getFirstName(),
@@ -44,7 +43,7 @@ public class Donors {
         );
     }
 
-    public Donors() {}
+    public Donor() {}
 
 
     
