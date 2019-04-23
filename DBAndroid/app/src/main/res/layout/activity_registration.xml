@@ -5,10 +5,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorSimpleGreen"
-    tools:context=".LoginActivity">
+    tools:context=".RegistrationActivity">
 
     <TextView
-        android:id="@+id/loginText"
+        android:id="@+id/confirmPasswordText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="56dp"
+        android:text="@string/confirmPassword"
+        app:layout_constraintStart_toStartOf="@+id/signUpText"
+        app:layout_constraintTop_toBottomOf="@+id/passwordText" />
+
+    <EditText
+        android:id="@+id/confirmPasswordInput"
+        style="@style/Widget.AppCompat.AutoCompleteTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPassword"
+        app:layout_constraintStart_toStartOf="@+id/confirmPasswordText"
+        app:layout_constraintTop_toBottomOf="@+id/confirmPasswordText" />
+
+    <TextView
+        android:id="@+id/signUpText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -16,7 +36,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:fontFamily="sans-serif-black"
-        android:text="@string/Login"
+        android:text="@string/signup"
         android:textColor="#000000"
         android:textSize="36sp"
         android:textStyle="bold"
@@ -35,8 +55,8 @@
         android:layout_marginTop="32dp"
         android:fontFamily="sans-serif"
         android:text="@string/email"
-        app:layout_constraintStart_toStartOf="@+id/loginText"
-        app:layout_constraintTop_toBottomOf="@+id/loginText" />
+        app:layout_constraintStart_toStartOf="@+id/signUpText"
+        app:layout_constraintTop_toBottomOf="@+id/signUpText" />
 
     <EditText
         android:id="@+id/emailInput"
@@ -66,7 +86,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="56dp"
         android:text="@string/password"
-        app:layout_constraintStart_toStartOf="@+id/loginText"
+        app:layout_constraintStart_toStartOf="@+id/signUpText"
         app:layout_constraintTop_toBottomOf="@+id/usernameText" />
 
     <Button
@@ -76,35 +96,11 @@
         android:layout_marginStart="40dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="8dp"
-        android:onClick="onLoginClicked"
-        android:text="@string/Login"
+        android:onClick="onSignUpClicked"
+        android:text="@string/signup"
         app:layout_constraintEnd_toEndOf="@+id/passwordInput"
-        app:layout_constraintHorizontal_bias="0.258"
-        app:layout_constraintStart_toStartOf="@+id/loginText"
-        app:layout_constraintTop_toBottomOf="@+id/passwordInput" />
-
-    <TextView
-        android:id="@+id/forgotPasswordLink"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="272dp"
-        android:onClick="onForgotPasswordClicked"
-        android:text="@string/querylostpassword"
-        android:textColor="@color/linkable"
-        app:layout_constraintStart_toStartOf="@+id/loginText"
-        app:layout_constraintTop_toBottomOf="@+id/loginText" />
-
-    <TextView
-        android:id="@+id/signUpLink"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="16dp"
-        android:onClick="onSignUp"
-        android:text="@string/signuphere"
-        android:textColor="@color/linkable"
-        app:layout_constraintStart_toStartOf="@+id/forgotPasswordLink"
-        app:layout_constraintTop_toBottomOf="@+id/forgotPasswordLink" />
+        app:layout_constraintHorizontal_bias="0.188"
+        app:layout_constraintStart_toStartOf="@+id/signUpText"
+        app:layout_constraintTop_toBottomOf="@+id/confirmPasswordInput" />
 
 </android.support.constraint.ConstraintLayout>
