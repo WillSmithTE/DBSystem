@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -37,19 +38,51 @@ public class RegistrationActivity extends AppCompatActivity {
      * Called when the "Sign Up" button is clicked.
      */
     public void onSignUpClicked(View view) {
-        try {
-            EditText email = (EditText)findViewById(R.id.emailInput);
-            String result = email.getText().toString();
-            POSTRequestRegister(result);
+
+        if (!isPasswordMatching()){
+            Toast.makeText(getApplicationContext(),"Passwords not matching",Toast.LENGTH_SHORT).show();
         }
-        catch (Exception e){
-            System.out.println(e.getMessage());
+        else {
+            try {
+                POSTRequestRegister();
+            }
+            catch (Exception e){
+                System.out.println(e.getMessage());
+            }
         }
+
+    }
+
+    private boolean isPasswordMatching(){
+        EditText passwordET = (EditText)findViewById(R.id.passwordInput);
+        EditText confirmPasswordET = (EditText)findViewById(R.id.confirmPasswordInput);
+
+        return (passwordET.getText().toString().equals(confirmPasswordET.getText().toString()));
     }
 
     //I DONT KNOW WHAT THIS IS DOING
-    public static void POSTRequestRegister(String emailText) throws IOException {
-        final String POST_PARAMS = "{\n" + "\"email\": \"" + emailText + "\"" +
+    public void POSTRequestRegister() throws IOException {
+
+        EditText emailET = (EditText)findViewById(R.id.emailInput);
+        String resultEmailET = emailET.getText().toString();
+
+        EditText firstNameET = (EditText)findViewById(R.id.firstNameInput);
+        String resultFirstNameET = firstNameET.getText().toString();
+
+        EditText lastNameET = (EditText)findViewById(R.id.lastNameInput);
+        String resultLastNameET = lastNameET.getText().toString();
+
+        EditText phoneNumberET = (EditText)findViewById(R.id.phoneNumberInput);
+        String resultPhoneNumberET = phoneNumberET.getText().toString();
+
+        EditText passwordET = (EditText)findViewById(R.id.passwordInput);
+        String resultPasswordET = passwordET.getText().toString();
+
+        final String POST_PARAMS = "{\n" + "\"email\": \"" + resultEmailET + "\"," +
+                "\"firstName\": \"" + resultFirstNameET + "\"," +
+                "\"lastName\": \"" + resultLastNameET + "\"," +
+                "\"contactNumber\": \"" + resultPhoneNumberET + "\"," +
+                "\"password\": \"" + resultPasswordET + "\"" +
                 "\n}";
         System.out.println(POST_PARAMS);
         //URL obj = new URL("http://localhost:8080/auth/register/");
@@ -60,7 +93,7 @@ public class RegistrationActivity extends AppCompatActivity {
          * HEROKU
          * https://dbsystem.herokuapp.com/
          */
-        URL obj = new URL("http://local:8080/auth/register/");
+        URL obj = new URL("http://localhost:8080/auth/register/");
 
         HttpURLConnection postConnection = (HttpURLConnection) obj.openConnection();
         postConnection.setRequestMethod("POST");
