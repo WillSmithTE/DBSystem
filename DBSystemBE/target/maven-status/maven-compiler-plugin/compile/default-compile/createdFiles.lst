@@ -1,0 +1,6 @@
+ses1grp6\DBSystemBE\repositories\DonorRepository.class
+ses1grp6\DBSystemBE\repositories\CharityUserRepository.class
+ses1grp6\DBSystemBE\model\CharityUser.class
+ses1grp6\DBSystemBE\controllers\CharityController.class
+ses1grp6\DBSystemBE\controllers\DonorController.class
+ses1grp6\DBSystemBE\model\Donor.class

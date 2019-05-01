@@ -1,12 +1,13 @@
 <resources>
-    <string name="app_name">DBAndroid</string>
-    <string name="open">Open</string>
-    <string name="close">Close</string>
-
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-
-    <string name="action_settings">Settings</string>
-
-    <string name="pref_key_personal_name">pref_personal_name</string>
+    <string name="app_name">DBSystemAndroid</string>
+    <string name="Login">Log In</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="querylostpassword">Forgot Your Password?</string>
+    <string name="signuphere">Sign Up Here</string>
+    <string name="signup">Sign Up</string>
+    <string name="confirmPassword">Confirm Password</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="phone_number">Phone Number</string>
 </resources>
