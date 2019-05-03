@@ -1,17 +1,18 @@
 package ses1grp6.DBSystemBE.controllers;
 
-import ses1grp6.DBSystemBE.model.Donor;
-import ses1grp6.DBSystemBE.model.Response;
+import ses1grp6.DBSystemBE.model.*;
+import ses1grp6.DBSystemBE.repositories.CharityRepository;
 import ses1grp6.DBSystemBE.repositories.DonorRepository;
-import ses1grp6.DBSystemBE.model.RegistrationRequest;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import ses1grp6.DBSystemBE.repositories.UserRepository;
 
 import java.util.Date;
 import java.util.Properties;
+import java.util.function.Supplier;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -21,71 +22,45 @@ import javax.mail.internet.MimeMessage;
  * Created by Will Smith on 4/4/19.
  */
 
-//@CrossOrigin(origins = "http://localhost:3000")
-@CrossOrigin(origins="*")
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
+
+    private final static String REGISTER_PATH = "/register";
+    private final static String LOGIN_PATH = "/login";
+
     @Autowired
     private DonorRepository donorRepository;
+    @Autowired
+    private CharityRepository charityRepository;
 
-     @PostMapping(value = "/register")
-     public Response register(@RequestBody RegistrationRequest registrationRequest) {
-         Donor preExistingUser = donorRepository.findByEmail(registrationRequest.getEmail());
-         if (preExistingUser == null) {
-             Donor newUser = donorRepository.save(new Donor(registrationRequest));
+    @PostMapping(value = AuthController.REGISTER_PATH)
+    public Response register(@RequestBody RegistrationRequest registrationRequest) {
+        if (registrationRequest.isCharity()) {
+            return register(registrationRequest.getEmail(), charityRepository, () -> new Charity(registrationRequest));
+        } else {
+            return register(registrationRequest.getEmail(), donorRepository, () -> new Donor(registrationRequest));
+        }
+    }
 
-             sendConfirmationEmail(registrationRequest.getEmail(), newUser.getUserId());
+    @RequestMapping(value = "charity/confirm/{id}", method = RequestMethod.PUT)
+    public @ResponseBody
+    Response charityConfirmEmailById(@PathVariable("id") int id) {
+        return confirmEmail(charityRepository, id);
+    }
 
-             return Response.success(newUser);
-         } else {
-             return Response.fail("Email taken.");
-         }
-     }
+    @RequestMapping(value = "donor/confirm/{id}", method = RequestMethod.PUT)
+    public @ResponseBody
+    Response donorConfirmEmailById(@PathVariable("id") int id) {
+        return confirmEmail(donorRepository, id);
+    }
 
-     public void sendConfirmationEmail(String emailAddress, int userId){
-         final String username = "SES6donorAPP@gmail.com";
-         final String password = "Mdy6Rb5axNpkS8Gh";
-
-         Properties prop = new Properties();
-         prop.put("mail.smtp.host", "smtp.gmail.com");
-         prop.put("mail.smtp.port", "587");
-         prop.put("mail.smtp.auth", "true");
-         prop.put("mail.smtp.starttls.enable", "true"); //TLS
-
-         Session session = Session.getInstance(prop,
-                 new javax.mail.Authenticator() {
-                     protected PasswordAuthentication getPasswordAuthentication() {
-                         return new PasswordAuthentication(username, password);
-                     }
-                 });
-
-         try {
-
-             Message message = new MimeMessage(session);
-             message.setFrom(new InternetAddress(username));
-             message.setRecipients(
-                     Message.RecipientType.TO,
-                     InternetAddress.parse(emailAddress)
-             );
-             message.setSubject("Email Confirmation Donor App");
-             message.setText("Click the link to confirm your email.\n" + "http://192.168.0.2:8080/auth/confirm/" + userId);
-
-             Transport.send(message);
-
-             System.out.println("Done");
-
-         } catch (MessagingException e) {
-             e.printStackTrace();
-         }
-     }
-
-    @RequestMapping(value = "/confirm/{id}", method = RequestMethod.GET)
-    public @ResponseBody Response confirmEmailById(@PathVariable("id") int userId) {
-        Donor donor = donorRepository.findById(userId).get();
-        donor.setEmailConfirmed(1);
-        donorRepository.save(donor);
-        return Response.success(donor);
+    private <S extends User, T extends UserRepository<S>> Response confirmEmail(T repository, int id) {
+        S user = repository.findById(id).get();
+        user.confirmEmail();
+        repository.save(user);
+        return Response.success(user);
     }
 
     // @PostMapping(value = "/login")
@@ -101,6 +76,55 @@ public class AuthController {
     //         return Response.fail("Login failed.");
     //     }
     // }
+
+    private void sendConfirmationEmail(String emailAddress, Long userId) {
+        final String username = "SES6donorAPP@gmail.com";
+        final String password = "Mdy6Rb5axNpkS8Gh";
+
+        Properties prop = new Properties();
+        prop.put("mail.smtp.host", "smtp.gmail.com");
+        prop.put("mail.smtp.port", "587");
+        prop.put("mail.smtp.auth", "true");
+        prop.put("mail.smtp.starttls.enable", "true"); //TLS
+
+        Session session = Session.getInstance(prop,
+                new javax.mail.Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(username, password);
+                    }
+                });
+
+        try {
+
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(username));
+            message.setRecipients(
+                    Message.RecipientType.TO,
+                    InternetAddress.parse(emailAddress)
+            );
+            message.setSubject("Email Confirmation Donor App");
+            message.setText("Click the link to confirm your email.\n" + "http://192.168.0.2:8080/auth/confirm/" + userId);
+
+            Transport.send(message);
+
+            System.out.println("Done");
+
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private <T extends UserRepository> Response register(String email, T repository, Supplier<User> userGenerator) {
+         User preExistingUser = repository.findByEmail(email);
+        if (preExistingUser == null) {
+             User newUser = (User) repository.save(userGenerator.get());
+            sendConfirmationEmail(email, newUser.getId());
+            return Response.success(newUser);
+        } else {
+            return Response.fail("Email taken.");
+        }
+
+    }
 
     private static String createToken() {
         SignatureAlgorithm algorithm = SignatureAlgorithm.HS256;

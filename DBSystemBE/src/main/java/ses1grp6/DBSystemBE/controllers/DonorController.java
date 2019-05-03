@@ -27,12 +27,12 @@ public class DonorController {
         return donorById;
     }
 
-
-    @RequestMapping(value = "last-name/{lastName}", method = RequestMethod.GET)
-    public @ResponseBody Donor getByLastName(@PathVariable("lastName") String lastName) {
-       Donor donorsByLastName = donorRepository.findByLastName(lastName);
-       return donorsByLastName;
-    }
+//
+//    @RequestMapping(value = "last-name/{lastName}", method = RequestMethod.GET)
+//    public @ResponseBody Donor getByLastName(@PathVariable("lastName") String lastName) {
+//       Donor donorsByLastName = donorRepository.findByLastName(lastName);
+//       return donorsByLastName;
+//    }
 
     @RequestMapping(value = "email/{email}", method = RequestMethod.GET)
     public @ResponseBody Donor getByEmail(@PathVariable("email") String email) {

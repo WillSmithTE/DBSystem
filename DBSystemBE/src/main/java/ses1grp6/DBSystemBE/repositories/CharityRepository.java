@@ -7,11 +7,8 @@ import org.springframework.data.repository.CrudRepository;
  * Created by Will Smith on 4/4/19.
  */
 
-public interface CharityRepository extends CrudRepository<Charity, Integer> {
+public interface CharityRepository extends UserRepository<Charity> {
     
-    Charity findByCharityName(String charityName);
+    Charity findByName(String name);
     
-    Iterable<Charity> findByLocationID(int locationID);
-
-
 }
