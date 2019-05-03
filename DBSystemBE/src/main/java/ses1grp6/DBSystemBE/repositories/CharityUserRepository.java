@@ -1,7 +1,7 @@
 package ses1grp6.DBSystemBE.repositories;
 
-import ses1grp6.DBSystemBE.model.CharityUser;
 import org.springframework.data.repository.CrudRepository;
+import ses1grp6.DBSystemBE.model.CharityUser;
 
 /**
  * Created by Will Smith on 4/4/19.

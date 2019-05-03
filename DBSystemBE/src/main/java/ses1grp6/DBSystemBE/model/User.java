@@ -1,5 +1,8 @@
 package ses1grp6.DBSystemBE.model;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 /**
@@ -7,34 +10,33 @@ import javax.persistence.MappedSuperclass;
  */
 
 @MappedSuperclass
-public abstract class User {
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
     private String name;
     private String email;
     private String contactNumber;
     private String password;
     private boolean emailConfirmed = false;
-//    private String location;
 
-    public User() {
-    }
-
-    public void assignRegisterProperties(RegistrationRequest registrationRequest) {
-        email = registrationRequest.getEmail();
-        name = registrationRequest.getName();
-        contactNumber = registrationRequest.getContactNumber();
-        password = registrationRequest.getPassword();
-    }
-
-    private User(String name, String email, String contactNumber, String password) {
+    public User(String name, String email, String contactNumber, String password) {
         this.name = name;
         this.email = email;
         this.contactNumber = contactNumber;
         this.password = password;
     }
 
-    public abstract Long getId();
-//        return null;
-//    }
+    public User() {
+    }
+
+    public User(RegistrationRequest registrationRequest) {
+        this(registrationRequest.getName(), registrationRequest.getEmail(), registrationRequest.getContactNumber(), registrationRequest.getPassword());
+    }
+
+    public Integer getId() {
+        return id;
+    }
 
     public String getName() {
         return name;
@@ -60,11 +62,4 @@ public abstract class User {
         this.emailConfirmed = true;
     }
 
-//    public String getLocation() {
-//        return location;
-//    }
-//
-//    public void setLocation(String location) {
-//        this.location = location;
-//    }
 }

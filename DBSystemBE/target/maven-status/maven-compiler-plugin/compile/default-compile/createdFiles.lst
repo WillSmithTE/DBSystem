@@ -11,7 +11,6 @@ ses1grp6/DBSystemBE/controllers/CharityController.class
 ses1grp6/DBSystemBE/controllers/AuthController$1.class
 ses1grp6/DBSystemBE/model/ResponseStatus.class
 ses1grp6/DBSystemBE/model/Donation.class
-ses1grp6/DBSystemBE/model/CharityCommunity.class
 ses1grp6/DBSystemBE/DBSystemBEApplication.class
 ses1grp6/DBSystemBE/model/Location.class
 ses1grp6/DBSystemBE/model/Response.class
