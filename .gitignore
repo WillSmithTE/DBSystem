@@ -6,4 +6,4 @@
 /build
 /captures
 .externalNativeBuild
-/DBSystemBE/target/*
+./DBSystemBE/target/*
