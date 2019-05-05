@@ -29,7 +29,7 @@ public class CharityController {
 
     @RequestMapping(value = "/name/{name}", method = RequestMethod.GET)
     public @ResponseBody Charity getByCharityName(@PathVariable("name") String charityName) {
-       Charity charityByName = charityRepository.findByCharityName(charityName);
+       Charity charityByName = charityRepository.findByName(charityName);
        return charityByName;
     }
     

@@ -1,6 +1,6 @@
 package ses1grp6.DBSystemBE.model;
 
-import javax.persistence.*;
+import javax.persistence.Id;
 
 /**
  * Created by Will Smith on 4/4/19.
