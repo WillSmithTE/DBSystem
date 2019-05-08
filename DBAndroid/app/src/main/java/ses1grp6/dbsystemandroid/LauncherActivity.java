@@ -17,7 +17,7 @@ public class LauncherActivity extends AppCompatActivity {
 
         // TODO EVENTUALLY SKIP LOGIN IF ALREADY LOGGED IN ON THE DEVICE.
 
-        Intent loginIntent = new Intent(this, LoginActivity.class);
+        Intent loginIntent = new Intent(this, LoginChoiceActivity.class);
         startActivity(loginIntent);
     }
 }
