@@ -1,17 +1,8 @@
 package ses1grp6.DBSystemBE.model;
-import java.util.Objects;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
-import ses1grp6.DBSystemBE.model.Charity;
-import ses1grp6.CharityListing;
-import ses1grp6.DBSystemBE.model.Donor;
-import ses1grp6.DBSystemBE.model.Industry;
+import javax.persistence.*;
+import javax.persistence.Entity;
+import java.util.Objects;
 
 @Entity
 public class Application {
