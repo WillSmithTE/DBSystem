@@ -8,6 +8,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -60,58 +63,52 @@ public class RegistrationActivity extends AppCompatActivity {
         return (passwordET.getText().toString().equals(confirmPasswordET.getText().toString()));
     }
 
-    //I DONT KNOW WHAT THIS IS DOING
-    public void POSTRequestRegister() throws IOException {
+    public boolean POSTRequestRegister() throws IOException {
 
-        EditText emailET = (EditText)findViewById(R.id.emailInput);
+        EditText emailET = (EditText) findViewById(R.id.emailInput);
         String resultEmailET = emailET.getText().toString();
 
-        EditText firstNameET = (EditText)findViewById(R.id.firstNameInput);
+        EditText firstNameET = (EditText) findViewById(R.id.firstNameInput);
         String resultFirstNameET = firstNameET.getText().toString();
 
-        EditText lastNameET = (EditText)findViewById(R.id.lastNameInput);
+        EditText lastNameET = (EditText) findViewById(R.id.lastNameInput);
         String resultLastNameET = lastNameET.getText().toString();
 
-        EditText phoneNumberET = (EditText)findViewById(R.id.phoneNumberInput);
+        EditText phoneNumberET = (EditText) findViewById(R.id.phoneNumberInput);
         String resultPhoneNumberET = phoneNumberET.getText().toString();
 
-        EditText passwordET = (EditText)findViewById(R.id.passwordInput);
+        EditText passwordET = (EditText) findViewById(R.id.passwordInput);
         String resultPasswordET = passwordET.getText().toString();
 
-        final String POST_PARAMS = "{\n" + "\"email\": \"" + resultEmailET + "\"," +
-                "\"firstName\": \"" + resultFirstNameET + "\"," +
-                "\"lastName\": \"" + resultLastNameET + "\"," +
-                "\"contactNumber\": \"" + resultPhoneNumberET + "\"," +
-                "\"password\": \"" + resultPasswordET + "\"" +
-                "\n}";
-        System.out.println(POST_PARAMS);
-        URL obj = new URL(DBSystemUtil.API_URL + "/auth/register/");
+        JSONObject postParams = new JSONObject();
 
-        HttpURLConnection postConnection = (HttpURLConnection) obj.openConnection();
-        postConnection.setRequestMethod("POST");
-        //postConnection.setRequestProperty("email", "test from phone");
-        postConnection.setRequestProperty("Content-Type", "application/json");
-        postConnection.setDoOutput(true);
-        OutputStream os = postConnection.getOutputStream();
-        os.write(POST_PARAMS.getBytes());
-        os.flush();
-        os.close();
-        int responseCode = postConnection.getResponseCode();
-        System.out.println("POST Response Code :  " + responseCode);
-        System.out.println("POST Response Message : " + postConnection.getResponseMessage());
-        if (responseCode == HttpURLConnection.HTTP_CREATED || responseCode == 200) { //success
-            BufferedReader in = new BufferedReader(new InputStreamReader(
-                    postConnection.getInputStream()));
-            String inputLine;
-            StringBuffer response = new StringBuffer();
-            while ((inputLine = in .readLine()) != null) {
-                response.append(inputLine);
-            } in .close();
-            // print result
-            System.out.println(response.toString());
-        } else {
-            System.out.println("POST NOT WORKED");
+        try {
+            postParams.put("email", resultEmailET);
+            postParams.put("name", resultFirstNameET + " " + resultLastNameET);
+            //postParams.put("lastName", resultLastNameET);
+            postParams.put("contactNumber", resultPhoneNumberET);
+            postParams.put("password", resultPasswordET);
+        } catch (JSONException e) {
+            return false;
         }
+
+        RequestUtil requestUtil = new RequestUtil();
+        return parseJsonSuccess(requestUtil.POSTRequest("/auth/register/", postParams));
+    }
+
+    public boolean parseJsonSuccess(JSONObject json){
+        try {
+            String status = json.getString("status");
+
+            System.out.println(status);
+            if (status.equals("SUCCESS")){
+                return true;
+            }
+        }
+        catch (JSONException e){
+            System.out.println(e.getMessage());
+        }
+        return false;
     }
 
 }

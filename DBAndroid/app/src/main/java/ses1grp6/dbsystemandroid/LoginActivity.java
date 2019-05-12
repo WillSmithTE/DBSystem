@@ -89,55 +89,27 @@ public class LoginActivity extends AppCompatActivity {
         EditText passwordET = (EditText)findViewById(R.id.passwordInput);
         String resultPasswordET = passwordET.getText().toString();
 
-        JSONObject postParms = new JSONObject();
+        JSONObject postParams = new JSONObject();
 
         try {
-            postParms.put("email", resultEmailET);
-            postParms.put("password", resultPasswordET);
+            postParams.put("email", resultEmailET);
+            postParams.put("password", resultPasswordET);
         } catch (JSONException e) {
             return false;
         }
-        System.out.println(postParms);
+        System.out.println(postParams);
 
-        URL obj = new URL(DBSystemUtil.API_URL + "/auth/login/");
-        System.out.println(obj);
-        HttpURLConnection postConnection = (HttpURLConnection) obj.openConnection();
-        postConnection.setRequestMethod("POST");
-        postConnection.setRequestProperty("Content-Type", "application/json");
-        postConnection.setDoOutput(true);
-        OutputStream os = postConnection.getOutputStream();
-        os.write(postParms.toString().getBytes());
-        os.flush();
-        os.close();
-        System.out.println("HERE");
-        int responseCode = postConnection.getResponseCode();
-        System.out.println("POST Response Code :  " + responseCode);
-        System.out.println("POST Response Message : " + postConnection.getResponseMessage());
-        if (responseCode == HttpURLConnection.HTTP_CREATED || responseCode == 200) { //success
-            BufferedReader in = new BufferedReader(new InputStreamReader(
-                    postConnection.getInputStream()));
-            String inputLine;
-            StringBuffer response = new StringBuffer();
-            while ((inputLine = in .readLine()) != null) {
-                response.append(inputLine);
-            } in .close();
-            // print result
-            System.out.println(response.toString());
-            return parseJson(response.toString());
-        } else {
-            System.out.println("POST NOT WORKED");
-        }
-        return false;
+        RequestUtil requestUtil = new RequestUtil();
+        return parseJsonSuccess(requestUtil.POSTRequest("/auth/login/", postParams));
     }
 
-    public boolean parseJson(String json){
+    public boolean parseJsonSuccess(JSONObject json){
         try {
-            JSONObject obj = new JSONObject(json);
-            String status = obj.getString("status");
+            String status = json.getString("status");
 
             System.out.println(status);
             if (status.equals("SUCCESS")){
-                String token = obj.getString("body");
+                String token = json.getString("body");
                 storeToken(token);
                 return true;
             }
@@ -151,7 +123,5 @@ public class LoginActivity extends AppCompatActivity {
     public void storeToken(String token){
         SharedPreferences preferences = getSharedPreferences("tokenPref", MODE_PRIVATE);
         preferences.edit().putString("token", token).apply();
-
-        //String token = preferences.getString("token","");
     }
 }
