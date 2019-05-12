@@ -1,6 +1,7 @@
 package ses1grp6.dbsystemandroid;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -12,6 +13,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import ses1grp6.dbsystemandroid.charity.CharityProfileFragment;
 
@@ -61,7 +63,14 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     private void createDonorDashboard() {
+        Toast.makeText(DashboardActivity.this, testGETMethod(),
+                Toast.LENGTH_LONG).show();
+    }
 
+    public String testGETMethod(){
+        SharedPreferences preferences = getSharedPreferences("tokenPref", MODE_PRIVATE);
+        String token = preferences.getString("token","");
+        return token;
     }
 
     private static class DonorNavigationMenu implements NavigationView.OnNavigationItemSelectedListener {

@@ -85,15 +85,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 "\"password\": \"" + resultPasswordET + "\"" +
                 "\n}";
         System.out.println(POST_PARAMS);
-        //URL obj = new URL("http://localhost:8080/auth/register/");
-        /**
-         * THIS IS THE URL
-         * LOCALHOST:8080
-         * FOR DEBUGGING LOCALLY
-         * HEROKU
-         * https://dbsystem.herokuapp.com/
-         */
-        URL obj = new URL("http://localhost:8080/auth/register/");
+        URL obj = new URL(DBSystemUtil.API_URL + "/auth/register/");
 
         HttpURLConnection postConnection = (HttpURLConnection) obj.openConnection();
         postConnection.setRequestMethod("POST");
