@@ -89,10 +89,15 @@ public class LoginActivity extends AppCompatActivity {
         EditText passwordET = (EditText)findViewById(R.id.passwordInput);
         String resultPasswordET = passwordET.getText().toString();
 
-        final String POST_PARAMS = "{\n" + "\"email\": \"" + resultEmailET + "\"," +
-                "\"password\": \"" + resultPasswordET + "\"" +
-                "\n}";
-        System.out.println(POST_PARAMS);
+        JSONObject postParms = new JSONObject();
+
+        try {
+            postParms.put("email", resultEmailET);
+            postParms.put("password", resultPasswordET);
+        } catch (JSONException e) {
+            return false;
+        }
+        System.out.println(postParms);
 
         URL obj = new URL(DBSystemUtil.API_URL + "/auth/login/");
         System.out.println(obj);
@@ -101,7 +106,7 @@ public class LoginActivity extends AppCompatActivity {
         postConnection.setRequestProperty("Content-Type", "application/json");
         postConnection.setDoOutput(true);
         OutputStream os = postConnection.getOutputStream();
-        os.write(POST_PARAMS.getBytes());
+        os.write(postParms.toString().getBytes());
         os.flush();
         os.close();
         System.out.println("HERE");
