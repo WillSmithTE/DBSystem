@@ -41,17 +41,23 @@ public class RegistrationActivity extends AppCompatActivity {
      * Called when the "Sign Up" button is clicked.
      */
     public void onSignUpClicked(View view) {
-
+        boolean registerAttemptSuccess = false;
         if (!isPasswordMatching()){
             Toast.makeText(getApplicationContext(),"Passwords not matching",Toast.LENGTH_SHORT).show();
         }
         else {
             try {
-                POSTRequestRegister();
+                registerAttemptSuccess = POSTRequestRegister();
             }
             catch (Exception e){
                 System.out.println(e.getMessage());
             }
+        }
+
+        if (registerAttemptSuccess){
+            // TODO success take them to login page
+        }else{
+            // TODO register attempt fail
         }
 
     }
