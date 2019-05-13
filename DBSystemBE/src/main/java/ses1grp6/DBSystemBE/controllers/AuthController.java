@@ -61,7 +61,7 @@ public class AuthController {
         }
     }
 
-    @RequestMapping(value = "confirm/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "confirm/{id}", method = RequestMethod.GET)
     public @ResponseBody
     Response donorConfirmEmailById(@PathVariable("id") int id) {
         Response confirmEmailResponse = confirmEmail(donorRepository, id);
@@ -153,7 +153,7 @@ public class AuthController {
             return Response.success(newUser);
         } else {
             return Response.fail("Email taken.");
-        }
+    }
 
     }
 
