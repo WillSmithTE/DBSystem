@@ -68,7 +68,7 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     public String testGETMethod(){
-        SharedPreferences preferences = getSharedPreferences("tokenPref", MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences("auth", MODE_PRIVATE);
         String token = preferences.getString("token","");
         return token;
     }
