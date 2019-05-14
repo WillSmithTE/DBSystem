@@ -74,8 +74,15 @@ public class LoginActivity extends AppCompatActivity {
         DBSystemNetwork.sendPostRequest(this, "auth/login/", postParams, new DBSystemNetwork.OnRequestComplete() {
             @Override
             public void onRequestCompleted(RequestResponse response) {
-                if (parseJsonSuccess(response.getJsonObject())) {
-                    changeActivity();
+                if (response.isStatusSuccessful()) {
+                    try {
+                        storeToken(response.getJsonObject().getString("body"));
+                        changeActivity();
+                    }
+                    catch (JSONException e){
+                        loginError();
+                    }
+
                 } else {
                     loginError();
                 }
@@ -99,20 +106,6 @@ public class LoginActivity extends AppCompatActivity {
     private void loginError(){
         Toast.makeText(LoginActivity.this, "Unable to login, please try again",
                 Toast.LENGTH_LONG).show();
-    }
-
-    private boolean parseJsonSuccess(JSONObject json){
-        try {
-            String status = json.getString("status");
-            if (status.equals("SUCCESS")){
-                storeToken(json.getString("body"));
-                return true;
-            }
-        }
-        catch (JSONException e){
-
-        }
-        return false;
     }
 
     private void storeToken(String token){
