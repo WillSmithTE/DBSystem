@@ -146,7 +146,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void storeToken(String token){
-        SharedPreferences preferences = getSharedPreferences(DBSystemUtil.APP_ID, MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences("auth", MODE_PRIVATE);
         preferences.edit().putString("token", token).apply();
     }
 }

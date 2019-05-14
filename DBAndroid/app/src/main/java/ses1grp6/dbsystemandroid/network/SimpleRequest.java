@@ -63,7 +63,7 @@ public class SimpleRequest extends AsyncTask<Void, Void, RequestResponse> {
             postConnection.setRequestProperty("Content-type", "Application/json");
 
             // If a token existed in SharedPreferences then use it.
-            SharedPreferences preferences = context.get().getSharedPreferences(DBSystemUtil.APP_ID, MODE_PRIVATE);
+            SharedPreferences preferences = context.get().getSharedPreferences("auth", MODE_PRIVATE);
             String token = preferences.getString("token","");
             if (!token.equals("")) {
                 postConnection.setRequestProperty("Authorization", "bearer " + token);
