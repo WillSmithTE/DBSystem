@@ -60,7 +60,6 @@ public class SimpleRequest extends AsyncTask<Void, Void, RequestResponse> {
             System.out.println(obj);
             HttpURLConnection postConnection = (HttpURLConnection) obj.openConnection();
             postConnection.setRequestMethod(method.toString());
-            postConnection.setRequestProperty("Content-type", "Application/json");
 
             // If a token existed in SharedPreferences then use it.
             SharedPreferences preferences = context.get().getSharedPreferences("auth", MODE_PRIVATE);
@@ -71,6 +70,7 @@ public class SimpleRequest extends AsyncTask<Void, Void, RequestResponse> {
 
             // If it is a get request, then it can't have a body.
             if (method != MethodType.GET) {
+                postConnection.setRequestProperty("Content-type", "Application/json");
                 postConnection.setDoOutput(true);
                 OutputStream os = postConnection.getOutputStream();
                 os.write(jsonObject.toString().getBytes());
