@@ -53,7 +53,7 @@ public class SimpleRequest extends AsyncTask<Void, Void, RequestResponse> {
         try {
             // If the activity has been destroyed/closed, then don't bother downloading something, just ignore it.
             if (context.get() == null) {
-                return new RequestResponse("Activity has been destroyed!");
+                return null; // This doesn't actually matter, the callback won't be called when activity is destroyed.
             }
 
             URL obj = new URL(DBSystemNetwork.API_URL + "/" + requestMapping);
