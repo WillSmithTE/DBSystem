@@ -80,11 +80,13 @@ public class LoginActivity extends AppCompatActivity {
                         changeActivity();
                     }
                     catch (JSONException e){
-                        loginError();
+                        Toast.makeText(LoginActivity.this, response.message,
+                                Toast.LENGTH_LONG).show();
                     }
 
                 } else {
-                    loginError();
+                    Toast.makeText(LoginActivity.this, response.message,
+                            Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -103,10 +105,6 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void loginError(){
-        Toast.makeText(LoginActivity.this, "Unable to login, please try again",
-                Toast.LENGTH_LONG).show();
-    }
 
     private void storeToken(String token){
         SharedPreferences preferences = getSharedPreferences("auth", MODE_PRIVATE);

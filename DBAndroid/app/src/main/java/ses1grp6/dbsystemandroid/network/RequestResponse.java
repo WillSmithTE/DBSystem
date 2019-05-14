@@ -74,12 +74,13 @@ public class RequestResponse {
             }
         } catch (JSONException e) {
 
-            if (isConnectionSuccessful()) {
-                throw new RuntimeException("Cannot read status from a non-json data");
-            } else {
-                throw new RuntimeException("Cannot read status from a unsuccessful connection");
-            }
+//            if (isConnectionSuccessful()) {
+//                throw new RuntimeException("Cannot read status from a non-json data");
+//            } else {
+//                throw new RuntimeException("Cannot read status from a unsuccessful connection");
+//            }
         }
+        return false;
     }
 
     /**

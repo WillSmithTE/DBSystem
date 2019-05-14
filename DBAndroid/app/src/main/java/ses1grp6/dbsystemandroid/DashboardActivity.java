@@ -11,13 +11,30 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
 import ses1grp6.dbsystemandroid.charity.CharityProfileFragment;
+import ses1grp6.dbsystemandroid.donor.Donor;
+import ses1grp6.dbsystemandroid.donor.DonorListFragment;
+import ses1grp6.dbsystemandroid.donor.DonorsAdapter;
+import ses1grp6.dbsystemandroid.network.DBSystemNetwork;
+import ses1grp6.dbsystemandroid.network.RequestResponse;
 
 public class DashboardActivity extends AppCompatActivity {
+
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager layoutManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,12 +53,12 @@ public class DashboardActivity extends AppCompatActivity {
         drawerToggle.syncState();
 
         // TODO remove test code
-        Fragment fragment = new CharityProfileFragment();
-        FragmentManager fragManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragManager.beginTransaction();
-        transaction.add(R.id.fragment_container, fragment);
-        transaction.add(R.id.fragment_container, new CharityProfileFragment());
-        transaction.commit();
+//        Fragment fragment = new CharityProfileFragment();
+//        FragmentManager fragManager = getSupportFragmentManager();
+//        FragmentTransaction transaction = fragManager.beginTransaction();
+//        transaction.add(R.id.fragment_container, fragment);
+//        transaction.add(R.id.fragment_container, new CharityProfileFragment());
+//        transaction.commit();
 
         navView.setNavigationItemSelectedListener(new DonorNavigationMenu());
         // TODO end of test code
@@ -59,15 +76,26 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     private void createCharityDashboard() {
-
+        Fragment fragment = new CharityProfileFragment();
+        FragmentManager fragManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragManager.beginTransaction();
+        transaction.add(R.id.fragment_container, fragment);
+        transaction.add(R.id.fragment_container, new CharityProfileFragment());
+        transaction.commit();
     }
 
     private void createDonorDashboard() {
-        Toast.makeText(DashboardActivity.this, testGETMethod(),
+        Toast.makeText(DashboardActivity.this, getToken(),
                 Toast.LENGTH_LONG).show();
+
+        Fragment fragment = new DonorListFragment();
+        FragmentManager fragManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragManager.beginTransaction();
+        transaction.add(R.id.fragment_container, fragment);
+        transaction.commit();
     }
 
-    public String testGETMethod(){
+    private String getToken(){
         SharedPreferences preferences = getSharedPreferences("auth", MODE_PRIVATE);
         String token = preferences.getString("token","");
         return token;
