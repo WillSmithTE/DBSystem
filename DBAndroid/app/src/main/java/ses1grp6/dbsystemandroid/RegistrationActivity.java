@@ -5,18 +5,15 @@ import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+
+import ses1grp6.dbsystemandroid.network.DBSystemNetwork;
+import ses1grp6.dbsystemandroid.network.RequestResponse;
 
 
 public class RegistrationActivity extends AppCompatActivity {
@@ -92,8 +89,13 @@ public class RegistrationActivity extends AppCompatActivity {
             return false;
         }
 
-        RequestUtil requestUtil = new RequestUtil();
-        return parseJsonSuccess(requestUtil.POSTRequest("/auth/register/", postParams));
+        DBSystemNetwork.sendPostRequest(this, "/auth/register", postParams, new DBSystemNetwork.OnRequestComplete() {
+            @Override
+            public void onRequestCompleted(RequestResponse response) {
+                System.out.println("POST Request registration complete!"); //TODO remove this debug line.
+            }
+        });
+        return true;
     }
 
     public boolean parseJsonSuccess(JSONObject json){

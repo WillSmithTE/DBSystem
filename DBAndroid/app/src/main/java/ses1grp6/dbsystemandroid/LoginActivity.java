@@ -11,12 +11,10 @@ import android.widget.EditText;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+
+import ses1grp6.dbsystemandroid.network.DBSystemNetwork;
+import ses1grp6.dbsystemandroid.network.RequestResponse;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -60,9 +58,11 @@ public class LoginActivity extends AppCompatActivity {
             //LOGIN attempt fail
         }
 
+        /*
         Intent intent = new Intent(this, DashboardActivity.class);
         intent.putExtra(DBSystemUtil.LOGIN_CHOICE, loginChoice);
         startActivity(intent);
+        */
     }
 
     /**
@@ -99,8 +99,33 @@ public class LoginActivity extends AppCompatActivity {
         }
         System.out.println(postParams);
 
-        RequestUtil requestUtil = new RequestUtil();
-        return parseJsonSuccess(requestUtil.POSTRequest("/auth/login/", postParams));
+        DBSystemNetwork.sendPostRequest(this, "auth/login/", postParams, new DBSystemNetwork.OnRequestComplete() {
+            @Override
+            public void onRequestCompleted(RequestResponse response) {
+                // TODO remove debug stuff below.
+                try {
+                    storeToken(response.getJsonObject().getString("body"));
+                } catch (JSONException e) {
+                    System.err.println(e);
+                }
+                changeActivity();
+            }
+        });
+        return true;
+    }
+
+    // TODO remove temporary method
+    private void changeActivity() {
+        Intent intent = new Intent(this, DashboardActivity.class);
+        intent.putExtra(DBSystemUtil.LOGIN_CHOICE, loginChoice);
+        startActivity(intent);
+        DBSystemNetwork.sendGetRequest(this, "donor/", new DBSystemNetwork.OnRequestComplete() {
+            @Override
+            public void onRequestCompleted(RequestResponse response) {
+                System.out.println("GET Request Completed!!");
+                System.out.println(response.data);
+            }
+        });
     }
 
     public boolean parseJsonSuccess(JSONObject json){
@@ -121,7 +146,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void storeToken(String token){
-        SharedPreferences preferences = getSharedPreferences("tokenPref", MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences(DBSystemUtil.APP_ID, MODE_PRIVATE);
         preferences.edit().putString("token", token).apply();
     }
 }
