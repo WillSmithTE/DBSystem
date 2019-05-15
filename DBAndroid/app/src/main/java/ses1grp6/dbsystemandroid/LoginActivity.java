@@ -29,21 +29,40 @@ public class LoginActivity extends AppCompatActivity {
         // Gets the data from the intent that launches this activity.
         Intent intent = getIntent();
         loginChoice = intent.getStringExtra(DBSystemUtil.LOGIN_CHOICE);
-
-        if (android.os.Build.VERSION.SDK_INT > 9)
-        {
-            StrictMode.ThreadPolicy policy = new
-                    StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-        }
-
     }
 
     /**
      * Called when the "Log In" button is clicked.
      */
-    public void onLoginClicked(View view) throws IOException {
-        POSTRequestLogin();
+    public void onLoginClicked(View view) {
+        JSONObject postParams = new JSONObject();
+        try {
+            postParams.put("email", ((EditText)findViewById(R.id.emailInput)).getText().toString());
+            postParams.put("password", ((EditText)findViewById(R.id.passwordInput)).getText().toString());
+        } catch (JSONException e) {
+
+        }
+
+        DBSystemNetwork.sendPostRequest(this, "auth/login/", postParams, new DBSystemNetwork.OnRequestComplete() {
+            @Override
+            public void onRequestCompleted(RequestResponse response) {
+
+                if (response.isConnectionSuccessful() && response.isStatusSuccessful()) {
+                    try {
+                        storeToken(response.getJsonObject().getString("body"));
+                        proceedLogin();
+                    }
+                    catch (JSONException e){
+                        Toast.makeText(LoginActivity.this, response.message,
+                                Toast.LENGTH_LONG).show();
+                    }
+
+                } else {
+                    Toast.makeText(LoginActivity.this, response.message,
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     /**
@@ -62,48 +81,10 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(signUpIntent);
     }
 
-    private void POSTRequestLogin() throws IOException {
-        JSONObject postParams = new JSONObject();
-        try {
-            postParams.put("email", ((EditText)findViewById(R.id.emailInput)).getText().toString());
-            postParams.put("password", ((EditText)findViewById(R.id.passwordInput)).getText().toString());
-        } catch (JSONException e) {
-
-        }
-
-        DBSystemNetwork.sendPostRequest(this, "auth/login/", postParams, new DBSystemNetwork.OnRequestComplete() {
-            @Override
-            public void onRequestCompleted(RequestResponse response) {
-
-                if (response.isStatusSuccessful()) {
-                    try {
-                        storeToken(response.getJsonObject().getString("body"));
-                        changeActivity();
-                    }
-                    catch (JSONException e){
-                        Toast.makeText(LoginActivity.this, response.message,
-                                Toast.LENGTH_LONG).show();
-                    }
-
-                } else {
-                    Toast.makeText(LoginActivity.this, response.message,
-                            Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-    }
-
-    private void changeActivity() {
+    private void proceedLogin() {
         Intent intent = new Intent(this, DashboardActivity.class);
         intent.putExtra(DBSystemUtil.LOGIN_CHOICE, loginChoice);
         startActivity(intent);
-        DBSystemNetwork.sendGetRequest(this, "donor/", new DBSystemNetwork.OnRequestComplete() {
-            @Override
-            public void onRequestCompleted(RequestResponse response) {
-                System.out.println("GET Request Completed!!");
-                System.out.println(response.data);
-            }
-        });
     }
 
 

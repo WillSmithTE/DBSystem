@@ -56,6 +56,10 @@ public class RequestResponse {
         }
     }
 
+    public boolean hasStatus() {
+        return dataIsJsonObject() && getJsonObject().has("status");
+    }
+
     /**
      * Check if the data contains a JSON object with a status that says success.
      *
@@ -65,7 +69,7 @@ public class RequestResponse {
     public boolean isStatusSuccessful() {
 
         try {
-            JSONObject jsonObject = new JSONObject(data);
+            JSONObject jsonObject = getJsonObject();
 
             if (jsonObject.has("status")) {
                 return jsonObject.getString("status").equals("SUCCESS");
@@ -74,13 +78,12 @@ public class RequestResponse {
             }
         } catch (JSONException e) {
 
-//            if (isConnectionSuccessful()) {
-//                throw new RuntimeException("Cannot read status from a non-json data");
-//            } else {
-//                throw new RuntimeException("Cannot read status from a unsuccessful connection");
-//            }
+            if (isConnectionSuccessful()) {
+                throw new RuntimeException("Something went wrong when reading the status.");
+            } else {
+                throw new RuntimeException("Cannot read status from a unsuccessful connection");
+            }
         }
-        return false;
     }
 
     /**
@@ -107,5 +110,15 @@ public class RequestResponse {
                 throw new RuntimeException("Cannot read status from a unsuccessful connection");
             }
         }
+    }
+
+    public String getErrorMessage() {
+
+        if (code == 404) {
+            return "Error 404: Page not found";
+        } else if (code == -1) {
+            return "Bad connection: " + message;
+        }
+        return "Error" + message;
     }
 }

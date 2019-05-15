@@ -48,16 +48,16 @@ public class SimpleRequest extends AsyncTask<Void, Void, RequestResponse> {
         }
     }
 
-    private RequestResponse sendRequest(){
+    private RequestResponse sendRequest() {
 
         try {
             // If the activity has been destroyed/closed, then don't bother downloading something, just ignore it.
             if (context.get() == null) {
-                return null; // This doesn't actually matter, the callback won't be called when activity is destroyed.
+                // What it returns doesn't actually matter, the callback won't be called when activity is destroyed.
+                return new RequestResponse("Error: Simple Request Callback should not have been called");
             }
 
             URL obj = new URL(DBSystemNetwork.API_URL + "/" + requestMapping);
-            System.out.println(obj);
             HttpURLConnection postConnection = (HttpURLConnection) obj.openConnection();
             postConnection.setRequestMethod(method.toString());
 
@@ -92,14 +92,11 @@ public class SimpleRequest extends AsyncTask<Void, Void, RequestResponse> {
                 }
                 in.close();
                 return new RequestResponse(responseCode, postConnection.getResponseMessage(), response.toString());
-            } else {
-                System.out.println("POST NOT WORKED");
             }
-        }
-        catch (Exception e){
+        } catch (Exception e){
             System.out.println(e.getMessage());
         }
-        return new RequestResponse(""); // TODO Fix exceptions, This is bad, it dosen't actually return an error and the person on the other side might have problems.
+        return new RequestResponse("");
     }
 
 }
