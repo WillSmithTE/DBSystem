@@ -7,16 +7,15 @@ import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+
+import ses1grp6.dbsystemandroid.network.DBSystemNetwork;
+import ses1grp6.dbsystemandroid.network.RequestResponse;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -43,26 +42,8 @@ public class LoginActivity extends AppCompatActivity {
     /**
      * Called when the "Log In" button is clicked.
      */
-    public void onLoginClicked(View view) {
-
-        //TODO Implement proper login, below is for temporary navigation.
-        boolean loginAttemptSuccess = false;
-        try {
-            loginAttemptSuccess = POSTRequestLogin();
-        }
-        catch (Exception e){
-            System.out.println(e.getMessage());
-        }
-
-        if (loginAttemptSuccess){
-            //DO START NEXT ACTIVITY
-        }else{
-            //LOGIN attempt fail
-        }
-
-        Intent intent = new Intent(this, DashboardActivity.class);
-        intent.putExtra(DBSystemUtil.LOGIN_CHOICE, loginChoice);
-        startActivity(intent);
+    public void onLoginClicked(View view) throws IOException {
+        POSTRequestLogin();
     }
 
     /**
@@ -81,47 +62,53 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(signUpIntent);
     }
 
-    public boolean POSTRequestLogin() throws IOException {
-
-        EditText emailET = (EditText)findViewById(R.id.emailInput);
-        String resultEmailET = emailET.getText().toString();
-
-        EditText passwordET = (EditText)findViewById(R.id.passwordInput);
-        String resultPasswordET = passwordET.getText().toString();
-
+    private void POSTRequestLogin() throws IOException {
         JSONObject postParams = new JSONObject();
-
         try {
-            postParams.put("email", resultEmailET);
-            postParams.put("password", resultPasswordET);
+            postParams.put("email", ((EditText)findViewById(R.id.emailInput)).getText().toString());
+            postParams.put("password", ((EditText)findViewById(R.id.passwordInput)).getText().toString());
         } catch (JSONException e) {
-            return false;
+
         }
-        System.out.println(postParams);
 
-        RequestUtil requestUtil = new RequestUtil();
-        return parseJsonSuccess(requestUtil.POSTRequest("/auth/login/", postParams));
-    }
+        DBSystemNetwork.sendPostRequest(this, "auth/login/", postParams, new DBSystemNetwork.OnRequestComplete() {
+            @Override
+            public void onRequestCompleted(RequestResponse response) {
 
-    public boolean parseJsonSuccess(JSONObject json){
-        try {
-            String status = json.getString("status");
+                if (response.isStatusSuccessful()) {
+                    try {
+                        storeToken(response.getJsonObject().getString("body"));
+                        changeActivity();
+                    }
+                    catch (JSONException e){
+                        Toast.makeText(LoginActivity.this, response.message,
+                                Toast.LENGTH_LONG).show();
+                    }
 
-            System.out.println(status);
-            if (status.equals("SUCCESS")){
-                String token = json.getString("body");
-                storeToken(token);
-                return true;
+                } else {
+                    Toast.makeText(LoginActivity.this, response.message,
+                            Toast.LENGTH_LONG).show();
+                }
             }
-        }
-        catch (JSONException e){
-            System.out.println(e.getMessage());
-        }
-        return false;
+        });
     }
 
-    public void storeToken(String token){
-        SharedPreferences preferences = getSharedPreferences("tokenPref", MODE_PRIVATE);
+    private void changeActivity() {
+        Intent intent = new Intent(this, DashboardActivity.class);
+        intent.putExtra(DBSystemUtil.LOGIN_CHOICE, loginChoice);
+        startActivity(intent);
+        DBSystemNetwork.sendGetRequest(this, "donor/", new DBSystemNetwork.OnRequestComplete() {
+            @Override
+            public void onRequestCompleted(RequestResponse response) {
+                System.out.println("GET Request Completed!!");
+                System.out.println(response.data);
+            }
+        });
+    }
+
+
+    private void storeToken(String token){
+        SharedPreferences preferences = getSharedPreferences("auth", MODE_PRIVATE);
         preferences.edit().putString("token", token).apply();
     }
 }
