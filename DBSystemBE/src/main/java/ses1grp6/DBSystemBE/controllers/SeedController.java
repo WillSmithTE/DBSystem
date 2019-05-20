@@ -5,18 +5,16 @@ import ses1grp6.DBSystemBE.repositories.*;
 import java.util.*; 
 import java.nio.charset.*; 
 
-@RequestMapping("/seed")
-public class AuthController {
 
-    @RequestMapping(value = "all", method = RequestMethod.GET)
-        @EventListener
-        private void seed(ContextRefreshedEvent event){
-            seedCharityTable();
-            seedDonorTable();
-            seedApplicationTable();
-        }
+public class SeedController {
+
+    @EventListener
+    private void seed(ContextRefreshedEvent event){
+        seedCharityTable();
+        seedDonorTable();
+        seedApplicationTable();
     }
-
+    
 
     private void seedCharityTable(){
         String sql = "SELECT c.name, c.email FROM charity c IMIT 1";
@@ -69,15 +67,13 @@ public class AuthController {
     //     }
     // }
 
-    static String getRandomString(int n) 
-    { 
+    static String getRandomString(int n) { 
   
         // length is bounded by 256 Character 
         byte[] array = new byte[256]; 
         new Random().nextBytes(array); 
   
-        String randomString 
-            = new String(array, Charset.forName("UTF-8")); 
+        String randomString  = new String(array, Charset.forName("UTF-8")); 
   
         // Create a StringBuffer to store the result 
         StringBuffer r = new StringBuffer(); 
@@ -88,7 +84,7 @@ public class AuthController {
   
             char ch = randomString.charAt(k); 
   
-            if (((ch >= 'a' && ch <= 'z') 
+            if (((ch >= 'a' && ch <= 'z')
                  || (ch >= 'A' && ch <= 'Z') 
                  || (ch >= '0' && ch <= '9')) 
                 && (n > 0)) { 
