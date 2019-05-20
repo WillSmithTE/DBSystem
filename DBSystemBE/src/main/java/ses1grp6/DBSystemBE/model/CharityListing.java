@@ -16,7 +16,7 @@ public class CharityListing {
     @Id
     @Column(name="charity_listing_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long charityListingID;;
+    private Long charityListingID;
 
     @ManyToOne
     @JoinColumn(name = "charity_id")
