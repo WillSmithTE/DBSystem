@@ -7,16 +7,8 @@ import javax.persistence.Entity;
  @Entity
 public class Charity extends User {
 
-    @Id
-    @Column(name="charity_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long charityID;
-
     private int charitySize;
-    
-    @ManyToOne
-    @JoinColumn(name = "industry_id")
-    private Industry industry;
+    private int industryID;
 
     public Charity(RegistrationRequest registrationRequest) {
         super(registrationRequest);
@@ -25,76 +17,19 @@ public class Charity extends User {
     public Charity() {
     }
 
-
-    public Charity(Long charityID, int charitySize, Industry industry) {
-        this.charityID = charityID;
-        this.charitySize = charitySize;
-        this.industry = industry;
-    }
-
-    public Long getCharityID() {
-        return this.charityID;
-    }
-
-    public void setCharityID(Long charityID) {
-        this.charityID = charityID;
-    }
-
     public int getCharitySize() {
-        return this.charitySize;
+        return charitySize;
     }
 
     public void setCharitySize(int charitySize) {
         this.charitySize = charitySize;
     }
 
-    public Industry getIndustry() {
-        return this.industry;
+    public int getIndustryID() {
+        return industryID;
     }
 
-    public void setIndustry(Industry industry) {
-        this.industry = industry;
+    public void setIndustryID(int industryID) {
+        this.industryID = industryID;
     }
-
-    public Charity charityID(Long charityID) {
-        this.charityID = charityID;
-        return this;
-    }
-
-    public Charity charitySize(int charitySize) {
-        this.charitySize = charitySize;
-        return this;
-    }
-
-    public Charity industry(Industry industry) {
-        this.industry = industry;
-        return this;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == this)
-            return true;
-        if (!(o instanceof Charity)) {
-            return false;
-        }
-        Charity charity = (Charity) o;
-        return Objects.equals(charityID, charity.charityID) && charitySize == charity.charitySize && Objects.equals(industry, charity.industry);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(charityID, charitySize, industry);
-    }
-
-    @Override
-    public String toString() {
-        return "{" +
-            " charityID='" + getCharityID() + "'" +
-            ", charitySize='" + getCharitySize() + "'" +
-            ", industry='" + getIndustry() + "'" +
-            "}";
-    }
-
-
 }

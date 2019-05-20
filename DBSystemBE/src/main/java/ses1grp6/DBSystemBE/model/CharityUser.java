@@ -9,33 +9,25 @@ public class CharityUser {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private int charityUserID;
-   
-    @ManyToOne
-    @JoinColumn(name = "charity_id")
-    private Charity charity;
-    
+    private int charityID;
     private String firstName;
     private String lastName;
     private String contactNumber;
     private String password;
-    
-    @ManyToOne
-    @JoinColumn(name = "location_id")
-    private Location location;
+    private int locationID;
 
 
     public CharityUser() {
     }
 
-
-    public CharityUser(int charityUserID, Charity charity, String firstName, String lastName, String contactNumber, String password, Location location) {
+    public CharityUser(int charityUserID, int charityID, String firstName, String lastName, String contactNumber, String password, int locationID) {
         this.charityUserID = charityUserID;
-        this.charity = charity;
+        this.charityID = charityID;
         this.firstName = firstName;
         this.lastName = lastName;
         this.contactNumber = contactNumber;
         this.password = password;
-        this.location = location;
+        this.locationID = locationID;
     }
 
     public int getCharityUserID() {
@@ -46,12 +38,12 @@ public class CharityUser {
         this.charityUserID = charityUserID;
     }
 
-    public Charity getCharity() {
-        return this.charity;
+    public int getCharityID() {
+        return this.charityID;
     }
 
-    public void setCharity(Charity charity) {
-        this.charity = charity;
+    public void setCharityID(int charityID) {
+        this.charityID = charityID;
     }
 
     public String getFirstName() {
@@ -86,77 +78,14 @@ public class CharityUser {
         this.password = password;
     }
 
-    public Location getLocation() {
-        return this.location;
+    public int getLocationID() {
+        return this.locationID;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public void setLocationID(int locationID) {
+        this.locationID = locationID;
     }
 
-    public CharityUser charityUserID(int charityUserID) {
-        this.charityUserID = charityUserID;
-        return this;
-    }
-
-    public CharityUser charity(Charity charity) {
-        this.charity = charity;
-        return this;
-    }
-
-    public CharityUser firstName(String firstName) {
-        this.firstName = firstName;
-        return this;
-    }
-
-    public CharityUser lastName(String lastName) {
-        this.lastName = lastName;
-        return this;
-    }
-
-    public CharityUser contactNumber(String contactNumber) {
-        this.contactNumber = contactNumber;
-        return this;
-    }
-
-    public CharityUser password(String password) {
-        this.password = password;
-        return this;
-    }
-
-    public CharityUser location(Location location) {
-        this.location = location;
-        return this;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == this)
-            return true;
-        if (!(o instanceof CharityUser)) {
-            return false;
-        }
-        CharityUser charityUser = (CharityUser) o;
-        return charityUserID == charityUser.charityUserID && Objects.equals(charity, charityUser.charity) && Objects.equals(firstName, charityUser.firstName) && Objects.equals(lastName, charityUser.lastName) && Objects.equals(contactNumber, charityUser.contactNumber) && Objects.equals(password, charityUser.password) && Objects.equals(location, charityUser.location);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(charityUserID, charity, firstName, lastName, contactNumber, password, location);
-    }
-
-    @Override
-    public String toString() {
-        return "{" +
-            " charityUserID='" + getCharityUserID() + "'" +
-            ", charity='" + getCharity() + "'" +
-            ", firstName='" + getFirstName() + "'" +
-            ", lastName='" + getLastName() + "'" +
-            ", contactNumber='" + getContactNumber() + "'" +
-            ", password='" + getPassword() + "'" +
-            ", location='" + getLocation() + "'" +
-            "}";
-    }
 
 
 }
