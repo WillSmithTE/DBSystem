@@ -4,17 +4,18 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.lang.ref.WeakReference;
+import java.net.ConnectException;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
-
-import ses1grp6.dbsystemandroid.DBSystemUtil;
+import java.net.UnknownHostException;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -49,21 +50,19 @@ public class SimpleRequest extends AsyncTask<Void, Void, RequestResponse> {
     }
 
     private RequestResponse sendRequest() {
-
+        // If the activity has been destroyed/closed, then don't bother downloading something, just ignore it.
+        if (context.get() == null) {
+            // What it returns doesn't actually matter, the callback won't be called when activity is destroyed.
+            return new RequestResponse("Simple Request Callback should not have been called");
+        }
         try {
-            // If the activity has been destroyed/closed, then don't bother downloading something, just ignore it.
-            if (context.get() == null) {
-                // What it returns doesn't actually matter, the callback won't be called when activity is destroyed.
-                return new RequestResponse("Error: Simple Request Callback should not have been called");
-            }
-
             URL obj = new URL(DBSystemNetwork.API_URL + "/" + requestMapping);
             HttpURLConnection postConnection = (HttpURLConnection) obj.openConnection();
             postConnection.setRequestMethod(method.toString());
 
             // If a token existed in SharedPreferences then use it.
             SharedPreferences preferences = context.get().getSharedPreferences("auth", MODE_PRIVATE);
-            String token = preferences.getString("token","");
+            String token = preferences.getString("token", "");
             if (!token.equals("")) {
                 postConnection.setRequestProperty("Authorization", "bearer " + token);
             }
@@ -82,7 +81,7 @@ public class SimpleRequest extends AsyncTask<Void, Void, RequestResponse> {
             int responseCode = postConnection.getResponseCode();
             System.out.println("POST RequestResult Code :  " + responseCode);
             System.out.println("POST RequestResult Message : " + postConnection.getResponseMessage());
-            if (responseCode == HttpURLConnection.HTTP_CREATED || responseCode == 200) {
+            if (responseCode == HttpURLConnection.HTTP_CREATED || responseCode == HttpURLConnection.HTTP_OK) {
                 BufferedReader in = new BufferedReader(new InputStreamReader(
                         postConnection.getInputStream()));
                 String inputLine;
@@ -92,11 +91,18 @@ public class SimpleRequest extends AsyncTask<Void, Void, RequestResponse> {
                 }
                 in.close();
                 return new RequestResponse(responseCode, postConnection.getResponseMessage(), response.toString());
+            } else {
+                return new RequestResponse(responseCode);
             }
-        } catch (Exception e){
-            System.out.println(e.getMessage());
+        } catch (MalformedURLException e) {
+            throw new RuntimeException("Invalid URL " + DBSystemNetwork.API_URL + "/" + requestMapping + ".");
+        } catch (UnknownHostException e) {
+            return new RequestResponse("Could not find the host server.");
+        } catch (ConnectException e) {
+            return new RequestResponse("Could not connect to the server, please try again later.");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        return new RequestResponse("");
     }
 
 }

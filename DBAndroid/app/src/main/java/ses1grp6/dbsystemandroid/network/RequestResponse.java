@@ -19,7 +19,13 @@ public class RequestResponse {
     public RequestResponse(String message) {
         this.message = message;
         this.code = -1;
-        this.data = "";
+        this.data = null;
+    }
+
+    public RequestResponse(int code) {
+        this.code = code;
+        this.message = null;
+        this.data = null;
     }
 
     public boolean isConnectionSuccessful() {
@@ -27,15 +33,15 @@ public class RequestResponse {
     }
 
     public boolean hasData() {
-        return !data.equals("");
+        return data != null;
     }
 
     public boolean dataIsJsonArray() {
-        return data.charAt(0) == '[';
+        return hasData() && data.charAt(0) == '[';
     }
 
     public boolean dataIsJsonObject() {
-        return data.charAt(0) == '{';
+        return hasData() && data.charAt(0) == '{';
     }
 
     public JSONObject getJsonObject() {
@@ -56,33 +62,26 @@ public class RequestResponse {
         }
     }
 
-    public boolean hasStatus() {
+    public boolean hasStatusMessage() {
         return dataIsJsonObject() && getJsonObject().has("status");
     }
 
     /**
-     * Check if the data contains a JSON object with a status that says success.
-     *
-     * May throw RuntimeException if there was no successful connection, if the data is not a
-     * JSON object or if there is no such property in the JSON.
+     * Check if the data contains a JSON object with a status that says "SUCCESS".
      */
-    public boolean isStatusSuccessful() {
+    public boolean hasStatusSuccessful() {
 
+        if (!isConnectionSuccessful() || !dataIsJsonObject()) return false;
         try {
             JSONObject jsonObject = getJsonObject();
 
             if (jsonObject.has("status")) {
                 return jsonObject.getString("status").equals("SUCCESS");
             } else {
-                throw new RuntimeException("Trying to get status but the json object does not have status property");
+                return false;
             }
         } catch (JSONException e) {
-
-            if (isConnectionSuccessful()) {
-                throw new RuntimeException("Something went wrong when reading the status.");
-            } else {
-                throw new RuntimeException("Cannot read status from a unsuccessful connection");
-            }
+            throw new RuntimeException("Something went wrong when reading the status.");
         }
     }
 
@@ -114,11 +113,14 @@ public class RequestResponse {
 
     public String getErrorMessage() {
 
-        if (code == 404) {
-            return "Error 404: Page not found";
+        if (isConnectionSuccessful() && hasStatusMessage()) {
+            return getStatusMessage();
+        } else if (code == 404) {
+            return "Error 404: Request mapping not found.";
         } else if (code == -1) {
             return "Bad connection: " + message;
+        } else {
+            return "Error code: " + code;
         }
-        return "Error" + message;
     }
 }

@@ -6,7 +6,7 @@ import org.json.JSONObject;
 
 public class DBSystemNetwork {
 
-    public static final String API_URL = "http://172.19.190.222:8080";
+    public static final String API_URL = "http://192.168.43.82:8080";
 
     /**
      * Sends a POST request with a JSON to {@link DBSystemNetwork#API_URL} plus the request mapping specified.

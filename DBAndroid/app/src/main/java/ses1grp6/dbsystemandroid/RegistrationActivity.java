@@ -4,14 +4,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.IOException;
 
 import ses1grp6.dbsystemandroid.network.DBSystemNetwork;
 import ses1grp6.dbsystemandroid.network.RequestResponse;
@@ -86,7 +83,7 @@ public class RegistrationActivity extends AppCompatActivity {
             @Override
             public void onRequestCompleted(RequestResponse response) {
 
-                if (response.isConnectionSuccessful() && response.isStatusSuccessful()) {
+                if (response.isConnectionSuccessful() && response.hasStatusSuccessful()) {
                     changeToConfirm();
                 } else {
 

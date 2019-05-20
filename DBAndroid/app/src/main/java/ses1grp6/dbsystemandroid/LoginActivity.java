@@ -3,7 +3,6 @@ package ses1grp6.dbsystemandroid;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
@@ -11,8 +10,6 @@ import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.IOException;
 
 import ses1grp6.dbsystemandroid.network.DBSystemNetwork;
 import ses1grp6.dbsystemandroid.network.RequestResponse;
@@ -47,18 +44,18 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onRequestCompleted(RequestResponse response) {
 
-                if (response.isConnectionSuccessful() && response.isStatusSuccessful()) {
+                if (response.hasStatusSuccessful()) {
                     try {
                         storeToken(response.getJsonObject().getString("body"));
                         proceedLogin();
                     }
                     catch (JSONException e){
-                        Toast.makeText(LoginActivity.this, response.message,
+                        Toast.makeText(LoginActivity.this, "Unable to get proper message from server.",
                                 Toast.LENGTH_LONG).show();
                     }
 
                 } else {
-                    Toast.makeText(LoginActivity.this, response.message,
+                    Toast.makeText(LoginActivity.this, response.getErrorMessage(),
                             Toast.LENGTH_LONG).show();
                 }
             }
