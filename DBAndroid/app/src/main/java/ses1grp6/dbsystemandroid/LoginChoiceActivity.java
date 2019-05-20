@@ -15,13 +15,13 @@ public class LoginChoiceActivity extends AppCompatActivity {
 
     public void onDonorLoginClicked(View view) {
         Intent intent = new Intent(this, LoginActivity.class);
-        intent.putExtra(DBSystemUtil.LOGIN_CHOICE, DBSystemUtil.LOGIN_DONOR_CHOICE);
+        //intent.putExtra(DBSystemUtil.LOGIN_CHOICE, DBSystemUtil.LOGIN_DONOR_CHOICE);
         startActivity(intent);
     }
 
     public void onCharityLoginClicked(View view) {
         Intent intent = new Intent(this, LoginActivity.class);
-        intent.putExtra(DBSystemUtil.LOGIN_CHOICE, DBSystemUtil.LOGIN_CHARITY_CHOICE);
+        //intent.putExtra(DBSystemUtil.LOGIN_CHOICE, DBSystemUtil.LOGIN_CHARITY_CHOICE);
         startActivity(intent);
     }
 }

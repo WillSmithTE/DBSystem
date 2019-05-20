@@ -44,7 +44,7 @@
         app:layout_constraintHorizontal_bias="0.201"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.03" />
 
     <TextView
         android:id="@+id/usernameText"
@@ -158,8 +158,8 @@
         android:layout_width="212dp"
         android:layout_height="86dp"
         android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/confirmPasswordInput"
-        tools:layout_editor_absoluteX="62dp">
+        app:layout_constraintStart_toStartOf="@+id/confirmPasswordInput"
+        app:layout_constraintTop_toBottomOf="@+id/confirmPasswordInput">
 
         <TextView
             android:id="@+id/textView"

@@ -57,8 +57,8 @@ public class DashboardActivity extends AppCompatActivity {
         navView.setNavigationItemSelectedListener(new DonorNavigationMenu());
         // TODO end of test code
 
-        Intent intent = getIntent();
-        String loginChoice = intent.getStringExtra(DBSystemUtil.LOGIN_CHOICE);
+        //Intent intent = getIntent();
+        //LoginChoice loginChoice = LoginChoice.getFromIntent(intent);
 
         // TODO get request to find account type
 //        if (loginChoice.equals(DBSystemUtil.LOGIN_CHARITY_CHOICE)) {

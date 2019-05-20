@@ -1,5 +1,6 @@
 package ses1grp6.dbsystemandroid;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -32,7 +33,6 @@ public class RegistrationActivity extends AppCompatActivity {
         } else {
             register();
         }
-
     }
 
     private boolean isPasswordMatching(){
@@ -66,7 +66,7 @@ public class RegistrationActivity extends AppCompatActivity {
         try {
             postParams.put("email", resultEmailET);
             postParams.put("name", resultFirstNameET + " " + resultLastNameET);
-            //postParams.put("lastName", resultLastNameET);
+            //postParams.putToIntent("lastName", resultLastNameET);
             postParams.put("contactNumber", resultPhoneNumberET);
             postParams.put("password", resultPasswordET);
             if (accountType.getCheckedRadioButtonId() == R.id.radioButton1){
@@ -76,7 +76,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 postParams.put("isCharity", true);
             }
         } catch (JSONException e) {
-            throw new RuntimeException("Registration Request has the wrong JSON format.");
+            throw new RuntimeException("Registration Request creation has the wrong JSON format.");
         }
 
         DBSystemNetwork.sendPostRequest(this, "/auth/register", postParams, new DBSystemNetwork.OnRequestComplete() {
@@ -84,16 +84,16 @@ public class RegistrationActivity extends AppCompatActivity {
             public void onRequestCompleted(RequestResponse response) {
 
                 if (response.isConnectionSuccessful() && response.hasStatusSuccessful()) {
-                    changeToConfirm();
+                    showRegistrationResult();
                 } else {
-
+                    Toast.makeText(RegistrationActivity.this, response.getErrorMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         });
     }
 
-    private void changeToConfirm() {
-        // TODO, CHANGE TO CONFIRMATION ACTIVITY, FOR NOW, JUST MAKE A TOAST
-        Toast.makeText(this, "Registration Successful!", Toast.LENGTH_LONG);
+    private void showRegistrationResult() {
+        Intent intent = new Intent(this, RegistrationResultActivity.class);
+        startActivity(intent);
     }
 }

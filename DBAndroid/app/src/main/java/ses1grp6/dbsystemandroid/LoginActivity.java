@@ -22,10 +22,6 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        // Gets the data from the intent that launches this activity.
-        Intent intent = getIntent();
-        loginChoice = intent.getStringExtra(DBSystemUtil.LOGIN_CHOICE);
     }
 
     /**
@@ -74,13 +70,11 @@ public class LoginActivity extends AppCompatActivity {
      */
     public void onSignUp(View view) {
         Intent signUpIntent = new Intent(this, RegistrationActivity.class);
-        signUpIntent.putExtra(DBSystemUtil.LOGIN_CHOICE, loginChoice);
         startActivity(signUpIntent);
     }
 
     private void proceedLogin() {
         Intent intent = new Intent(this, DashboardActivity.class);
-        intent.putExtra(DBSystemUtil.LOGIN_CHOICE, loginChoice);
         startActivity(intent);
     }
 
