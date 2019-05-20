@@ -1,11 +1,13 @@
 package ses1grp6.dbsystemandroid.donor;
 
+import android.content.ClipData;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -13,6 +15,9 @@ import ses1grp6.dbsystemandroid.R;
 
 public class DonorsAdapter extends RecyclerView.Adapter<DonorsAdapter.DonorListViewHolder> {
     ArrayList<Donor> donors;
+    private ItemClickListener itemClickListener;
+
+    public int getItem(int position) { return donors.get(position - 1).getId(); }
 
     public class DonorListViewHolder extends RecyclerView.ViewHolder {
         TextView name, email, phone;
@@ -36,16 +41,24 @@ public class DonorsAdapter extends RecyclerView.Adapter<DonorsAdapter.DonorListV
     }
 
     @Override
-    public void onBindViewHolder(@NonNull DonorListViewHolder donorListViewHolder, int i) {
+    public void onBindViewHolder(@NonNull final DonorListViewHolder donorListViewHolder, int i) {
         Donor donor = donors.get(i);
 
         String name = donor.getName();
         String email = donor.getEmail();
         String phone = donor.getPhone();
+        final int id = donor.getId();
 
         donorListViewHolder.name.setText(name);
         donorListViewHolder.email.setText(email);
         donorListViewHolder.phone.setText(phone);
+
+        donorListViewHolder.itemView.setOnClickListener (new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (itemClickListener != null) itemClickListener.onItemClick(view, id);
+            }
+        });
     }
 
     @Override
@@ -56,5 +69,13 @@ public class DonorsAdapter extends RecyclerView.Adapter<DonorsAdapter.DonorListV
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
+    }
+
+    void setClickListener(ItemClickListener itemClickListener) {
+        this.itemClickListener = itemClickListener;
+    }
+
+    public interface ItemClickListener {
+        void onItemClick(View view, int id);
     }
 }

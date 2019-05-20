@@ -1,14 +1,18 @@
 package ses1grp6.dbsystemandroid.donor;
 
-public class Donor {
+import java.io.Serializable;
+
+public class Donor implements Serializable {
     String name;
     String email;
     String phone;
+    int id;
 
-    public Donor(String name, String email, String phone){
+    public Donor(int id, String name, String email, String phone){
         this.name = name;
         this.email = email;
         this.phone = phone;
+        this.id = id;
     }
 
     public String getEmail() {
@@ -22,4 +26,6 @@ public class Donor {
     public String getPhone() {
         return phone;
     }
+
+    public int getId() { return id; }
 }

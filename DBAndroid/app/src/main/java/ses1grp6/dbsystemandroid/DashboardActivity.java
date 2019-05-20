@@ -30,12 +30,6 @@ import ses1grp6.dbsystemandroid.network.DBSystemNetwork;
 import ses1grp6.dbsystemandroid.network.RequestResponse;
 
 public class DashboardActivity extends AppCompatActivity {
-
-    private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager layoutManager;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,13 +60,17 @@ public class DashboardActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String loginChoice = intent.getStringExtra(DBSystemUtil.LOGIN_CHOICE);
 
-        if (loginChoice.equals(DBSystemUtil.LOGIN_CHARITY_CHOICE)) {
-            getSupportActionBar().setTitle("Charity Dashboard");
-            createCharityDashboard();
-        } else {
-            getSupportActionBar().setTitle("Donor Dashboard");
-            createDonorDashboard();
-        }
+        // TODO get request to find account type
+//        if (loginChoice.equals(DBSystemUtil.LOGIN_CHARITY_CHOICE)) {
+//            getSupportActionBar().setTitle("Charity Dashboard");
+//            createCharityDashboard();
+//        } else {
+//            getSupportActionBar().setTitle("Donor Dashboard");
+//            createDonorDashboard();
+//        }
+
+        getSupportActionBar().setTitle("Donor Dashboard");
+        createDonorDashboard();
     }
 
     private void createCharityDashboard() {
@@ -91,7 +89,7 @@ public class DashboardActivity extends AppCompatActivity {
         Fragment fragment = new DonorListFragment();
         FragmentManager fragManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragManager.beginTransaction();
-        transaction.add(R.id.fragment_container, fragment);
+        transaction.replace(R.id.fragment_container, fragment);
         transaction.commit();
     }
 
@@ -99,6 +97,12 @@ public class DashboardActivity extends AppCompatActivity {
         SharedPreferences preferences = getSharedPreferences("auth", MODE_PRIVATE);
         String token = preferences.getString("token","");
         return token;
+    }
+
+    @Override
+    public void onBackPressed() {
+        getSupportActionBar().setTitle("Donor Dashboard");
+        createDonorDashboard();
     }
 
     private static class DonorNavigationMenu implements NavigationView.OnNavigationItemSelectedListener {

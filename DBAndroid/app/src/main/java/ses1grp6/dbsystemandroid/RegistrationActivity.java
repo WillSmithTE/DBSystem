@@ -5,6 +5,8 @@ import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -22,16 +24,6 @@ public class RegistrationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
-
-
-        //I DONT KNOW WHAT THIS IS DOING
-        if (android.os.Build.VERSION.SDK_INT > 9)
-        {
-            StrictMode.ThreadPolicy policy = new
-                    StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-        }
-
     }
 
     /**
@@ -83,6 +75,8 @@ public class RegistrationActivity extends AppCompatActivity {
         EditText passwordET = (EditText) findViewById(R.id.passwordInput);
         String resultPasswordET = passwordET.getText().toString();
 
+        RadioGroup accountType = (RadioGroup) findViewById(R.id.accountTypeRG);
+
         JSONObject postParams = new JSONObject();
 
         try {
@@ -91,6 +85,12 @@ public class RegistrationActivity extends AppCompatActivity {
             //postParams.put("lastName", resultLastNameET);
             postParams.put("contactNumber", resultPhoneNumberET);
             postParams.put("password", resultPasswordET);
+            if (accountType.getCheckedRadioButtonId() == R.id.radioButton1){
+                postParams.put("isCharity", false);
+            }
+            else {
+                postParams.put("isCharity", true);
+            }
         } catch (JSONException e) {
             return false;
         }
