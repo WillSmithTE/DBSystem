@@ -3,6 +3,7 @@ package ses1grp6.DBSystemBE.model;
 import javax.persistence.*;
 import javax.persistence.Entity;
 import java.util.Objects;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Application {

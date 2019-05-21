@@ -13,7 +13,7 @@ public interface CharityUserRepository extends CrudRepository<CharityUser, Integ
 
     CharityUser findByLastName(String lastName);
     
-    Iterable<CharityUser> findByLocationID(int locationID);
+    // Iterable<CharityUser> findByLocation(Location location);
 
 
 }
