@@ -1,8 +1,9 @@
 package ses1grp6.DBSystemBE.model;
 
 
-import javax.persistence.*;
-import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 
 
 @MappedSuperclass
@@ -21,7 +22,7 @@ public class Entity {
     private int locationId;
     @Column(name="email_confirmed")
     private int emailConfirmed;
-    
+
 
     public Entity() {}
 
@@ -43,11 +44,11 @@ public class Entity {
     public String getFirstName() {
         return firstName;
     }
-    
+
     public String getLastName() {
         return lastName;
     }
-    
+
     public String getEmail() {
         return email;
     }

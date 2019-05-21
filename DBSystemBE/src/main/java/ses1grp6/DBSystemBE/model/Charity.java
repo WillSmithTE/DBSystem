@@ -1,51 +1,43 @@
 package ses1grp6.DBSystemBE.model;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 /**
  * Created by Will Smith on 4/4/19.
  */
  @Entity
-public class Charity {
+public class Charity extends User {
+
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private int charityID;
-    private String charityName;
+    @Column(name="charity_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long charityID;
+
     private int charitySize;
-    private int industryID;
-    private int locationID;
-    private String contactNumber;
     
+    @ManyToOne
+    @JoinColumn(name = "industry_id")
+    private Industry industry;
+
+    public Charity(RegistrationRequest registrationRequest) {
+        super(registrationRequest);
+    }
 
     public Charity() {
     }
 
-    public Charity(int charityID, String charityName, int charitySize, int industryID, int locationID, String contactNumber) {
+
+    public Charity(Long charityID, int charitySize, Industry industry) {
         this.charityID = charityID;
-        this.charityName = charityName;
         this.charitySize = charitySize;
-        this.industryID = industryID;
-        this.locationID = locationID;
-        this.contactNumber = contactNumber;
+        this.industry = industry;
     }
 
-    public int getCharityID() {
+    public Long getCharityID() {
         return this.charityID;
     }
 
-    public void setCharityID(int charityID) {
+    public void setCharityID(Long charityID) {
         this.charityID = charityID;
-    }
-
-    public String getCharityName() {
-        return this.charityName;
-    }
-
-    public void setCharityName(String charityName) {
-        this.charityName = charityName;
     }
 
     public int getCharitySize() {
@@ -56,29 +48,53 @@ public class Charity {
         this.charitySize = charitySize;
     }
 
-    public int getIndustryID() {
-        return this.industryID;
+    public Industry getIndustry() {
+        return this.industry;
     }
 
-    public void setIndustryID(int industryID) {
-        this.industryID = industryID;
+    public void setIndustry(Industry industry) {
+        this.industry = industry;
     }
 
-    public int getLocationID() {
-        return this.locationID;
+    public Charity charityID(Long charityID) {
+        this.charityID = charityID;
+        return this;
     }
 
-    public void setLocationID(int locationID) {
-        this.locationID = locationID;
+    public Charity charitySize(int charitySize) {
+        this.charitySize = charitySize;
+        return this;
     }
 
-    public String getContactNumber() {
-        return this.contactNumber;
+    public Charity industry(Industry industry) {
+        this.industry = industry;
+        return this;
     }
 
-    public void setContactNumber(String contactNumber) {
-        this.contactNumber = contactNumber;
-    }    
-    
+    @Override
+    public boolean equals(Object o) {
+        if (o == this)
+            return true;
+        if (!(o instanceof Charity)) {
+            return false;
+        }
+        Charity charity = (Charity) o;
+        return Objects.equals(charityID, charity.charityID) && charitySize == charity.charitySize && Objects.equals(industry, charity.industry);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(charityID, charitySize, industry);
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+            " charityID='" + getCharityID() + "'" +
+            ", charitySize='" + getCharitySize() + "'" +
+            ", industry='" + getIndustry() + "'" +
+            "}";
+    }
+
 
 }

@@ -27,25 +27,9 @@ public class DonorController {
         return donorById;
     }
 
-
-    @RequestMapping(value = "last-name/{lastName}", method = RequestMethod.GET)
-    public @ResponseBody Donor getByLastName(@PathVariable("lastName") String lastName) {
-       Donor donorsByLastName = donorRepository.findByLastName(lastName);
-       return donorsByLastName;
-    }
-
     @RequestMapping(value = "email/{email}", method = RequestMethod.GET)
     public @ResponseBody Donor getByEmail(@PathVariable("email") String email) {
        Donor donorByEmail = donorRepository.findByEmail(email);
        return donorByEmail;
     }
-
-
-
-//    @RequestMapping(value = "/", method = RequestMethod.POST)
-//    public User createUser(@Valid @RequestBody User user) {
-//        user.set_id(ObjectId.get());
-//        donorRepository.save(user);
-//        return user;
-//    }
 }
