@@ -93,7 +93,7 @@ public class RegistrationActivity extends AppCompatActivity {
          * HEROKU
          * https://dbsystem.herokuapp.com/
          */
-        URL obj = new URL("http://localhost:8080/auth/register/");
+        URL obj = new URL("https://dbsystem.herokuapp.com/");
 
         HttpURLConnection postConnection = (HttpURLConnection) obj.openConnection();
         postConnection.setRequestMethod("POST");
