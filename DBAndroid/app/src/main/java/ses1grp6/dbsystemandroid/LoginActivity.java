@@ -16,8 +16,6 @@ import ses1grp6.dbsystemandroid.network.RequestResponse;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private String loginChoice;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
