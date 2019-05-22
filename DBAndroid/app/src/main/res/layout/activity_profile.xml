@@ -61,4 +61,5 @@
         android:text="TextView"
         app:layout_constraintTop_toBottomOf="@+id/signUpText2"
         tools:layout_editor_absoluteX="73dp" />
+
 </android.support.constraint.ConstraintLayout>

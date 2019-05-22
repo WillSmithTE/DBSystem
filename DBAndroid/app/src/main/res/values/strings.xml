@@ -17,4 +17,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="login_as_donor">I am a Donor</string>
     <string name="login_as_charity">I am a Charity</string>
+    <string name="request_booking">Request Booking</string>
+    <string name="booking_request">Booking Request</string>
 </resources>
