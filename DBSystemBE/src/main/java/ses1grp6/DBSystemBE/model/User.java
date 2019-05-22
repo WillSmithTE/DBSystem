@@ -15,12 +15,15 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+   
     private String name;
     @NotNull
     private String email;
+    
     private String contactNumber;
     @NotNull
     private String password;
+    
     private boolean emailConfirmed = false;
 
     public User(String name, String email, String contactNumber, String password) {

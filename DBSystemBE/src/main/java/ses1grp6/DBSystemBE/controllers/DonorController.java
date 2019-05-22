@@ -1,10 +1,10 @@
 package ses1grp6.DBSystemBE.controllers;
 
 import org.springframework.transaction.TransactionException;
-import ses1grp6.DBSystemBE.model.Donation;
+// import ses1grp6.DBSystemBE.model.Donation;
 import ses1grp6.DBSystemBE.model.Donor;
 import ses1grp6.DBSystemBE.model.Response;
-import ses1grp6.DBSystemBE.repositories.DonationRepository;
+// import ses1grp6.DBSystemBE.repositories.DonationRepository;
 import ses1grp6.DBSystemBE.repositories.DonorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +20,8 @@ public class DonorController {
     @Autowired
     private DonorRepository donorRepository;
 
-    @Autowired
-    private DonationRepository donationRepository;
+    // @Autowired
+    // private DonationRepository donationRepository;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public @ResponseBody Iterable<Donor> getAllDonors() {
@@ -43,10 +43,10 @@ public class DonorController {
         }
     }
 
-    @RequestMapping(value = "/history/{id}")
-    public @ResponseBody Donation[] getHistory(@PathVariable("id") int id) {
-        return donationRepository.findByDonorId(id);
-    }
+    // @RequestMapping(value = "/history/{id}")
+    // public @ResponseBody Donation[] getHistory(@PathVariable("id") int id) {
+    //     return donationRepository.findByDonorId(id);
+    // }
 
     @RequestMapping(value = "email/{email}", method = RequestMethod.GET)
     public @ResponseBody Donor getByEmail(@PathVariable("email") String email) {

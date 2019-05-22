@@ -11,15 +11,19 @@ public class Entity {
     @Id
     @Column(name="user_id", unique = true, nullable = false)
     private int userId;
+    
     @Column(name="first_name")
     private String firstName;
+    
     @Column(name="last_name")
     private String lastName;
     private String email;
+    
     @Column(name="contact_number")
     private String contactNumber;
     private String password;
     private int locationId;
+    
     @Column(name="email_confirmed")
     private int emailConfirmed;
 
@@ -64,10 +68,4 @@ public class Entity {
     public int getLocationId() {
         return locationId;
     }
-
-
-
-    // public void confirmEmail() {
-    //     this.email_confirmed = true;
-    // }
 }

@@ -5,7 +5,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Column;
-// import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -33,15 +32,19 @@ public class CharityListing {
     @Column(name = "listing_description")
     private String listingDescription;
 
+    @Column(name = "location")
+    private String location;
+
     public CharityListing() {
     }
 
-    public CharityListing(Long charityListingID, Charity charity, Industry industry, String listingTitle, String listingDescription) {
+    public CharityListing(Long charityListingID, Charity charity, Industry industry, String listingTitle, String listingDescription, String location) {
         this.charityListingID = charityListingID;
         this.charity = charity;
         this.industry = industry;
         this.listingTitle = listingTitle;
         this.listingDescription = listingDescription;
+        this.location = location;
     }
 
     public Long getCharityListingID() {
@@ -84,6 +87,14 @@ public class CharityListing {
         this.listingDescription = listingDescription;
     }
 
+    public String getLocation() {
+        return this.location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
     public CharityListing charityListingID(Long charityListingID) {
         this.charityListingID = charityListingID;
         return this;
@@ -109,5 +120,8 @@ public class CharityListing {
         return this;
     }
 
-
+    public CharityListing location(String location) {
+        this.location = location;
+        return this;
+    } 
 }
