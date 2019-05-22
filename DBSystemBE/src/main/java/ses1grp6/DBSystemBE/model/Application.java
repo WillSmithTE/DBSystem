@@ -1,5 +1,8 @@
 package ses1grp6.DBSystemBE.model;
-
+import java.util.Date;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Basic;
 import javax.persistence.*;
 import javax.persistence.Entity;
 import java.util.Objects;
@@ -38,10 +41,16 @@ public class Application {
     @Column(name= "accepted")
     private Integer accepted;
 
+    @Basic
+    @Column(name="created_at", updatable=false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private java.util.Date timestamp;
+
     public Application() {
     }
 
-    public Application(Long applicationID, Donor donor, Charity charity, CharityListing charityListing, Industry industry, String coverLetter, String contactNumber, Integer accepted) {
+
+    public Application(Long applicationID, Donor donor, Charity charity, CharityListing charityListing, Industry industry, String coverLetter, String contactNumber, Integer accepted, java.util.Date timestamp) {
         this.applicationID = applicationID;
         this.donor = donor;
         this.charity = charity;
@@ -50,6 +59,7 @@ public class Application {
         this.coverLetter = coverLetter;
         this.contactNumber = contactNumber;
         this.accepted = accepted;
+        this.timestamp = timestamp;
     }
 
     public Long getApplicationID() {
@@ -116,6 +126,14 @@ public class Application {
         this.accepted = accepted;
     }
 
+    public java.util.Date getTimestamp() {
+        return this.timestamp;
+    }
+
+    public void setTimestamp(java.util.Date timestamp) {
+        this.timestamp = timestamp;
+    }
+
     public Application applicationID(Long applicationID) {
         this.applicationID = applicationID;
         return this;
@@ -153,6 +171,11 @@ public class Application {
 
     public Application accepted(Integer accepted) {
         this.accepted = accepted;
+        return this;
+    }
+
+    public Application timestamp(java.util.Date timestamp) {
+        this.timestamp = timestamp;
         return this;
     }   
 }

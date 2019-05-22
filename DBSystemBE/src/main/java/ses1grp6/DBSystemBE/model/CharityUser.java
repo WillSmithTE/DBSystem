@@ -1,4 +1,8 @@
 package ses1grp6.DBSystemBE.model;
+import java.util.Date;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,6 +29,10 @@ public class CharityUser {
     private String contactNumber;
     private String password;
     private String location;
+    @Basic
+    @Column(name="created_at", updatable=false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private java.util.Date timestamp;
 
     public CharityUser() {
     }

@@ -1,5 +1,9 @@
 package ses1grp6.DBSystemBE.model;
 import java.util.Objects;
+import java.util.Date;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -35,16 +39,22 @@ public class CharityListing {
     @Column(name = "location")
     private String location;
 
+    @Basic
+    @Column(name="created_at", updatable=false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private java.util.Date timestamp;
+
     public CharityListing() {
     }
 
-    public CharityListing(Long charityListingID, Charity charity, Industry industry, String listingTitle, String listingDescription, String location) {
+    public CharityListing(Long charityListingID, Charity charity, Industry industry, String listingTitle, String listingDescription, String location, java.util.Date timestamp) {
         this.charityListingID = charityListingID;
         this.charity = charity;
         this.industry = industry;
         this.listingTitle = listingTitle;
         this.listingDescription = listingDescription;
         this.location = location;
+        this.timestamp = timestamp;
     }
 
     public Long getCharityListingID() {
@@ -95,6 +105,14 @@ public class CharityListing {
         this.location = location;
     }
 
+    public java.util.Date getTimestamp() {
+        return this.timestamp;
+    }
+
+    public void setTimestamp(java.util.Date timestamp) {
+        this.timestamp = timestamp;
+    }
+
     public CharityListing charityListingID(Long charityListingID) {
         this.charityListingID = charityListingID;
         return this;
@@ -123,5 +141,10 @@ public class CharityListing {
     public CharityListing location(String location) {
         this.location = location;
         return this;
-    } 
+    }
+
+    public CharityListing timestamp(java.util.Date timestamp) {
+        this.timestamp = timestamp;
+        return this;
+    }
 }
