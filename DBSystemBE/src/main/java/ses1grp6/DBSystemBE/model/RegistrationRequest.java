@@ -1,20 +1,21 @@
 package ses1grp6.DBSystemBE.model;
 
 /**
- * Created by Will Smith on 4/4/19.
+ * Created by Will Smith on 3/5/19.
  */
-
 public class RegistrationRequest {
     private String email;
     private String name;
+    private String contactNumber;
     private String password;
-    private int location;
+    private boolean isCharity;
 
-    public RegistrationRequest(String email, String name, String password, int location) {
+    public RegistrationRequest(String email, String name, String contactNumber, String password, boolean isCharity) {
         this.email = email;
         this.name = name;
+        this.contactNumber = contactNumber;
         this.password = password;
-        this.location = location;
+        this.isCharity = isCharity;
     }
 
     public String getEmail() {
@@ -25,11 +26,16 @@ public class RegistrationRequest {
         return name;
     }
 
+    public String getContactNumber() {
+        return contactNumber;
+    }
+
     public String getPassword() {
         return password;
     }
 
-    public int getLocation() {
-        return location;
+    public boolean isCharity() {
+        return isCharity;
     }
+
 }

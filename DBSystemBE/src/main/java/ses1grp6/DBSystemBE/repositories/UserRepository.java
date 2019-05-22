@@ -1,14 +1,14 @@
 package ses1grp6.DBSystemBE.repositories;
 
-import ses1grp6.DBSystemBE.model.User;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.NoRepositoryBean;
+import ses1grp6.DBSystemBE.model.User;
 
 /**
- * Created by Will Smith on 16/3/19.
+ * Created by Will Smith on 3/5/19.
  */
 
-public interface UserRepository extends CrudRepository<User, Integer> {
-    User findById(int id);
-
-    User findByEmail(String email);
+@NoRepositoryBean
+public interface UserRepository<T extends User> extends CrudRepository<T, Integer> {
+    T findByEmail(String email);
 }
