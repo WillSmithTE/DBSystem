@@ -1,6 +1,5 @@
 package ses1grp6.dbsystemandroid;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,23 +10,13 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-
 import ses1grp6.dbsystemandroid.charity.CharityProfileFragment;
-import ses1grp6.dbsystemandroid.donor.Donor;
+import ses1grp6.dbsystemandroid.donor.DonorHistoryFragment;
 import ses1grp6.dbsystemandroid.donor.DonorListFragment;
-import ses1grp6.dbsystemandroid.donor.DonorsAdapter;
-import ses1grp6.dbsystemandroid.network.DBSystemNetwork;
-import ses1grp6.dbsystemandroid.network.RequestResponse;
 
 public class DashboardActivity extends AppCompatActivity {
     @Override
@@ -40,7 +29,6 @@ public class DashboardActivity extends AppCompatActivity {
 
         DrawerLayout drawer = findViewById(R.id.navDrawer);
         NavigationView navView = findViewById(R.id.navView);
-        navView.inflateMenu(R.menu.charity_nav_menu);
 
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawer,
                 toolbar, R.string.open_nav_drawer, R.string.close_nav_drawer);
@@ -53,8 +41,6 @@ public class DashboardActivity extends AppCompatActivity {
 //        transaction.add(R.id.fragment_container, fragment);
 //        transaction.add(R.id.fragment_container, new CharityProfileFragment());
 //        transaction.commit();
-
-        navView.setNavigationItemSelectedListener(new DonorNavigationMenu());
         // TODO end of test code
 
         //Intent intent = getIntent();
@@ -70,10 +56,14 @@ public class DashboardActivity extends AppCompatActivity {
 //        }
 
         getSupportActionBar().setTitle("Donor Dashboard");
-        createDonorDashboard();
+        createDonorDashboard(navView);
     }
 
-    private void createCharityDashboard() {
+    private void createCharityDashboard(NavigationView navView) {
+        // Loads the charity_nav_menu.xml and actual charity navigation object.
+        navView.setNavigationItemSelectedListener(new DonorNavigationMenu());
+        navView.inflateMenu(R.menu.charity_nav_menu);
+
         Fragment fragment = new CharityProfileFragment();
         FragmentManager fragManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragManager.beginTransaction();
@@ -82,9 +72,13 @@ public class DashboardActivity extends AppCompatActivity {
         transaction.commit();
     }
 
-    private void createDonorDashboard() {
+    private void createDonorDashboard(NavigationView navView) {
         Toast.makeText(DashboardActivity.this, getToken(),
                 Toast.LENGTH_LONG).show();
+
+        // Loads the donor_nav_menu.xml and actual donor navigation object.
+        navView.setNavigationItemSelectedListener(new DonorNavigationMenu());
+        navView.inflateMenu(R.menu.donor_nav_menu);
 
         Fragment fragment = new DonorListFragment();
         FragmentManager fragManager = getSupportFragmentManager();
@@ -102,18 +96,33 @@ public class DashboardActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         getSupportActionBar().setTitle("Donor Dashboard");
-        createDonorDashboard();
+        // TODO FIX THIS TO RESPECT navView, possible implement a proper way.
+        //createDonorDashboard();
     }
 
-    private static class DonorNavigationMenu implements NavigationView.OnNavigationItemSelectedListener {
+    private void swapContainer(Fragment fragment) {
+        FragmentManager fragManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragManager.beginTransaction();
+        transaction.replace(R.id.fragment_container, fragment);
+        transaction.commit();
+    }
+
+    private class DonorNavigationMenu implements NavigationView.OnNavigationItemSelectedListener {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-            return false;
+
+            switch (menuItem.getItemId()) {
+
+                case R.id.donorNavHistory:
+                    swapContainer(new DonorHistoryFragment());
+
+            }
+            return true;
         }
     }
 
-    private static class CharityNavigationMenu implements NavigationView.OnNavigationItemSelectedListener {
+    private class CharityNavigationMenu implements NavigationView.OnNavigationItemSelectedListener {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {

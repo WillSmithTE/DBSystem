@@ -1,4 +1,4 @@
-package ses1grp6.dbsystemandroid.charity;
+package ses1grp6.dbsystemandroid.donor;
 
 
 import android.os.Bundle;
@@ -18,11 +18,14 @@ import java.util.List;
 import ses1grp6.dbsystemandroid.R;
 import ses1grp6.dbsystemandroid.SimpleRecyclerAdaptor;
 
-public class CharityHistoryFragment extends Fragment implements SimpleRecyclerAdaptor.Binder<CharityHistoryFragment.HistoryHolder> {
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class DonorHistoryFragment extends Fragment implements SimpleRecyclerAdaptor.Binder<DonorHistoryFragment.HistoryHolder> {
 
-    List<CharityHistory> history = new ArrayList<>();
+    List<DonorHistory> history = new ArrayList<>();
 
-    public CharityHistoryFragment() {
+    public DonorHistoryFragment() {
         // Required empty public constructor
     }
 
@@ -36,36 +39,39 @@ public class CharityHistoryFragment extends Fragment implements SimpleRecyclerAd
     }
 
     private void buildRecyclerView(View rootView) {
-        // TODO REMOVE Sample/Test data
-        Calendar sampleCal = Calendar.getInstance();
-        sampleCal.set(2019, 7, 14);
-        history.add(new CharityHistory("Some Title", sampleCal, "99 Some Street, Jakarta", "Some kind of transaction was performed"));
+        // TODO REMOVE SAMPLE TEST DATA
+        Calendar cal = Calendar.getInstance();
+        cal.set(2019, 1, 1);
+        history.add(new DonorHistory("Save The Team", cal, "Help Master", "10 Lane, Brisbane", "An event intended to help teams that struggle. Bla bla bla, bla bLA bla."));
         // TODO END
         RecyclerView recyclerView = rootView.findViewById(R.id.charityHistoryRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(new SimpleRecyclerAdaptor<>(HistoryHolder.class, this, R.layout.charity_history_card, history));
+        recyclerView.setAdapter(new SimpleRecyclerAdaptor<>(HistoryHolder.class, this, R.layout.donor_history_card, history));
     }
 
     @Override
     public void onBindViewHolder(@NonNull HistoryHolder viewHolder, int i) {
-        CharityHistory hist = history.get(i);
+        DonorHistory hist = history.get(i);
         viewHolder.title.setText(hist.title);
         String time = hist.time.get(Calendar.DATE) + " " + hist.time.get(Calendar.MONTH) + " " + hist.time.get(Calendar.YEAR);
-        viewHolder.date.setText(time);
+        viewHolder.time.setText(time);
         viewHolder.address.setText(hist.address);
         viewHolder.description.setText(hist.description);
     }
 
     public static class HistoryHolder extends RecyclerView.ViewHolder {
 
-        public final TextView title, date, address, description;
+        public final TextView title, charityName, address, time, description;
 
         public HistoryHolder(@NonNull View itemView) {
             super(itemView);
-            title = itemView.findViewById(R.id.charityHistoryTitle);
-            date = itemView.findViewById(R.id.charityHistoryTime);
-            address = itemView.findViewById(R.id.charityHistoryAddress);
-            description = itemView.findViewById(R.id.charityHistoryDescrip);
+            title = itemView.findViewById(R.id.donorHistoryTitle);
+            time = itemView.findViewById(R.id.donorHistoryTime);
+            charityName = itemView.findViewById(R.id.donorHistoryCharityName);
+            address = itemView.findViewById(R.id.donorHistoryAddress);
+            description = itemView.findViewById(R.id.donorHistoryDescrip);
         }
     }
+
+
 }

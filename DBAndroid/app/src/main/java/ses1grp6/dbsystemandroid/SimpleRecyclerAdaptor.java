@@ -7,25 +7,33 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-public class SimpleRecyclerAdaptor<A extends SimpleRecyclerAdaptor.ViewHolder, T> extends RecyclerView.Adapter<A> {
+public class SimpleRecyclerAdaptor<A extends RecyclerView.ViewHolder, T> extends RecyclerView.Adapter<A> {
 
     private final List<T> items;
     private final Binder<A> binder;
+    private final Class<A> holderCls;
     private final @LayoutRes int viewHolderRes;
 
-    public SimpleRecyclerAdaptor(Binder<A> binder, @LayoutRes int viewHolderRes, List<T> items) {
+    public SimpleRecyclerAdaptor(Class<A> holderCls, Binder<A> binder, @LayoutRes int viewHolderRes, List<T> items) {
         this.binder = binder;
         this.viewHolderRes = viewHolderRes;
         this.items = items;
+        this.holderCls = holderCls;
     }
 
     @NonNull
     @Override
     public A onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(viewHolderRes, viewGroup, false);
-        return (A)A.createInstance(view);
+
+        try {
+            return holderCls.getConstructor(View.class).newInstance(view);
+        } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -41,16 +49,5 @@ public class SimpleRecyclerAdaptor<A extends SimpleRecyclerAdaptor.ViewHolder, T
     public interface Binder<A> {
 
         void onBindViewHolder(@NonNull A viewHolder, int i);
-    }
-
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-        }
-
-        public static ViewHolder createInstance(View view) {
-            return new ViewHolder(view);
-        }
     }
 }
