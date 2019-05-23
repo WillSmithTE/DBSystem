@@ -18,7 +18,7 @@ import java.util.Objects;
 
 @Entity
 public class Charity extends User{
-    
+
     @Column(name="charity_size")
     private int charitySize;
 
@@ -64,5 +64,31 @@ public class Charity extends User{
     public Charity timestamp(java.util.Date timestamp) {
         this.timestamp = timestamp;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return "Charity{" +
+                "charitySize=" + charitySize +
+                ", timestamp=" + timestamp +
+                "} " + super.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Charity charity = (Charity) o;
+
+        if (charitySize != charity.charitySize) return false;
+        return timestamp != null ? timestamp.equals(charity.timestamp) : charity.timestamp == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = charitySize;
+        result = 31 * result + (timestamp != null ? timestamp.hashCode() : 0);
+        return result;
     }
 }

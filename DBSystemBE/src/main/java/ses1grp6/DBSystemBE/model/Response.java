@@ -28,11 +28,11 @@ public class Response {
         this.body = body;
     }
 
-    public static Response success(Object body) {
+    public static <T> Response success(T body) {
         return new Response(ResponseStatus.SUCCESS, body);
     }
 
-    public static Response fail(Object body) {
+    public static <T> Response fail(T body) {
         return new Response(ResponseStatus.FAIL, body);
     }
 }

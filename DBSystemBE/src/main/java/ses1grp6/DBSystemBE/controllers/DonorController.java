@@ -5,6 +5,7 @@ import org.springframework.transaction.TransactionException;
 import ses1grp6.DBSystemBE.model.Donor;
 import ses1grp6.DBSystemBE.model.Response;
 // import ses1grp6.DBSystemBE.repositories.DonationRepository;
+import ses1grp6.DBSystemBE.repositories.ApplicationRepository;
 import ses1grp6.DBSystemBE.repositories.DonorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,22 +21,32 @@ public class DonorController {
     @Autowired
     private DonorRepository donorRepository;
 
-    // @Autowired
-    // private DonationRepository donationRepository;
+    @Autowired
+    private ApplicationRepository applicationRepository;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public @ResponseBody Iterable<Donor> getAllDonors() {
-        return donorRepository.findAll();
+    public @ResponseBody
+    Response getAllDonors() {
+        try {
+            return Response.success(donorRepository.findAll());
+        } catch (Exception e) {
+            return Response.fail("Failed to get all donors: " + e.getMessage());
+        }
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public @ResponseBody Donor getByUserId(@PathVariable("id") int userId) {
-        Donor donorById = donorRepository.findById(userId).get();
-        return donorById;
+    public @ResponseBody
+    Response getByUserId(@PathVariable("id") int userId) {
+        try {
+            return Response.success(donorRepository.findById(userId).get());
+        } catch (Exception e) {
+            return Response.fail("Failed to get donor of id " + userId + ": " + e.getMessage());
+        }
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public @ResponseBody Response editUser(@PathVariable("id") int userId, @RequestParam Donor donor) {
+    @RequestMapping(value = "/", method = RequestMethod.PUT)
+    public @ResponseBody
+    Response editUser(@RequestBody Donor donor) {
         try {
             return Response.success(donorRepository.save(donor));
         } catch (TransactionException e) {
@@ -43,14 +54,14 @@ public class DonorController {
         }
     }
 
-    // @RequestMapping(value = "/history/{id}")
-    // public @ResponseBody Donation[] getHistory(@PathVariable("id") int id) {
-    //     return donationRepository.findByDonorId(id);
-    // }
-
-    @RequestMapping(value = "email/{email}", method = RequestMethod.GET)
-    public @ResponseBody Donor getByEmail(@PathVariable("email") String email) {
-       Donor donorByEmail = donorRepository.findByEmail(email);
-       return donorByEmail;
+    @RequestMapping(value = "/history/{id}")
+    public @ResponseBody
+    Response getHistory(@PathVariable("id") int id) {
+        try {
+            return Response.success(applicationRepository.findByDonorId(id));
+        } catch (Exception e) {
+            return Response.fail(e.getMessage());
+        }
     }
 }
+
