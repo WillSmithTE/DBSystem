@@ -6,6 +6,14 @@
     android:orientation="vertical"
     tools:context=".charity.CharityHistoryFragment">
 
+    <SearchView
+        android:id="@+id/searchHistory"
+        style="@style/searchBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:iconifiedByDefault="false"
+        android:queryHint="Search Your History..." />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/charityHistoryRecyclerView"
         android:layout_width="match_parent"
