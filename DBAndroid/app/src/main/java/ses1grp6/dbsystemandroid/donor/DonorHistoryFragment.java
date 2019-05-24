@@ -44,6 +44,8 @@ public class DonorHistoryFragment extends Fragment implements SimpleRecyclerAdap
         // TODO REMOVE SAMPLE TEST DATA
         history.add(new DonorHistory("Save The Team", new Date(), "Help Master", "10 Lane, Brisbane", "An event intended to help teams that struggle. Bla bla bla, bla bLA bla."));
         // TODO END
+
+        // Setup recycler view
         RecyclerView recyclerView = rootView.findViewById(R.id.charityHistoryRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(new SimpleRecyclerAdaptor<>(HistoryHolder.class, this, R.layout.donor_history_card, history));

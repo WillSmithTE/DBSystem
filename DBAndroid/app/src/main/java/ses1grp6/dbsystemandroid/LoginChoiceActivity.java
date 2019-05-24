@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+// This is no longer needed since the choice of login is not needed anymore unless you are
+// registering. HOWEVER, this is kept here anyways in the case that it will be implemented.
 public class LoginChoiceActivity extends AppCompatActivity {
 
     @Override

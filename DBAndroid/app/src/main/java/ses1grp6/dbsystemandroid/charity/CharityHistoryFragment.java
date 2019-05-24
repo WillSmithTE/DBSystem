@@ -42,6 +42,8 @@ public class CharityHistoryFragment extends Fragment implements SimpleRecyclerAd
         // TODO REMOVE Sample/Test data
         history.add(new CharityHistory("Some Title", new Date(), "99 Some Street, Jakarta", "Some kind of transaction was performed"));
         // TODO END
+
+        // Setup recycler view
         RecyclerView recyclerView = rootView.findViewById(R.id.charityHistoryRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(new SimpleRecyclerAdaptor<>(HistoryHolder.class, this, R.layout.charity_history_card, history));

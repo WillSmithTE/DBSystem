@@ -62,6 +62,9 @@ public class RequestResponse {
         }
     }
 
+    /**
+     * @return true if the response is a json and has a status property.
+     */
     public boolean hasStatusMessage() {
         return dataIsJsonObject() && getJsonObject().has("status");
     }
@@ -111,6 +114,9 @@ public class RequestResponse {
         }
     }
 
+    /**
+     * @return a string containing a displayable error message if connection is unsuccessful or status is not SUCCESS.
+     */
     public String getErrorMessage() {
 
         if (isConnectionSuccessful() && hasStatusMessage()) {
