@@ -21,7 +21,7 @@ public class CharityController {
     @Autowired
     private CharityListingRepository listingRepository;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "", method = RequestMethod.GET)
     public @ResponseBody
     Response getAllCharities() {
         try {
@@ -41,7 +41,7 @@ public class CharityController {
         }
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.PUT)
+    @RequestMapping(value = "", method = RequestMethod.PUT)
     public @ResponseBody Response edit(@RequestBody Charity charity) {
         try {
             return Response.success(charityRepository.save(charity));

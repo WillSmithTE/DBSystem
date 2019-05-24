@@ -31,7 +31,7 @@ public class ListingController {
     @Autowired
     ApplicationRepository applicationRepository;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "", method = RequestMethod.GET)
     public @ResponseBody
     Response getAll() {
         try {
@@ -61,7 +61,7 @@ public class ListingController {
         }
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.PUT)
+    @RequestMapping(value = "", method = RequestMethod.PUT)
     public @ResponseBody
     Response edit(@RequestBody CharityListing listing) {
         try {

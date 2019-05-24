@@ -24,7 +24,7 @@ public class DonorController {
     @Autowired
     private ApplicationRepository applicationRepository;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "", method = RequestMethod.GET)
     public @ResponseBody
     Response getAllDonors() {
         try {
@@ -44,7 +44,7 @@ public class DonorController {
         }
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.PUT)
+    @RequestMapping(value = "", method = RequestMethod.PUT)
     public @ResponseBody
     Response editUser(@RequestBody Donor donor) {
         try {
