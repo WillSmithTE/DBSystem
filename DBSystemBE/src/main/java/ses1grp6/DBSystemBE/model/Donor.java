@@ -1,11 +1,7 @@
 package ses1grp6.DBSystemBE.model;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.util.Date;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Column;
-import javax.persistence.Basic;
 
 @Entity
 public class Donor extends User{
@@ -14,6 +10,13 @@ public class Donor extends User{
     @Column(name="created_at", updatable=false)
     @Temporal(TemporalType.TIMESTAMP)
     private java.util.Date timestamp;
+
+    @PrePersist
+    public void prePersist() {
+        if (this.timestamp == null) {
+            this.timestamp = new Date();
+        }
+    }
 
     public Donor(RegistrationRequest registrationRequest) {
         super(registrationRequest);

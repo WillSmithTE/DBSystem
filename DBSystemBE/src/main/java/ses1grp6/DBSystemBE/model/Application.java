@@ -46,6 +46,13 @@ public class Application {
     @Temporal(TemporalType.TIMESTAMP)
     private java.util.Date timestamp;
 
+    @PrePersist
+    public void prePersist() {
+        if (this.timestamp == null) {
+            this.timestamp = new Date();
+        }
+    }
+
     public Application() {
     }
 
