@@ -11,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -19,6 +20,9 @@ import ses1grp6.dbsystemandroid.donor.DonorHistoryFragment;
 import ses1grp6.dbsystemandroid.donor.DonorListFragment;
 
 public class DashboardActivity extends AppCompatActivity {
+
+    private DrawerLayout drawer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,7 +31,7 @@ public class DashboardActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = findViewById(R.id.navDrawer);
+        drawer = findViewById(R.id.navDrawer);
         NavigationView navView = findViewById(R.id.navView);
 
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawer,
@@ -100,7 +104,7 @@ public class DashboardActivity extends AppCompatActivity {
         //createDonorDashboard();
     }
 
-    private void swapContainer(Fragment fragment) {
+    private void swapContainerFor(Fragment fragment) {
         FragmentManager fragManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragManager.beginTransaction();
         transaction.replace(R.id.fragment_container, fragment);
@@ -114,10 +118,15 @@ public class DashboardActivity extends AppCompatActivity {
 
             switch (menuItem.getItemId()) {
 
+                case R.id.donorNavDashboard:
+                    swapContainerFor(new DonorListFragment());
+                    break;
                 case R.id.donorNavHistory:
-                    swapContainer(new DonorHistoryFragment());
+                    swapContainerFor(new DonorHistoryFragment());
+                    break;
 
             }
+            drawer.closeDrawer(Gravity.START);
             return true;
         }
     }

@@ -11,9 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import ses1grp6.dbsystemandroid.R;
 import ses1grp6.dbsystemandroid.SimpleRecyclerAdaptor;
@@ -37,9 +40,7 @@ public class CharityHistoryFragment extends Fragment implements SimpleRecyclerAd
 
     private void buildRecyclerView(View rootView) {
         // TODO REMOVE Sample/Test data
-        Calendar sampleCal = Calendar.getInstance();
-        sampleCal.set(2019, 7, 14);
-        history.add(new CharityHistory("Some Title", sampleCal, "99 Some Street, Jakarta", "Some kind of transaction was performed"));
+        history.add(new CharityHistory("Some Title", new Date(), "99 Some Street, Jakarta", "Some kind of transaction was performed"));
         // TODO END
         RecyclerView recyclerView = rootView.findViewById(R.id.charityHistoryRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
@@ -50,8 +51,7 @@ public class CharityHistoryFragment extends Fragment implements SimpleRecyclerAd
     public void onBindViewHolder(@NonNull HistoryHolder viewHolder, int i) {
         CharityHistory hist = history.get(i);
         viewHolder.title.setText(hist.title);
-        String time = hist.time.get(Calendar.DATE) + " " + hist.time.get(Calendar.MONTH) + " " + hist.time.get(Calendar.YEAR);
-        viewHolder.date.setText(time);
+        viewHolder.date.setText(new SimpleDateFormat("d MMM y", Locale.getDefault()).format(hist.date) + " "); // Hacky fix to cut off text by adding space.
         viewHolder.address.setText(hist.address);
         viewHolder.description.setText(hist.description);
     }

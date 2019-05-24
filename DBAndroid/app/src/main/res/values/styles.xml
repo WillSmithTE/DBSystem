@@ -48,6 +48,10 @@
         <item name="android:background">@color/colorAlmostWhite</item>
     </style>
 
+    <style name="cardStyle.view">
+        <item name="android:layout_margin">20dp</item>
+    </style>
+
     <style name="cardStyle.layout">
         <item name="android:padding">20dp</item>
     </style>
@@ -62,7 +66,7 @@
     <style name="cardStyle.subTitle">
         <item name="android:textColor">@color/colorThinBlack</item>
         <item name="android:fontFamily">@font/droid_sans</item>
-        <item name="android:textSize">13sp</item>
+        <item name="android:textSize">12sp</item>
         <item name="android:textStyle">italic</item>
     </style>
 
