@@ -68,6 +68,9 @@ public class DashboardActivity extends AppCompatActivity {
         navView.setNavigationItemSelectedListener(new DonorNavigationMenu());
         navView.inflateMenu(R.menu.charity_nav_menu);
 
+        // Set the selected item in the navView to dashboard.
+        navView.setCheckedItem(R.id.charityNavDashboard);
+
         Fragment fragment = new CharityProfileFragment();
         FragmentManager fragManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragManager.beginTransaction();
@@ -83,6 +86,9 @@ public class DashboardActivity extends AppCompatActivity {
         // Loads the donor_nav_menu.xml and actual donor navigation object.
         navView.setNavigationItemSelectedListener(new DonorNavigationMenu());
         navView.inflateMenu(R.menu.donor_nav_menu);
+
+        // Set the selected item in the navView to dashboard.
+        navView.setCheckedItem(R.id.donorNavDashboard);
 
         Fragment fragment = new DonorListFragment();
         FragmentManager fragManager = getSupportFragmentManager();
