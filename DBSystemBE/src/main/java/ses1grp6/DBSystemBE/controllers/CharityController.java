@@ -51,7 +51,7 @@ public class CharityController {
     }
 
     @RequestMapping(value = "/history/{id}", method = RequestMethod.GET)
-    public @ResponseBody Response getHistory(@PathParam("id") int id) {
+    public @ResponseBody Response getHistory(@PathVariable("id") int id) {
         try {
             return Response.success(listingRepository.findByCharity(id));
         } catch (Exception e) {

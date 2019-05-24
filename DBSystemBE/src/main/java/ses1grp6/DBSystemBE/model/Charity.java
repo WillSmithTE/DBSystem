@@ -32,6 +32,10 @@ public class Charity extends User{
     public Charity() {
     }
 
+    public Charity(int id) {
+        super(id);
+    }
+
 
     public Charity(int charitySize, java.util.Date timestamp) {
         this.charitySize = charitySize;

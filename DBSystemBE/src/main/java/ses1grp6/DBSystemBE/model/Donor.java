@@ -24,4 +24,9 @@ public class Donor extends User{
 
     public Donor() {
     }
+
+    public Donor(int id) {
+        super(id);
+    }
+
 }

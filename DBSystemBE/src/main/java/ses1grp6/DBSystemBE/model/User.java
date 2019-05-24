@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    protected Integer id;
    
     private String name;
     @NotNull
@@ -39,6 +39,10 @@ public class User {
         this.contactNumber = contactNumber;
         this.password = password;
         this.emailConfirmed = emailConfirmed;
+    }
+
+    public User(Integer id) {
+        this.id = id;
     }
     
     public User() {
