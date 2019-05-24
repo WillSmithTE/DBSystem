@@ -23,7 +23,6 @@ public class Industry {
    public Industry() {
    }
 
-
     public Industry(Long industryID, String industryName) {
         this.industryID = industryID;
         this.industryName = industryName;

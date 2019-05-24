@@ -8,7 +8,7 @@ import ses1grp6.DBSystemBE.model.CharityListing;
  */
 public interface CharityListingRepository extends CrudRepository<CharityListing, Integer> {
 
-    Iterable<CharityListing> findByCharity(int id);
+    Iterable<CharityListing> findByCharity(Integer id);
 
     Iterable<CharityListing> findByListingTitle(String title);
 }

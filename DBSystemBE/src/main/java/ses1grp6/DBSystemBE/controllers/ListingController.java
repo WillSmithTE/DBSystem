@@ -12,6 +12,9 @@ import ses1grp6.DBSystemBE.repositories.IndustryRepository;
 
 import javax.websocket.server.PathParam;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import static ses1grp6.DBSystemBE.model.Response.success;
 
 /**
@@ -47,13 +50,13 @@ public class ListingController {
         try {
             return Response.success(listingRepository.save(listing));
         } catch (Exception e) {
-            return Response.fail("Failed to create listing: " + e.getMessage());
+            return Response.fail("Failed to create listing: " + e.getCause().getCause().getMessage());
         }
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public @ResponseBody
-    Response get(@PathParam("id") int id) {
+    Response get(@PathVariable("id") Integer id) {
         try {
             return success(listingRepository.findById(id).get());
         } catch (TransactionException e) {
@@ -71,9 +74,9 @@ public class ListingController {
         }
     }
 
-    @RequestMapping(value = "/{charityId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/charity/{charityId}", method = RequestMethod.GET)
     public @ResponseBody
-    Response getByCharityId(@PathParam("charityId") int charityId) {
+    Response getByCharityId(@PathVariable("charityId") int charityId) {
         try {
             return Response.success(listingRepository.findByCharity(charityId));
         } catch (Exception e) {
@@ -93,7 +96,7 @@ public class ListingController {
 
     @RequestMapping(value = "/applications/{id}", method = RequestMethod.GET)
     public @ResponseBody
-    Response getApplicationsForListing(@PathParam("id") int id) {
+    Response getApplicationsForListing(@PathVariable("id") int id) {
         try {
             return Response.success(applicationRepository.findByCharityListingCharityId(id));
         } catch (Exception e) {
@@ -101,14 +104,11 @@ public class ListingController {
         }
     }
 
-//    @RequestMapping(value = "/", method = RequestMethod.GET)
-//    public @ResponseBody Response<Iterable<CharityListing>> search(@RequestParam("search") String searchTerm) {
-//        Set<CharityListing> matchedListings = new HashSet<>();
-//
-//        Iterable<Industry> matchedIndustries = industryRepository.
-//
-////        matchedListings.addAll()
-//    }
+    @RequestMapping(value = "/search/", method = RequestMethod.GET)
+    public @ResponseBody Response search(@PathParam("search") String searchTerm) {
+        Set<CharityListing> matchedListings = new HashSet<>();
+        return Response.success(matchedListings);
+    }
 }
 
 

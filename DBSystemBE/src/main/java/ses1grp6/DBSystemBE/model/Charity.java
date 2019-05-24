@@ -1,16 +1,7 @@
 package ses1grp6.DBSystemBE.model;
 
 import java.util.Date;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Basic;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Column;
+import javax.persistence.*;
 import java.util.Objects;
 /**
  * Created by Will Smith on 4/4/19.
@@ -27,11 +18,22 @@ public class Charity extends User{
     @Temporal(TemporalType.TIMESTAMP)
     private java.util.Date timestamp;
 
+    @PrePersist
+    public void prePersist() {
+        if (this.timestamp == null) {
+            this.timestamp = new Date();
+        }
+    }
+
     public Charity(RegistrationRequest registrationRequest) {
         super(registrationRequest);
     }
 
     public Charity() {
+    }
+
+    public Charity(int id) {
+        super(id);
     }
 
 

@@ -1,14 +1,17 @@
 package ses1grp6.DBSystemBE.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 @Entity
 public class CharityListing {
     @Id
     @Column(name="charity_listing_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long charityListingID;
+    private Integer id;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "charity_id")
     private Charity charity;
@@ -31,11 +34,19 @@ public class CharityListing {
     @Temporal(TemporalType.TIMESTAMP)
     private java.util.Date timestamp;
 
+    @PrePersist
+    public void prePersist() {
+        if (this.timestamp == null) {
+            this.timestamp = new Date();
+        }
+    }
+
+
     public CharityListing() {
     }
 
-    public CharityListing(Long charityListingID, Charity charity, Industry industry, String listingTitle, String listingDescription, String location, java.util.Date timestamp) {
-        this.charityListingID = charityListingID;
+    public CharityListing(Integer id, Charity charity, Industry industry, String listingTitle, String listingDescription, String location, java.util.Date timestamp) {
+        this.id = id;
         this.charity = charity;
         this.industry = industry;
         this.listingTitle = listingTitle;
@@ -44,12 +55,12 @@ public class CharityListing {
         this.timestamp = timestamp;
     }
 
-    public Long getCharityListingID() {
-        return this.charityListingID;
+    public Integer getId() {
+        return this.id;
     }
 
-    public void setCharityListingID(Long charityListingID) {
-        this.charityListingID = charityListingID;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Charity getCharity() {
@@ -100,8 +111,8 @@ public class CharityListing {
         this.timestamp = timestamp;
     }
 
-    public CharityListing charityListingID(Long charityListingID) {
-        this.charityListingID = charityListingID;
+    public CharityListing charityListingID(Integer charityListingID) {
+        this.id = charityListingID;
         return this;
     }
 
