@@ -11,5 +11,11 @@ public interface CharityListingRepository extends CrudRepository<CharityListing,
 
     Iterable<CharityListing> findByCharity(Charity charity);
 
-    Iterable<CharityListing> findByListingTitle(String title);
+    Iterable<CharityListing> findByListingTitleContainingIgnoreCase(String title);
+
+    Iterable<CharityListing> findByListingDescriptionContainingIgnoreCase(String searchTerm);
+
+    Iterable<CharityListing> findByLocationContainingIgnoreCase(String maybeSearchTerm);
+
+    Iterable<CharityListing> findByCharityNameContainingIgnoreCase(String maybeSearchTerm);
 }
