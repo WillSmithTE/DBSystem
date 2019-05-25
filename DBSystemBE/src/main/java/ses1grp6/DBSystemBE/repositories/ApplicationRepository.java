@@ -11,6 +11,6 @@ public interface ApplicationRepository extends CrudRepository<Application, Integ
     
   Iterable<Application> findByDonorId(int donorId);
 
-  Iterable<Application> findByCharityListingCharityId(int listingId);
+  Iterable<Application> findByCharityListingId(int listingId);
 
 }

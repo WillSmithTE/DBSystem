@@ -45,6 +45,10 @@ public class CharityListing {
     public CharityListing() {
     }
 
+    public CharityListing(Integer id) {
+        this.id = id;
+    }
+
     public CharityListing(Integer id, Charity charity, Industry industry, String listingTitle, String listingDescription, String location, java.util.Date timestamp) {
         this.id = id;
         this.charity = charity;
