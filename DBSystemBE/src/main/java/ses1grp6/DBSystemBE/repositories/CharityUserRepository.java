@@ -9,7 +9,7 @@ import ses1grp6.DBSystemBE.model.CharityUser;
 
 public interface CharityUserRepository extends CrudRepository<CharityUser, Integer> {
     
-    // CharityUser findByCharityName(String charityName);
+    // CharityUser findByCharityNameContainingIgnoreCase(String charityName);
 
     CharityUser findByLastName(String lastName);
     

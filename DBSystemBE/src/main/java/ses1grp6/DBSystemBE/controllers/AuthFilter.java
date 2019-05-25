@@ -41,16 +41,20 @@ public class AuthFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String authToken = request.getHeader("Authorization").substring(7);
-        String decryptedToken = AuthController.decryptToken(authToken);
-        Charity maybeCharity = charityRepository.findByEmail(decryptedToken);
-        if (maybeCharity == null) {
-            Donor maybeDoner = donorRepository.findByEmail(decryptedToken);
-            if (maybeDoner == null) {
-                throw new IOException("Invalid auth details.");
+        try {
+            String authToken = request.getHeader("Authorization").substring(7);
+            String decryptedToken = AuthController.decryptToken(authToken);
+            Charity maybeCharity = charityRepository.findByEmail(decryptedToken);
+            if (maybeCharity == null) {
+                Donor maybeDoner = donorRepository.findByEmail(decryptedToken);
+                if (maybeDoner == null) {
+                    throw new IOException("Invalid auth details.");
+                }
             }
+            filterChain.doFilter(request, response);
+        } catch (NullPointerException e) {
+            throw new IOException("No auth token provided");
         }
-        filterChain.doFilter(request, response);
     }
 
 

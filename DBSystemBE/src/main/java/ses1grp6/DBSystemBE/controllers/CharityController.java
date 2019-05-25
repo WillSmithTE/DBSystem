@@ -1,5 +1,6 @@
 package ses1grp6.DBSystemBE.controllers;
 
+import org.springframework.transaction.TransactionSystemException;
 import ses1grp6.DBSystemBE.model.Charity;
 import ses1grp6.DBSystemBE.model.CharityUser;
 import ses1grp6.DBSystemBE.model.Response;
@@ -45,6 +46,8 @@ public class CharityController {
     public @ResponseBody Response edit(@RequestBody Charity charity) {
         try {
             return Response.success(charityRepository.save(charity));
+        } catch (TransactionSystemException e) {
+            return Response.fail("Failed to update charity, probably missing properties: " + e.getCause().getCause().getMessage());
         } catch (Exception e) {
             return Response.fail("Failed to update charity: " + e.getMessage());
         }
@@ -53,7 +56,7 @@ public class CharityController {
     @RequestMapping(value = "/history/{id}", method = RequestMethod.GET)
     public @ResponseBody Response getHistory(@PathVariable("id") int id) {
         try {
-            return Response.success(listingRepository.findByCharity(id));
+            return Response.success(listingRepository.findByCharity(new Charity(id)));
         } catch (Exception e) {
             return Response.fail("Failed to get history for charity: " + e.getMessage());
         }

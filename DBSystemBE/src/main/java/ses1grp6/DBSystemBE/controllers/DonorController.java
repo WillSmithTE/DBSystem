@@ -2,6 +2,7 @@ package ses1grp6.DBSystemBE.controllers;
 
 import org.springframework.transaction.TransactionException;
 // import ses1grp6.DBSystemBE.model.Donation;
+import org.springframework.transaction.TransactionSystemException;
 import ses1grp6.DBSystemBE.model.Donor;
 import ses1grp6.DBSystemBE.model.Response;
 // import ses1grp6.DBSystemBE.repositories.DonationRepository;
@@ -49,6 +50,8 @@ public class DonorController {
     Response editUser(@RequestBody Donor donor) {
         try {
             return Response.success(donorRepository.save(donor));
+        } catch (TransactionSystemException e) {
+            return Response.fail("Failed to update donor, probably missing properties: " + e.getCause().getCause().getMessage());
         } catch (TransactionException e) {
             return Response.fail(e.getMessage());
         }
