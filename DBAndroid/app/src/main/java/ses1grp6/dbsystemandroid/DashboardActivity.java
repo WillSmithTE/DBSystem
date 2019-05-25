@@ -22,6 +22,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import ses1grp6.dbsystemandroid.charity.ListingCharityFragment;
 import ses1grp6.dbsystemandroid.charity.CharityProfileFragment;
 import ses1grp6.dbsystemandroid.donor.Donor;
 import ses1grp6.dbsystemandroid.donor.DonorListFragment;
@@ -60,25 +61,21 @@ public class DashboardActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String loginChoice = intent.getStringExtra(DBSystemUtil.LOGIN_CHOICE);
 
-        // TODO get request to find account type
-//        if (loginChoice.equals(DBSystemUtil.LOGIN_CHARITY_CHOICE)) {
-//            getSupportActionBar().setTitle("Charity Dashboard");
-//            createCharityDashboard();
-//        } else {
-//            getSupportActionBar().setTitle("Donor Dashboard");
-//            createDonorDashboard();
-//        }
-
-        getSupportActionBar().setTitle("Donor Dashboard");
-        createDonorDashboard();
+        if (loginChoice.equals(DBSystemUtil.LOGIN_CHARITY_CHOICE)) {
+            getSupportActionBar().setTitle("Charity Dashboard");
+            createCharityDashboard();
+        } else {
+            getSupportActionBar().setTitle("Donor Dashboard");
+            createDonorDashboard();
+        }
     }
 
     private void createCharityDashboard() {
-        Fragment fragment = new CharityProfileFragment();
+
+        Fragment fragment = new ListingCharityFragment();
         FragmentManager fragManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragManager.beginTransaction();
-        transaction.add(R.id.fragment_container, fragment);
-        transaction.add(R.id.fragment_container, new CharityProfileFragment());
+        transaction.replace(R.id.fragment_container, fragment);
         transaction.commit();
     }
 
@@ -101,8 +98,13 @@ public class DashboardActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        getSupportActionBar().setTitle("Donor Dashboard");
-        createDonorDashboard();
+        if (getIntent().getStringExtra(DBSystemUtil.LOGIN_CHOICE).equals(DBSystemUtil.LOGIN_CHARITY_CHOICE)) {
+            getSupportActionBar().setTitle("Charity Dashboard");
+            createCharityDashboard();
+        } else {
+            getSupportActionBar().setTitle("Donor Dashboard");
+            createDonorDashboard();
+        }
     }
 
     private static class DonorNavigationMenu implements NavigationView.OnNavigationItemSelectedListener {

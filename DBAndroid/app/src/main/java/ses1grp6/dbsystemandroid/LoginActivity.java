@@ -56,6 +56,11 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(signUpIntent);
     }
 
+    @Override
+    public void onBackPressed() {
+
+    }
+
     private void POSTRequestLogin() throws IOException {
         JSONObject postParams = new JSONObject();
         try {
