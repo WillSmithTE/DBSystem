@@ -28,7 +28,8 @@ public class LoginActivity extends AppCompatActivity {
 
         // Gets the data from the intent that launches this activity.
         Intent intent = getIntent();
-        loginChoice = intent.getStringExtra(DBSystemUtil.LOGIN_CHOICE);
+        // TODO remove below, getStringExtra...
+        //loginChoice = intent.getStringExtra(DBSystemUtil.LOGIN_CHOICE);
 
     }
 
@@ -70,8 +71,9 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (response.isStatusSuccessful()) {
                     try {
-                        storeToken(response.getJsonObject().getString("body"));
-                        changeActivity();
+                        System.out.println(response.getJsonObject().getJSONObject("body").getJSONObject("body").getString("token"));
+                        storeToken(response.getJsonObject().getJSONObject("body").getJSONObject("body").getString("token"));
+                        changeActivity(response.getJsonObject().getJSONObject("body").getJSONObject("body").getString("userType"));
                     }
                     catch (JSONException e){
                         Toast.makeText(LoginActivity.this, response.message,
@@ -86,9 +88,12 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void changeActivity() {
+    private void changeActivity(String userType) {
         Intent intent = new Intent(this, DashboardActivity.class);
-        intent.putExtra(DBSystemUtil.LOGIN_CHOICE, loginChoice);
+        if (userType.equals("donor"))
+            intent.putExtra(DBSystemUtil.LOGIN_CHOICE, DBSystemUtil.LOGIN_DONOR_CHOICE);
+        else
+            intent.putExtra(DBSystemUtil.LOGIN_CHOICE, DBSystemUtil.LOGIN_CHARITY_CHOICE);
         startActivity(intent);
         DBSystemNetwork.sendGetRequest(this, "donor/", new DBSystemNetwork.OnRequestComplete() {
             @Override
