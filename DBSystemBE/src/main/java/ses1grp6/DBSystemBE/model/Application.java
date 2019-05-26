@@ -13,7 +13,7 @@ public class Application {
 
     @Id
     @Column(name="application_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long applicationID;
 
     @ManyToOne

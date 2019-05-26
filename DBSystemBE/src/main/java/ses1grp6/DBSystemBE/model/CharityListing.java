@@ -8,7 +8,7 @@ import java.util.Date;
 public class CharityListing {
     @Id
     @Column(name="charity_listing_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @NotNull

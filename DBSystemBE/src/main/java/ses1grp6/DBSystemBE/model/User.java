@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 @MappedSuperclass
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Integer id;
    
     private String name;

@@ -16,7 +16,7 @@ import java.util.Objects;
 public class CharityUser {
     @Id
     @Column(name="charity_user_id")
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int charityUserID;
     @ManyToOne
     @JoinColumn(name = "charity_id")

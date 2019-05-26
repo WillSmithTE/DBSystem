@@ -14,7 +14,7 @@ public class Industry {
 
    @Id
    @Column(name="industry_id")
-   @GeneratedValue(strategy = GenerationType.AUTO)
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long industryID;
 
    @Column(name = "industry_name")
