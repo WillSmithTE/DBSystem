@@ -26,6 +26,10 @@ public class LoginActivity extends AppCompatActivity {
      * Called when the "Log In" button is clicked.
      */
     public void onLoginClicked(View view) {
+        POSTRequestLogin();
+    }
+
+    private void POSTRequestLogin() {
         JSONObject postParams = new JSONObject();
         try {
             postParams.put("email", ((EditText)findViewById(R.id.emailInput)).getText().toString());
@@ -40,8 +44,9 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (response.hasStatusSuccessful()) {
                     try {
-                        storeToken(response.getJsonObject().getString("body"));
-                        proceedLogin();
+                        System.out.println(response.getJsonObject().getJSONObject("body").getJSONObject("body").getString("token"));
+                        storeToken(response.getJsonObject().getJSONObject("body").getJSONObject("body").getString("token"));
+                        changeActivity(response.getJsonObject().getJSONObject("body").getJSONObject("body").getString("userType"));
                     }
                     catch (JSONException e){
                         Toast.makeText(LoginActivity.this, "Unable to get proper message from server.",
@@ -71,8 +76,12 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(signUpIntent);
     }
 
-    private void proceedLogin() {
+    private void changeActivity(String userType) {
         Intent intent = new Intent(this, DashboardActivity.class);
+        if (userType.equals("donor"))
+            intent.putExtra(DBSystemUtil.LOGIN_CHOICE, DBSystemUtil.LOGIN_DONOR_CHOICE);
+        else
+            intent.putExtra(DBSystemUtil.LOGIN_CHOICE, DBSystemUtil.LOGIN_CHARITY_CHOICE);
         startActivity(intent);
     }
 
