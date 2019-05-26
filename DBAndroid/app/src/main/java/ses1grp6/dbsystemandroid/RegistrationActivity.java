@@ -78,7 +78,7 @@ public class RegistrationActivity extends AppCompatActivity {
             throw new RuntimeException("Registration Request creation has the wrong JSON format.");
         }
 
-        DBSystemNetwork.sendPostRequest(this, "/auth/register", postParams, new DBSystemNetwork.OnRequestComplete() {
+        DBSystemNetwork.sendPostRequest("/auth/register", postParams, new DBSystemNetwork.OnRequestComplete() {
             @Override
             public void onRequestCompleted(RequestResponse response) {
 

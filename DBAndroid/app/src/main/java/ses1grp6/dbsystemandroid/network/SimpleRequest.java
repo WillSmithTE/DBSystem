@@ -1,7 +1,5 @@
 package ses1grp6.dbsystemandroid.network;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
 import org.json.JSONObject;
@@ -17,18 +15,16 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.UnknownHostException;
 
-import static android.content.Context.MODE_PRIVATE;
+import ses1grp6.dbsystemandroid.UserData;
 
 public class SimpleRequest extends AsyncTask<Void, Void, RequestResponse> {
 
     private final WeakReference<DBSystemNetwork.OnRequestComplete> callback;
-    private final WeakReference<Context> context;
     private final String requestMapping;
     private final JSONObject jsonObject;
     private final MethodType method;
 
-    public SimpleRequest(Context context, MethodType method, String requestMapping, JSONObject jsonObject, DBSystemNetwork.OnRequestComplete callback) {
-        this.context = new WeakReference<>(context);
+    public SimpleRequest(MethodType method, String requestMapping, JSONObject jsonObject, DBSystemNetwork.OnRequestComplete callback) {
         this.callback = new WeakReference<>(callback);
         this.requestMapping = requestMapping;
         this.jsonObject = jsonObject;
@@ -51,7 +47,7 @@ public class SimpleRequest extends AsyncTask<Void, Void, RequestResponse> {
 
     private RequestResponse sendRequest() {
         // If the activity has been destroyed/closed, then don't bother downloading something, just ignore it.
-        if (context.get() == null) {
+        if (callback.get() == null) {
             // What it returns doesn't actually matter, the callback won't be called when activity is destroyed.
             return new RequestResponse("Simple Request Callback should not have been called");
         }
@@ -61,9 +57,8 @@ public class SimpleRequest extends AsyncTask<Void, Void, RequestResponse> {
             postConnection.setRequestMethod(method.toString());
 
             // If a token existed in SharedPreferences then use it.
-            SharedPreferences preferences = context.get().getSharedPreferences("auth", MODE_PRIVATE);
-            String token = preferences.getString("token", "");
-            if (!token.equals("")) {
+            if (UserData.getInstance().hasData()) {
+                String token = UserData.getInstance().getToken();
                 postConnection.setRequestProperty("Authorization", "bearer " + token);
             }
 

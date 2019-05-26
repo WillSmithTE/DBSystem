@@ -16,13 +16,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-
 import ses1grp6.dbsystemandroid.charity.ListingCharityFragment;
-import ses1grp6.dbsystemandroid.charity.CharityProfileFragment;
 import ses1grp6.dbsystemandroid.donor.DonorHistoryFragment;
 import ses1grp6.dbsystemandroid.donor.DonorListFragment;
 
@@ -30,7 +24,6 @@ public class DashboardActivity extends AppCompatActivity {
 
     private DrawerLayout drawer;
     private NavigationView navView;
-    private LoginChoice loginChoice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +40,6 @@ public class DashboardActivity extends AppCompatActivity {
                 toolbar, R.string.open_nav_drawer, R.string.close_nav_drawer);
         drawerToggle.syncState();
 
-        // Get Login Choice From intent
-        Intent intent = getIntent();
-        loginChoice = LoginChoice.getFromIntent(intent);
-
         // TODO remove test code
 //        Fragment fragment = new CharityProfileFragment();
 //        FragmentManager fragManager = getSupportFragmentManager();
@@ -61,9 +50,9 @@ public class DashboardActivity extends AppCompatActivity {
         // TODO end of test code
 
         //Intent intent = getIntent();
-        //LoginChoice loginChoice = LoginChoice.getFromIntent(intent);
+        //UserType userType = UserType.getFromIntent(intent);
       
-      if (loginChoice == LoginChoice.CHARITY) {
+      if (UserData.getInstance().getUserType() == UserType.CHARITY) {
             getSupportActionBar().setTitle("Charity Dashboard");
             createCharityDashboard();
         } else {
@@ -113,7 +102,7 @@ public class DashboardActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (loginChoice == LoginChoice.CHARITY) {
+        if (UserData.getInstance().getUserType() == UserType.CHARITY) {
             getSupportActionBar().setTitle("Charity Dashboard");
             createCharityDashboard();
         } else {

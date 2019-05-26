@@ -84,7 +84,8 @@ public class RequestResponse {
                 return false;
             }
         } catch (JSONException e) {
-            throw new RuntimeException("Something went wrong when reading the status.");
+            System.err.println("Could not read status from response, JSON property does not exist.");
+            return false;
         }
     }
 
@@ -97,12 +98,13 @@ public class RequestResponse {
     public String getStatusMessage() {
 
         try {
-            JSONObject jsonObject = new JSONObject(data);
+            JSONObject jsonObject = getJsonObject();
 
             if (jsonObject.has("status") && jsonObject.has("body")) {
                 return jsonObject.getString("body");
             } else {
-                throw new RuntimeException("Trying to get status message but the json object does not have status message or status property");
+                System.err.println("Trying to get status message but the json object does not have status message or status property");
+                return "No Status Message";
             }
         } catch (JSONException e) {
 
@@ -127,6 +129,34 @@ public class RequestResponse {
             return "Bad connection: " + message;
         } else {
             return "Error code: " + code;
+        }
+    }
+
+    /**
+     * Convenience method for getting a JSON object from the body of a response object.
+     */
+    public JSONObject getBodyJsonObject() {
+        JSONObject jsonObject = getJsonObject();
+
+        try {
+            return jsonObject.getJSONObject("body");
+        } catch (JSONException e) {
+            System.err.println("Could not read body from response, JSON property does not exist.");
+            return new JSONObject();
+        }
+    }
+
+    /**
+     * Convenience method for getting a JSON array from the body of a response object.
+     */
+    public JSONArray getBodyJsonArray() {
+        JSONObject jsonObject = getJsonObject();
+
+        try {
+            return jsonObject.getJSONArray("body");
+        } catch (JSONException e) {
+            System.err.println("Could not read body from response, JSON property does not exist.");
+            return new JSONArray();
         }
     }
 }
