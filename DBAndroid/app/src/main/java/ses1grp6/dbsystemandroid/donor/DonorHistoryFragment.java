@@ -20,6 +20,7 @@ import java.util.Locale;
 
 import ses1grp6.dbsystemandroid.R;
 import ses1grp6.dbsystemandroid.SimpleRecyclerAdaptor;
+import ses1grp6.dbsystemandroid.network.DBSystemNetwork;
 
 /**
  * A simple {@link Fragment} subclass.

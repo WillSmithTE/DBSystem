@@ -1,7 +1,5 @@
 package ses1grp6.dbsystemandroid.network;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
 import org.json.JSONObject;
@@ -19,18 +17,14 @@ import java.net.UnknownHostException;
 
 import ses1grp6.dbsystemandroid.UserData;
 
-import static android.content.Context.MODE_PRIVATE;
-
 public class SimpleRequest extends AsyncTask<Void, Void, RequestResponse> {
 
     private final WeakReference<DBSystemNetwork.OnRequestComplete> callback;
-    private final WeakReference<Context> context;
     private final String requestMapping;
     private final JSONObject jsonObject;
     private final MethodType method;
 
-    public SimpleRequest(Context context, MethodType method, String requestMapping, JSONObject jsonObject, DBSystemNetwork.OnRequestComplete callback) {
-        this.context = new WeakReference<>(context);
+    public SimpleRequest(MethodType method, String requestMapping, JSONObject jsonObject, DBSystemNetwork.OnRequestComplete callback) {
         this.callback = new WeakReference<>(callback);
         this.requestMapping = requestMapping;
         this.jsonObject = jsonObject;
@@ -53,7 +47,7 @@ public class SimpleRequest extends AsyncTask<Void, Void, RequestResponse> {
 
     private RequestResponse sendRequest() {
         // If the activity has been destroyed/closed, then don't bother downloading something, just ignore it.
-        if (context.get() == null) {
+        if (callback.get() == null) {
             // What it returns doesn't actually matter, the callback won't be called when activity is destroyed.
             return new RequestResponse("Simple Request Callback should not have been called");
         }
