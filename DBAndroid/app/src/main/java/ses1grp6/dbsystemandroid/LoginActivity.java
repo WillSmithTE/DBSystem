@@ -79,9 +79,9 @@ public class LoginActivity extends AppCompatActivity {
     private void changeActivity(String userType) {
         Intent intent = new Intent(this, DashboardActivity.class);
         if (userType.equals("donor"))
-            LoginChoice.DONOR.putToIntent(intent);
+            UserType.DONOR.putToIntent(intent);
         else
-            LoginChoice.CHARITY.putToIntent(intent);
+            UserType.CHARITY.putToIntent(intent);
         startActivity(intent);
     }
 
