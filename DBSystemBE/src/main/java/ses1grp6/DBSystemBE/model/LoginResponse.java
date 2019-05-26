@@ -6,10 +6,12 @@ package ses1grp6.DBSystemBE.model;
 public class LoginResponse {
     private byte[] token;
     private String userType;
+    private int userId;
 
-    public LoginResponse(byte[] token, String userType) {
+    public LoginResponse(byte[] token, String userType, int id) {
         this.token = token;
         this.userType = userType;
+        this.userId = id;
     }
 
     public byte[] getToken() {
@@ -18,5 +20,9 @@ public class LoginResponse {
 
     public String getUserType() {
         return userType;
+    }
+
+    public int getUserId() {
+        return userId;
     }
 }

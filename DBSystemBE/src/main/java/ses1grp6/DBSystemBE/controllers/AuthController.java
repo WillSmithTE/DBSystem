@@ -100,7 +100,7 @@ public class AuthController {
         User preExistingUser = repository.findByEmail(loginRequest.getEmail());
         if (preExistingUser != null && preExistingUser.getPassword().equals(loginRequest.getPassword())) {
             if (preExistingUser.isEmailConfirmed()) {
-                return Response.success(AuthController.createLoginSuccessObject(loginRequest, userType));
+                return AuthController.createLoginSuccessObject(loginRequest, userType, preExistingUser.getId());
             } else {
                 sendConfirmationEmail(loginRequest.getEmail(), preExistingUser.getId());
                 return Response.fail("Email not confirmed. Confirmation email resent.");
@@ -163,9 +163,9 @@ public class AuthController {
 
     }
 
-    private static Response createLoginSuccessObject(LoginRequest request, String userType) {
+    private static Response createLoginSuccessObject(LoginRequest request, String userType, int id) {
         byte[] token = AuthController.createToken(request.getEmail());
-        return Response.success(new LoginResponse(token, userType));
+        return Response.success(new LoginResponse(token, userType, id));
     }
 
 
