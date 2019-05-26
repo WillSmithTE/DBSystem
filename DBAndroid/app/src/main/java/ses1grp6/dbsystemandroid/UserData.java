@@ -44,7 +44,7 @@ public class UserData {
     }
 
     public void setData(RequestResponse response) throws JSONException {
-        JSONObject body = response.getBody();
+        JSONObject body = response.getBodyJsonObject();
         id = body.getInt("userId");
         token = body.getString("token");
         String userTypeString = body.getString("userType");

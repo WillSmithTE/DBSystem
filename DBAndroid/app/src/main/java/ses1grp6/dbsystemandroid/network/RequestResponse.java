@@ -133,9 +133,9 @@ public class RequestResponse {
     }
 
     /**
-     * Convenience method for getting the body from a response object.
+     * Convenience method for getting a JSON object from the body of a response object.
      */
-    public JSONObject getBody() {
+    public JSONObject getBodyJsonObject() {
         JSONObject jsonObject = getJsonObject();
 
         try {
@@ -143,6 +143,20 @@ public class RequestResponse {
         } catch (JSONException e) {
             System.err.println("Could not read body from response, JSON property does not exist.");
             return new JSONObject();
+        }
+    }
+
+    /**
+     * Convenience method for getting a JSON array from the body of a response object.
+     */
+    public JSONArray getBodyJsonArray() {
+        JSONObject jsonObject = getJsonObject();
+
+        try {
+            return jsonObject.getJSONArray("body");
+        } catch (JSONException e) {
+            System.err.println("Could not read body from response, JSON property does not exist.");
+            return new JSONArray();
         }
     }
 }
