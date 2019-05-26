@@ -1,5 +1,6 @@
 package ses1grp6.dbsystemandroid;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -29,6 +30,7 @@ public class DashboardActivity extends AppCompatActivity {
 
     private DrawerLayout drawer;
     private NavigationView navView;
+    private LoginChoice loginChoice;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,10 @@ public class DashboardActivity extends AppCompatActivity {
                 toolbar, R.string.open_nav_drawer, R.string.close_nav_drawer);
         drawerToggle.syncState();
 
+        // Get Login Choice From intent
+        Intent intent = getIntent();
+        loginChoice = LoginChoice.getFromIntent(intent);
+
         // TODO remove test code
 //        Fragment fragment = new CharityProfileFragment();
 //        FragmentManager fragManager = getSupportFragmentManager();
@@ -57,7 +63,7 @@ public class DashboardActivity extends AppCompatActivity {
         //Intent intent = getIntent();
         //LoginChoice loginChoice = LoginChoice.getFromIntent(intent);
       
-      if (loginChoice.equals(DBSystemUtil.LOGIN_CHARITY_CHOICE)) {
+      if (loginChoice == LoginChoice.CHARITY) {
             getSupportActionBar().setTitle("Charity Dashboard");
             createCharityDashboard();
         } else {
@@ -66,7 +72,7 @@ public class DashboardActivity extends AppCompatActivity {
         }
     }
 
-    private void createCharityDashboard(NavigationView navView) {
+    private void createCharityDashboard() {
         // Loads the charity_nav_menu.xml and actual charity navigation object.
         navView.setNavigationItemSelectedListener(new DonorNavigationMenu());
         navView.inflateMenu(R.menu.charity_nav_menu);
@@ -81,7 +87,7 @@ public class DashboardActivity extends AppCompatActivity {
         transaction.commit();
     }
 
-    private void createDonorDashboard(NavigationView navView) {
+    private void createDonorDashboard() {
         Toast.makeText(DashboardActivity.this, getToken(),
                 Toast.LENGTH_LONG).show();
 
@@ -107,13 +113,14 @@ public class DashboardActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (getIntent().getStringExtra(DBSystemUtil.LOGIN_CHOICE).equals(DBSystemUtil.LOGIN_CHARITY_CHOICE)) {
+        if (loginChoice == LoginChoice.CHARITY) {
             getSupportActionBar().setTitle("Charity Dashboard");
             createCharityDashboard();
         } else {
             getSupportActionBar().setTitle("Donor Dashboard");
             createDonorDashboard();
         }
+    }
 
     private void swapContainerFor(Fragment fragment) {
           FragmentManager fragManager = getSupportFragmentManager();
