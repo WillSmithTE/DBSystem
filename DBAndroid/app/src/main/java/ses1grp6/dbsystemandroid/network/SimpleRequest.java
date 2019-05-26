@@ -17,6 +17,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.UnknownHostException;
 
+import ses1grp6.dbsystemandroid.UserData;
+
 import static android.content.Context.MODE_PRIVATE;
 
 public class SimpleRequest extends AsyncTask<Void, Void, RequestResponse> {
@@ -61,9 +63,8 @@ public class SimpleRequest extends AsyncTask<Void, Void, RequestResponse> {
             postConnection.setRequestMethod(method.toString());
 
             // If a token existed in SharedPreferences then use it.
-            SharedPreferences preferences = context.get().getSharedPreferences("auth", MODE_PRIVATE);
-            String token = preferences.getString("token", "");
-            if (!token.equals("")) {
+            if (UserData.getInstance().hasData()) {
+                String token = UserData.getInstance().getToken();
                 postConnection.setRequestProperty("Authorization", "bearer " + token);
             }
 

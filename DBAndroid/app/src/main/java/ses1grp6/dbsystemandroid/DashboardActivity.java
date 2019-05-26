@@ -24,7 +24,6 @@ public class DashboardActivity extends AppCompatActivity {
 
     private DrawerLayout drawer;
     private NavigationView navView;
-    private UserType userType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +40,6 @@ public class DashboardActivity extends AppCompatActivity {
                 toolbar, R.string.open_nav_drawer, R.string.close_nav_drawer);
         drawerToggle.syncState();
 
-        // Get Login Choice From intent
-        Intent intent = getIntent();
-        userType = UserType.getFromIntent(intent);
-
         // TODO remove test code
 //        Fragment fragment = new CharityProfileFragment();
 //        FragmentManager fragManager = getSupportFragmentManager();
@@ -57,7 +52,7 @@ public class DashboardActivity extends AppCompatActivity {
         //Intent intent = getIntent();
         //UserType userType = UserType.getFromIntent(intent);
       
-      if (userType == UserType.CHARITY) {
+      if (UserData.getInstance().getUserType() == UserType.CHARITY) {
             getSupportActionBar().setTitle("Charity Dashboard");
             createCharityDashboard();
         } else {
@@ -107,7 +102,7 @@ public class DashboardActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (userType == UserType.CHARITY) {
+        if (UserData.getInstance().getUserType() == UserType.CHARITY) {
             getSupportActionBar().setTitle("Charity Dashboard");
             createCharityDashboard();
         } else {

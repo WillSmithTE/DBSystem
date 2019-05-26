@@ -1,7 +1,6 @@
 package ses1grp6.dbsystemandroid;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -44,11 +43,11 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (response.hasStatusSuccessful()) {
                     try {
-                        System.out.println(response.getJsonObject().getJSONObject("body").getJSONObject("body").getString("token"));
-                        storeToken(response.getJsonObject().getJSONObject("body").getJSONObject("body").getString("token"));
-                        changeActivity(response.getJsonObject().getJSONObject("body").getJSONObject("body").getString("userType"));
+                        UserData userData = UserData.getInstance();
+                        userData.setData(response); // May throw JSONException.
+                        changeToDashboard();
                     }
-                    catch (JSONException e){
+                    catch (JSONException e) {
                         Toast.makeText(LoginActivity.this, "Unable to get proper message from server.",
                                 Toast.LENGTH_LONG).show();
                     }
@@ -76,18 +75,8 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(signUpIntent);
     }
 
-    private void changeActivity(String userType) {
+    private void changeToDashboard() {
         Intent intent = new Intent(this, DashboardActivity.class);
-        if (userType.equals("donor"))
-            UserType.DONOR.putToIntent(intent);
-        else
-            UserType.CHARITY.putToIntent(intent);
         startActivity(intent);
-    }
-
-
-    private void storeToken(String token){
-        SharedPreferences preferences = getSharedPreferences("auth", MODE_PRIVATE);
-        preferences.edit().putString("token", token).apply();
     }
 }
