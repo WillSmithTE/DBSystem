@@ -24,6 +24,7 @@ public class CharityListing {
     private String listingTitle;
 
     @Column(name = "listing_description")
+    @org.hibernate.annotations.Type( type = "text" )
     private String listingDescription;
 
     @Column(name = "location")

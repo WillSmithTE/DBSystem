@@ -17,7 +17,10 @@ public class Charity extends User{
     @Column(name="created_at", updatable=false)
     @Temporal(TemporalType.TIMESTAMP)
     private java.util.Date timestamp;
-
+    
+    @org.hibernate.annotations.Type( type = "text" )
+    private String charity_description;
+    
     @PrePersist
     public void prePersist() {
         if (this.timestamp == null) {
@@ -37,9 +40,10 @@ public class Charity extends User{
     }
 
 
-    public Charity(int charitySize, java.util.Date timestamp) {
+    public Charity(int charitySize, java.util.Date timestamp, String charity_description) {
         this.charitySize = charitySize;
         this.timestamp = timestamp;
+        this.charity_description = charity_description;
     }
 
     public int getCharitySize() {
@@ -58,14 +62,12 @@ public class Charity extends User{
         this.timestamp = timestamp;
     }
 
-    public Charity charitySize(int charitySize) {
-        this.charitySize = charitySize;
-        return this;
+    public String getCharity_description() {
+        return this.charity_description;
     }
 
-    public Charity timestamp(java.util.Date timestamp) {
-        this.timestamp = timestamp;
-        return this;
+    public void setCharity_description(String charity_description) {
+        this.charity_description = charity_description;
     }
 
     @Override
