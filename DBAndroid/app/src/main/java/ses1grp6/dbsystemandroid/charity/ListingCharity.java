@@ -22,7 +22,6 @@ public class ListingCharity implements Serializable {
             id = obj.getInt("id");
             charity = new Charity(obj.getJSONObject("charity"));
 
-            System.out.println("listingTitle " + listingTitle);
         } catch (JSONException e) {
             System.out.println(e.getMessage());
         }
