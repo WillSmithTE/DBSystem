@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import ses1grp6.dbsystemandroid.R;
 import ses1grp6.dbsystemandroid.network.DBSystemNetwork;
 import ses1grp6.dbsystemandroid.network.RequestResponse;
+import ses1grp6.dbsystemandroid.util.UserData;
 import ses1grp6.dbsystemandroid.util.simpleResult.ResultData;
 import ses1grp6.dbsystemandroid.util.simpleResult.SimpleResultActivity;
 
@@ -28,10 +29,11 @@ public class charityWizard extends AppCompatActivity {
         JSONObject jsonObject = new JSONObject();
         String charwizTitle = ((EditText) findViewById(R.id.charwizTitle)).getText().toString();
         String charwizDescription = ((EditText) findViewById(R.id.charwizDescription)).getText().toString();
-        String charwizDateTime = ((EditText) findViewById(R.id.charwizDateTime)).getText().toString();
+        //String charwizDateTime = ((EditText) findViewById(R.id.charwizDateTime)).getText().toString();
         String charwizLocation = ((EditText) findViewById(R.id.charwizLocation)).getText().toString();
-        String charwizIndustry = ((EditText) findViewById(R.id.charwizIndustry)).getText().toString();
+        //String charwizIndustry = ((EditText) findViewById(R.id.charwizIndustry)).getText().toString();
         try {
+            jsonObject.put("charity", UserData.getInstance().getId());
             jsonObject.put("listingTitle", charwizTitle);
             jsonObject.put("listingDescription", charwizDescription);
             jsonObject.put("location", charwizLocation);

@@ -1,6 +1,7 @@
 package ses1grp6.dbsystemandroid.charity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +17,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import ses1grp6.dbsystemandroid.DashboardActivity;
 import ses1grp6.dbsystemandroid.R;
 import ses1grp6.dbsystemandroid.charity.model.ListingCharity;
 import ses1grp6.dbsystemandroid.network.DBSystemNetwork;
@@ -42,7 +44,8 @@ public class ListingCharityFragment extends Fragment implements ListingCharities
             @Override
             public void onClick(View v)
             {
-                // TODO CREATE LISTING BUTTON
+                Intent intent = new Intent(context, charityWizard.class);
+                startActivity(intent);
             }
         });
 
