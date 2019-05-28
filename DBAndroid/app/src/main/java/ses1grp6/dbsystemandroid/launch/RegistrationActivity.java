@@ -14,6 +14,8 @@ import org.json.JSONObject;
 import ses1grp6.dbsystemandroid.R;
 import ses1grp6.dbsystemandroid.network.DBSystemNetwork;
 import ses1grp6.dbsystemandroid.network.RequestResponse;
+import ses1grp6.dbsystemandroid.util.simpleResult.ResultData;
+import ses1grp6.dbsystemandroid.util.simpleResult.SimpleResultActivity;
 
 
 public class RegistrationActivity extends AppCompatActivity {
@@ -93,7 +95,9 @@ public class RegistrationActivity extends AppCompatActivity {
     }
 
     private void showRegistrationResult() {
-        Intent intent = new Intent(this, RegistrationResultActivity.class);
+        Intent intent = new Intent(this, SimpleResultActivity.class);
+        ResultData resultData = new ResultData(getString(R.string.registration_success_title), getString(R.string.registration_success_subtext));
+        resultData.putToIntent(intent);
         startActivity(intent);
     }
 }

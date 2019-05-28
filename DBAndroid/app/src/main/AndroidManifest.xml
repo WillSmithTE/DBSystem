@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".launch.RegistrationResultActivity" />
+        <activity android:name=".util.simpleResult.SimpleResultActivity" />
         <activity android:name=".donor.ProfileActivity" />
         <activity android:name=".launch.LoginChoiceActivity" />
         <activity android:name=".DashboardActivity" android:windowSoftInputMode="adjustPan"/>
