@@ -49,7 +49,7 @@ public class DonorsAdapter extends RecyclerView.Adapter<DonorsAdapter.DonorListV
         String phone = donor.getPhone();
         final int id = donor.getId();
 
-        donorListViewHolder.name.setText(name);
+        ((TextView)donorListViewHolder.itemView.findViewById(R.id.donor_item_name)).setText(name);
         donorListViewHolder.email.setText(email);
         donorListViewHolder.phone.setText(phone);
 

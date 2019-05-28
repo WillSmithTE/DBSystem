@@ -1,7 +1,5 @@
 package ses1grp6.dbsystemandroid;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -11,26 +9,25 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.MenuItem;
-import android.widget.Toast;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-
-import ses1grp6.dbsystemandroid.charity.ListingCharityFragment;
+import ses1grp6.dbsystemandroid.charity.CharityHistoryFragment;
 import ses1grp6.dbsystemandroid.charity.CharityProfileFragment;
-import ses1grp6.dbsystemandroid.donor.Donor;
+import ses1grp6.dbsystemandroid.charity.ListingCharityFragment;
+import ses1grp6.dbsystemandroid.donor.DonorHistoryFragment;
 import ses1grp6.dbsystemandroid.donor.DonorListFragment;
-import ses1grp6.dbsystemandroid.donor.DonorsAdapter;
-import ses1grp6.dbsystemandroid.network.DBSystemNetwork;
-import ses1grp6.dbsystemandroid.network.RequestResponse;
+import ses1grp6.dbsystemandroid.util.UserData;
+import ses1grp6.dbsystemandroid.util.UserType;
 
 public class DashboardActivity extends AppCompatActivity {
+
+    private DrawerLayout drawer;
+    private NavigationView navView;
+    private static final String DONOR_DASHBOARD_NAME = "Donor Dashboard";
+    private static final String CHARITY_DASHBOARD_NAME = "Charity Dashboard";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,87 +36,100 @@ public class DashboardActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = findViewById(R.id.navDrawer);
-        NavigationView navView = findViewById(R.id.navView);
-        navView.inflateMenu(R.menu.charity_nav_menu);
+        drawer = findViewById(R.id.navDrawer);
+        navView = findViewById(R.id.navView);
 
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawer,
                 toolbar, R.string.open_nav_drawer, R.string.close_nav_drawer);
         drawerToggle.syncState();
-
-        // TODO remove test code
-//        Fragment fragment = new CharityProfileFragment();
-//        FragmentManager fragManager = getSupportFragmentManager();
-//        FragmentTransaction transaction = fragManager.beginTransaction();
-//        transaction.add(R.id.fragment_container, fragment);
-//        transaction.add(R.id.fragment_container, new CharityProfileFragment());
-//        transaction.commit();
-
-        navView.setNavigationItemSelectedListener(new DonorNavigationMenu());
-        // TODO end of test code
-
-        Intent intent = getIntent();
-        String loginChoice = intent.getStringExtra(DBSystemUtil.LOGIN_CHOICE);
-
-        if (loginChoice.equals(DBSystemUtil.LOGIN_CHARITY_CHOICE)) {
-            getSupportActionBar().setTitle("Charity Dashboard");
+      
+      if (UserData.getInstance().getUserType() == UserType.CHARITY) {
             createCharityDashboard();
         } else {
-            getSupportActionBar().setTitle("Donor Dashboard");
             createDonorDashboard();
         }
     }
 
     private void createCharityDashboard() {
+        // Loads the charity_nav_menu.xml and actual charity navigation object.
+        navView.setNavigationItemSelectedListener(new CharityNavigationMenu());
+        navView.inflateMenu(R.menu.charity_nav_menu);
 
-        Fragment fragment = new ListingCharityFragment();
-        FragmentManager fragManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragManager.beginTransaction();
-        transaction.replace(R.id.fragment_container, fragment);
-        transaction.commit();
+        // Set the selected item in the navView to dashboard.
+        navView.setCheckedItem(R.id.charityNavDashboard);
+
+        swapContainerFor(new ListingCharityFragment(), CHARITY_DASHBOARD_NAME);
     }
 
     private void createDonorDashboard() {
-        Toast.makeText(DashboardActivity.this, getToken(),
-                Toast.LENGTH_LONG).show();
+        // Loads the donor_nav_menu.xml and actual donor navigation object.
+        navView.setNavigationItemSelectedListener(new DonorNavigationMenu());
+        navView.inflateMenu(R.menu.donor_nav_menu);
 
-        Fragment fragment = new DonorListFragment();
-        FragmentManager fragManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragManager.beginTransaction();
-        transaction.replace(R.id.fragment_container, fragment);
-        transaction.commit();
-    }
+        // Set the selected item in the navView to dashboard.
+        navView.setCheckedItem(R.id.donorNavDashboard);
 
-    private String getToken(){
-        SharedPreferences preferences = getSharedPreferences("auth", MODE_PRIVATE);
-        String token = preferences.getString("token","");
-        return token;
+        swapContainerFor(new DonorListFragment(), DONOR_DASHBOARD_NAME);
     }
 
     @Override
     public void onBackPressed() {
-        if (getIntent().getStringExtra(DBSystemUtil.LOGIN_CHOICE).equals(DBSystemUtil.LOGIN_CHARITY_CHOICE)) {
-            getSupportActionBar().setTitle("Charity Dashboard");
+        if (UserData.getInstance().getUserType() == UserType.CHARITY) {
             createCharityDashboard();
         } else {
-            getSupportActionBar().setTitle("Donor Dashboard");
             createDonorDashboard();
         }
     }
 
-    private static class DonorNavigationMenu implements NavigationView.OnNavigationItemSelectedListener {
+    private void swapContainerFor(Fragment fragment, String title) {
+          FragmentManager fragManager = getSupportFragmentManager();
+          FragmentTransaction transaction = fragManager.beginTransaction();
+          transaction.replace(R.id.fragment_container, fragment);
+          transaction.commit();
+          getSupportActionBar().setTitle(title);
+    }
+
+    private class DonorNavigationMenu implements NavigationView.OnNavigationItemSelectedListener {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-            return false;
+
+            switch (menuItem.getItemId()) {
+
+                case R.id.donorNavDashboard:
+                    swapContainerFor(new DonorListFragment(), DONOR_DASHBOARD_NAME);
+                    break;
+                case R.id.donorNavHistory:
+                    swapContainerFor(new DonorHistoryFragment(), "Donor History");
+                    break;
+
+            }
+            drawer.closeDrawer(Gravity.START);
+            return true;
         }
     }
 
-    private static class CharityNavigationMenu implements NavigationView.OnNavigationItemSelectedListener {
+    private class CharityNavigationMenu implements NavigationView.OnNavigationItemSelectedListener {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-            return false;
+
+            switch (menuItem.getItemId()) {
+
+                case R.id.charityNavDashboard:
+                    swapContainerFor(new ListingCharityFragment(), CHARITY_DASHBOARD_NAME);
+                    break;
+                case R.id.charityNavHistory:
+                    swapContainerFor(new CharityHistoryFragment(), "Charity History");
+
+                    break;
+
+                case R.id.charityNavProfile:
+                    swapContainerFor(new CharityProfileFragment(), CHARITY_DASHBOARD_NAME);
+                    break;
+            }
+            drawer.closeDrawer(Gravity.START);
+            return true;
         }
     }
 }

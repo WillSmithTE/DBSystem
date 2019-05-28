@@ -11,7 +11,7 @@ c = connection.cursor()
 
 fake = Faker()
 
-locations_csv = r'C:\Users\patri\Desktop\locations_SS1A.csv'
+locations_csv = r'/home/pyr0/StudioProjects/DBSystem2/DBSystem/locations_SS1A.csv'
 df_locations = pd.read_csv(locations_csv)
 
 def seedDonor():
@@ -22,7 +22,7 @@ def seedDonor():
 				VALUES (%s,%s,%s,%s,%s);"""
 			)
 		   
-			data = (fake.name(), str(fake.phone_number()), (fake.last_name_male() + "@test.com.au"), 1, "A*^&$GD!&IHD")
+			data = (fake.name(), str(fake.phone_number()), (fake.last_name_male() + "@test.com.au"), 1, "password")
 			c.execute(insert_sql, data)
 		except Exception as e:
 			print(e)
@@ -36,7 +36,7 @@ def seedCharity():
 				VALUES (%s,%s,%s,%s,%s,%s,%s);"""
 			)
 
-			data = (fake.company(), fake.catch_phrase(), str(fake.phone_number()), (fake.last_name_female() + "@test.com.au"), int(1), int(randint(1,10000)), "A*^&$GD!&IHD")
+			data = (fake.company(), fake.catch_phrase(), str(fake.phone_number()), (fake.last_name_female() + "@test.com.au"), int(1), int(randint(1,10000)), "password")
 			c.execute(insert_sql, data)
 		except Exception as e:
 			print(e)
@@ -55,15 +55,19 @@ def seedCharityListing():
 			listing_description_list = fake.paragraphs(nb=3, ext_word_list=None)
 			listing_description = ''.join(listing_description_list)
 		   
+<<<<<<< HEAD
 			data = (fake.job(), listing_description, location, int(randint(5144,5200)), int(randint(1,16)))
+=======
+			data = (fake.job(), listing_description, location, int(randint(5645,6140)), int(randint(1,16)))
+>>>>>>> 3f9c570064914736ac8d9b11743915da6cc16965
 			c.execute(insert_sql, data)
 		except Exception as e:
 			print(e)
 		connection.commit()
 
 def main():
-	# seedDonor()
-	# seedCharity()
+	#seedDonor()
+	#seedCharity()
 	seedCharityListing()
 
 main()

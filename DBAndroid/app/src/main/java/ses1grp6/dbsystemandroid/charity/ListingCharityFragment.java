@@ -1,7 +1,6 @@
 package ses1grp6.dbsystemandroid.charity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,8 +16,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import ses1grp6.dbsystemandroid.R;
+import ses1grp6.dbsystemandroid.charity.model.ListingCharity;
 import ses1grp6.dbsystemandroid.network.DBSystemNetwork;
 import ses1grp6.dbsystemandroid.network.RequestResponse;
+import ses1grp6.dbsystemandroid.util.UserData;
 
 public class ListingCharityFragment extends Fragment implements ListingCharitiesAdapter.ItemClickListener {
     Context context;
@@ -38,7 +39,7 @@ public class ListingCharityFragment extends Fragment implements ListingCharities
     }
 
     private void arrayBuild(){
-        DBSystemNetwork.sendGetRequest(context, "listing/charity/1", new DBSystemNetwork.OnRequestComplete() {
+        DBSystemNetwork.sendGetRequest("listing/charity/" + UserData.getInstance().getId(), new DBSystemNetwork.OnRequestComplete() {
             @Override
             public void onRequestCompleted(RequestResponse response) {
                 if (response.isConnectionSuccessful()) {

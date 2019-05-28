@@ -2,7 +2,8 @@ package ses1grp6.dbsystemandroid.network;
 
 public enum MethodType {
     GET("GET"),
-    POST("POST");
+    POST("POST"),
+    PUT("PUT");
 
     private final String name;
 

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/cardStyle.view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        style="@style/cardStyle.layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20sp">
+
+        <TextView
+            android:id="@+id/charityHistoryTitle"
+            style="@style/cardStyle.title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Title" />
+
+        <TextView
+            android:id="@+id/charityHistoryTime"
+            style="@style/cardStyle.subTitle.right"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="29 May 2019" />
+
+        <TextView
+            android:id="@+id/charityHistoryAddress"
+            style="@style/cardStyle.subTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="At 72 Happy Street, Happy city" />
+
+        <TextView
+            android:id="@+id/charityHistoryIndustry"
+            style="@style/cardStyle.subTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="For Science" />
+
+        <TextView
+            android:id="@+id/charityHistoryDescrip"
+            style="@style/cardStyle.body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="I think therefore I am." />
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

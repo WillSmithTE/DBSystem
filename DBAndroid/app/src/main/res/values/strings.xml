@@ -17,4 +17,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="login_as_donor">I am a Donor</string>
     <string name="login_as_charity">I am a Charity</string>
+    <string name="registration_success_title">Your Registration was Successful!</string>
+    <string name="registration_success_subtext">We have sent you an email confirmation! Please confirm your account by clicking the link in the email.</string>
+    <string name="donorHistoryTitle">For -></string>
 </resources>

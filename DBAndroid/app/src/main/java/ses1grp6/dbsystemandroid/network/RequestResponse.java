@@ -19,7 +19,13 @@ public class RequestResponse {
     public RequestResponse(String message) {
         this.message = message;
         this.code = -1;
-        this.data = "";
+        this.data = null;
+    }
+
+    public RequestResponse(int code) {
+        this.code = code;
+        this.message = null;
+        this.data = null;
     }
 
     public boolean isConnectionSuccessful() {
@@ -27,15 +33,15 @@ public class RequestResponse {
     }
 
     public boolean hasData() {
-        return !data.equals("");
+        return data != null;
     }
 
     public boolean dataIsJsonArray() {
-        return data.charAt(0) == '[';
+        return hasData() && data.charAt(0) == '[';
     }
 
     public boolean dataIsJsonObject() {
-        return data.charAt(0) == '{';
+        return hasData() && data.charAt(0) == '{';
     }
 
     public JSONObject getJsonObject() {
@@ -57,30 +63,30 @@ public class RequestResponse {
     }
 
     /**
-     * Check if the data contains a JSON object with a status that says success.
-     *
-     * May throw RuntimeException if there was no successful connection, if the data is not a
-     * JSON object or if there is no such property in the JSON.
+     * @return true if the response is a json and has a status property.
      */
-    public boolean isStatusSuccessful() {
+    public boolean hasStatusMessage() {
+        return dataIsJsonObject() && getJsonObject().has("status");
+    }
 
+    /**
+     * Check if the data contains a JSON object with a status that says "SUCCESS".
+     */
+    public boolean hasStatusSuccessful() {
+
+        if (!isConnectionSuccessful() || !dataIsJsonObject()) return false;
         try {
-            JSONObject jsonObject = new JSONObject(data);
+            JSONObject jsonObject = getJsonObject();
 
             if (jsonObject.has("status")) {
                 return jsonObject.getString("status").equals("SUCCESS");
             } else {
-                throw new RuntimeException("Trying to get status but the json object does not have status property");
+                return false;
             }
         } catch (JSONException e) {
-
-//            if (isConnectionSuccessful()) {
-//                throw new RuntimeException("Cannot read status from a non-json data");
-//            } else {
-//                throw new RuntimeException("Cannot read status from a unsuccessful connection");
-//            }
+            System.err.println("Could not read status from response, JSON property does not exist.");
+            return false;
         }
-        return false;
     }
 
     /**
@@ -92,12 +98,13 @@ public class RequestResponse {
     public String getStatusMessage() {
 
         try {
-            JSONObject jsonObject = new JSONObject(data);
+            JSONObject jsonObject = getJsonObject();
 
             if (jsonObject.has("status") && jsonObject.has("body")) {
                 return jsonObject.getString("body");
             } else {
-                throw new RuntimeException("Trying to get status message but the json object does not have status message or status property");
+                System.err.println("Trying to get status message but the json object does not have status message or status property");
+                return "No Status Message";
             }
         } catch (JSONException e) {
 
@@ -106,6 +113,50 @@ public class RequestResponse {
             } else {
                 throw new RuntimeException("Cannot read status from a unsuccessful connection");
             }
+        }
+    }
+
+    /**
+     * @return a string containing a displayable error message if connection is unsuccessful or status is not SUCCESS.
+     */
+    public String getErrorMessage() {
+
+        if (isConnectionSuccessful() && hasStatusMessage()) {
+            return getStatusMessage();
+        } else if (code == 404) {
+            return "Error 404: Request mapping not found.";
+        } else if (code == -1) {
+            return "Bad connection: " + message;
+        } else {
+            return "Error code: " + code;
+        }
+    }
+
+    /**
+     * Convenience method for getting a JSON object from the body of a response object.
+     */
+    public JSONObject getBodyJsonObject() {
+        JSONObject jsonObject = getJsonObject();
+
+        try {
+            return jsonObject.getJSONObject("body");
+        } catch (JSONException e) {
+            System.err.println("Could not read body from response, JSON property does not exist.");
+            return new JSONObject();
+        }
+    }
+
+    /**
+     * Convenience method for getting a JSON array from the body of a response object.
+     */
+    public JSONArray getBodyJsonArray() {
+        JSONObject jsonObject = getJsonObject();
+
+        try {
+            return jsonObject.getJSONArray("body");
+        } catch (JSONException e) {
+            System.err.println("Could not read body from response, JSON property does not exist.");
+            return new JSONArray();
         }
     }
 }

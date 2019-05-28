@@ -1,21 +1,21 @@
-package ses1grp6.dbsystemandroid;
+package ses1grp6.dbsystemandroid.launch;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-
+import ses1grp6.dbsystemandroid.R;
 import ses1grp6.dbsystemandroid.network.DBSystemNetwork;
 import ses1grp6.dbsystemandroid.network.RequestResponse;
+import ses1grp6.dbsystemandroid.util.simpleResult.ResultData;
+import ses1grp6.dbsystemandroid.util.simpleResult.SimpleResultActivity;
 
 
 public class RegistrationActivity extends AppCompatActivity {
@@ -30,25 +30,11 @@ public class RegistrationActivity extends AppCompatActivity {
      * Called when the "Sign Up" button is clicked.
      */
     public void onSignUpClicked(View view) {
-        boolean registerAttemptSuccess = false;
         if (!isPasswordMatching()){
-            Toast.makeText(getApplicationContext(),"Passwords not matching",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"Passwords are not matching",Toast.LENGTH_SHORT).show();
+        } else {
+            register();
         }
-        else {
-            try {
-                registerAttemptSuccess = POSTRequestRegister();
-            }
-            catch (Exception e){
-                System.out.println(e.getMessage());
-            }
-        }
-
-        if (registerAttemptSuccess){
-            // TODO success take them to login page
-        }else{
-            // TODO register attempt fail
-        }
-
     }
 
     private boolean isPasswordMatching(){
@@ -58,7 +44,7 @@ public class RegistrationActivity extends AppCompatActivity {
         return (passwordET.getText().toString().equals(confirmPasswordET.getText().toString()));
     }
 
-    public boolean POSTRequestRegister() throws IOException {
+    public void register() {
 
         EditText emailET = (EditText) findViewById(R.id.emailInput);
         String resultEmailET = emailET.getText().toString();
@@ -82,7 +68,7 @@ public class RegistrationActivity extends AppCompatActivity {
         try {
             postParams.put("email", resultEmailET);
             postParams.put("name", resultFirstNameET + " " + resultLastNameET);
-            //postParams.put("lastName", resultLastNameET);
+            //postParams.putToIntent("lastName", resultLastNameET);
             postParams.put("contactNumber", resultPhoneNumberET);
             postParams.put("password", resultPasswordET);
             if (accountType.getCheckedRadioButtonId() == R.id.radioButton1){
@@ -92,31 +78,26 @@ public class RegistrationActivity extends AppCompatActivity {
                 postParams.put("isCharity", true);
             }
         } catch (JSONException e) {
-            return false;
+            throw new RuntimeException("Registration Request creation has the wrong JSON format.");
         }
 
-        DBSystemNetwork.sendPostRequest(this, "/auth/register", postParams, new DBSystemNetwork.OnRequestComplete() {
+        DBSystemNetwork.sendPostRequest("/auth/register", postParams, new DBSystemNetwork.OnRequestComplete() {
             @Override
             public void onRequestCompleted(RequestResponse response) {
-                System.out.println("POST Request registration complete!"); //TODO remove this debug line.
+
+                if (response.isConnectionSuccessful() && response.hasStatusSuccessful()) {
+                    showRegistrationResult();
+                } else {
+                    Toast.makeText(RegistrationActivity.this, response.getErrorMessage(), Toast.LENGTH_LONG).show();
+                }
             }
         });
-        return true;
     }
 
-    public boolean parseJsonSuccess(JSONObject json){
-        try {
-            String status = json.getString("status");
-
-            System.out.println(status);
-            if (status.equals("SUCCESS")){
-                return true;
-            }
-        }
-        catch (JSONException e){
-            System.out.println(e.getMessage());
-        }
-        return false;
+    private void showRegistrationResult() {
+        Intent intent = new Intent(this, SimpleResultActivity.class);
+        ResultData resultData = new ResultData(getString(R.string.registration_success_title), getString(R.string.registration_success_subtext));
+        resultData.putToIntent(intent);
+        startActivity(intent);
     }
-
 }

@@ -1,9 +1,11 @@
-package ses1grp6.dbsystemandroid.charity;
+package ses1grp6.dbsystemandroid.charity.model;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+
+import ses1grp6.dbsystemandroid.charity.model.Charity;
 
 public class ListingCharity implements Serializable {
     int id;
@@ -22,7 +24,6 @@ public class ListingCharity implements Serializable {
             id = obj.getInt("id");
             charity = new Charity(obj.getJSONObject("charity"));
 
-            System.out.println("listingTitle " + listingTitle);
         } catch (JSONException e) {
             System.out.println(e.getMessage());
         }

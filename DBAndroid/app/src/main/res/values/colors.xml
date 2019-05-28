@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimary">#29BE70</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="colorSimpleGreen">#B26AA352</color>
+    <color name="colorBackground">#5EA0C590</color>
+    <color name="colorNavView">#A7F3CD</color>
+    <color name="colorAuthBackground">#5E52FFB4</color>
+    <color name="colorSimpleBlack">#000000</color>
+    <color name="colorSimpleGray">#E4333333</color>
+    <color name="colorAlmostWhite">#E7E7E7</color>
+    <color name="colorThinBlack">#242424</color>
+    <color name="colorTitle">#0E7C20</color>
+    <color name="colorSubTitle">#4E9B34</color>
     <color name="linkable">#23B4A2</color>
 </resources>
