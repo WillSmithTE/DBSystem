@@ -6,6 +6,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.ListFragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -17,7 +18,7 @@ import ses1grp6.dbsystemandroid.charity.CharityHistoryFragment;
 import ses1grp6.dbsystemandroid.charity.CharityProfileFragment;
 import ses1grp6.dbsystemandroid.charity.ListingCharityFragment;
 import ses1grp6.dbsystemandroid.donor.DonorHistoryFragment;
-import ses1grp6.dbsystemandroid.donor.DonorListFragment;
+import ses1grp6.dbsystemandroid.donor.ListingFragment;
 import ses1grp6.dbsystemandroid.util.UserData;
 import ses1grp6.dbsystemandroid.util.UserType;
 
@@ -69,7 +70,7 @@ public class DashboardActivity extends AppCompatActivity {
         // Set the selected item in the navView to dashboard.
         navView.setCheckedItem(R.id.donorNavDashboard);
 
-        swapContainerFor(new DonorListFragment(), DONOR_DASHBOARD_NAME);
+        swapContainerFor(new ListingFragment(), DONOR_DASHBOARD_NAME);
     }
 
     @Override
@@ -97,7 +98,7 @@ public class DashboardActivity extends AppCompatActivity {
             switch (menuItem.getItemId()) {
 
                 case R.id.donorNavDashboard:
-                    swapContainerFor(new DonorListFragment(), DONOR_DASHBOARD_NAME);
+                    swapContainerFor(new ListingFragment(), DONOR_DASHBOARD_NAME);
                     break;
                 case R.id.donorNavHistory:
                     swapContainerFor(new DonorHistoryFragment(), "Donor History");
