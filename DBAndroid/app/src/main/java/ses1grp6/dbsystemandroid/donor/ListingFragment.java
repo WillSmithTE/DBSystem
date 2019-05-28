@@ -31,7 +31,7 @@ public class ListingFragment extends Fragment implements ListingAdapter.ItemClic
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.context = getContext();
-        rootView = inflater.inflate(R.layout.fragment_listing_charities_list, container, false);
+        rootView = inflater.inflate(R.layout.fragment_listing_list, container, false);
         arrayBuild();
         return rootView;
     }

@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -34,6 +35,17 @@ public class ListingCharityFragment extends Fragment implements ListingCharities
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.context = getContext();
         rootView = inflater.inflate(R.layout.fragment_listing_charities_list, container, false);
+
+        Button button = (Button) rootView.findViewById(R.id.button_create_listing);
+        button.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                // TODO CREATE LISTING BUTTON
+            }
+        });
+
         arrayBuild();
         return rootView;
     }
