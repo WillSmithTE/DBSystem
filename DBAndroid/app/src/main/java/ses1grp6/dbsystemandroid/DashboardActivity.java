@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.View;
 
 import ses1grp6.dbsystemandroid.charity.CharityHistoryFragment;
 import ses1grp6.dbsystemandroid.charity.CharityProfileFragment;
