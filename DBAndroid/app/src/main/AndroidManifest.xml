@@ -12,13 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".RegistrationResultActivity" />
+        <activity android:name=".util.simpleResult.SimpleResultActivity" />
         <activity android:name=".donor.ProfileActivity" />
-        <activity android:name=".LoginChoiceActivity" />
+        <activity android:name=".launch.LoginChoiceActivity" />
         <activity android:name=".DashboardActivity" android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".RegistrationActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".LauncherActivity">
+        <activity android:name=".launch.RegistrationActivity" />
+        <activity android:name=".launch.LoginActivity" />
+        <activity android:name=".launch.LauncherActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

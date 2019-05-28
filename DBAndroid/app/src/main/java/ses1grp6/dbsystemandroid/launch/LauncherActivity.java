@@ -1,8 +1,11 @@
-package ses1grp6.dbsystemandroid;
+package ses1grp6.dbsystemandroid.launch;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+
+import ses1grp6.dbsystemandroid.R;
+import ses1grp6.dbsystemandroid.util.UserData;
 
 /**
  * This activity is the first activity launched and is responsible for launching all other activities
