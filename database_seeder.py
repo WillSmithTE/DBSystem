@@ -11,7 +11,7 @@ c = connection.cursor()
 
 fake = Faker()
 
-locations_csv = r'/home/pyr0/StudioProjects/DBSystem2/DBSystem/locations_SS1A.csv'
+locations_csv = r'locations_SS1A.csv'
 df_locations = pd.read_csv(locations_csv)
 
 def seedDonor():
@@ -44,8 +44,13 @@ def seedCharity():
 
 def seedCharityListing():
 	
-	locations = df_locations['locations']
-	for i in range(5):
+	locations= ['Lake Heights NSW 2502',
+				'Berkeley NSW 2506',
+				'Wongawilli NSW 2530',
+				'Port Kembla NSW 2505',
+				'Bowral NSW 2576'
+			   ]
+	for location in locations:
 		try:
 			insert_sql = (
 				"""INSERT INTO `charity_listing` (listing_title, listing_description, location, charity_id, industry_id) 
@@ -55,19 +60,15 @@ def seedCharityListing():
 			listing_description_list = fake.paragraphs(nb=3, ext_word_list=None)
 			listing_description = ''.join(listing_description_list)
 		   
-<<<<<<< HEAD
-			data = (fake.job(), listing_description, location, int(randint(5144,5200)), int(randint(1,16)))
-=======
-			data = (fake.job(), listing_description, location, int(randint(5645,6140)), int(randint(1,16)))
->>>>>>> 3f9c570064914736ac8d9b11743915da6cc16965
+			data = (fake.job(), listing_description, location, int(randint(6144,6148)), int(randint(1,16)))
 			c.execute(insert_sql, data)
 		except Exception as e:
 			print(e)
 		connection.commit()
 
 def main():
-	seedDonor()
-	seedCharity()
+	# seedDonor()
+	# seedCharity()
 	seedCharityListing()
 
 main()
