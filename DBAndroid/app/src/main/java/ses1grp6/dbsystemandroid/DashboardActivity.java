@@ -16,6 +16,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import ses1grp6.dbsystemandroid.charity.CharityHistoryFragment;
 import ses1grp6.dbsystemandroid.charity.ListingCharityFragment;
 import ses1grp6.dbsystemandroid.donor.DonorHistoryFragment;
 import ses1grp6.dbsystemandroid.donor.DonorListFragment;
@@ -115,8 +116,11 @@ public class DashboardActivity extends AppCompatActivity {
 
             switch (menuItem.getItemId()) {
 
-                case R.id.donorNavDashboard:
-                    swapContainerFor(new DonorListFragment(), CHARITY_DASHBOARD_NAME);
+                case R.id.charityNavDashboard:
+                    swapContainerFor(new ListingCharityFragment(), CHARITY_DASHBOARD_NAME);
+                    break;
+                case R.id.charityNavHistory:
+                    swapContainerFor(new CharityHistoryFragment(), "Charity History");
                     break;
             }
             drawer.closeDrawer(Gravity.START);

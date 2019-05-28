@@ -40,6 +40,13 @@
             android:text="At 72 Happy Street, Happy city" />
 
         <TextView
+            android:id="@+id/donorHistoryIndustry"
+            style="@style/cardStyle.subTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Under Science" />
+
+        <TextView
             android:id="@+id/donorHistoryDescrip"
             style="@style/cardStyle.body"
             android:layout_width="match_parent"
