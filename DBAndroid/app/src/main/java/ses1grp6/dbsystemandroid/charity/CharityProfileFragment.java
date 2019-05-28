@@ -7,16 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 import ses1grp6.dbsystemandroid.R;
-import ses1grp6.dbsystemandroid.UserData;
-import ses1grp6.dbsystemandroid.UserType;
+import ses1grp6.dbsystemandroid.util.UserData;
 import ses1grp6.dbsystemandroid.network.DBSystemNetwork;
 import ses1grp6.dbsystemandroid.network.RequestResponse;
 

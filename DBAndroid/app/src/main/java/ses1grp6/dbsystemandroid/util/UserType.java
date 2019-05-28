@@ -1,4 +1,4 @@
-package ses1grp6.dbsystemandroid;
+package ses1grp6.dbsystemandroid.util;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
