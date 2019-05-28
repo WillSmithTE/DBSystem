@@ -19,4 +19,11 @@
     <string name="login_as_charity">I am a Charity</string>
     <string name="request_booking">Request Booking</string>
     <string name="booking_request">Booking Request</string>
+    <string name="post">Post</string>
+    <string name="you_can_describe_what_you_need_exactly_here">You can describe what you need exactly here!</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="location">Location</string>
+    <string name="industry">Industry</string>
+    <string name="date_and_time">Date and Time</string>
 </resources>

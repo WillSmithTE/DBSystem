@@ -12,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".donor.donorWizard"></activity>
+        <activity android:name=".charity.charityWizard"></activity>
+        <activity android:name=".donor.donorWizard" />
         <activity android:name=".donor.ProfileActivity" />
         <activity android:name=".LoginChoiceActivity" />
         <activity android:name=".DashboardActivity" />
