@@ -15,7 +15,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.UnknownHostException;
 
-import ses1grp6.dbsystemandroid.UserData;
+import ses1grp6.dbsystemandroid.util.UserData;
 
 public class SimpleRequest extends AsyncTask<Void, Void, RequestResponse> {
 
