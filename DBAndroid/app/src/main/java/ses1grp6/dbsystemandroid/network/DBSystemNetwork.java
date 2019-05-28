@@ -6,7 +6,6 @@ import org.json.JSONObject;
 
 public class DBSystemNetwork {
 
-
     public static final String API_URL = "http://172.19.136.85:8080";
 
     /**
