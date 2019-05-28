@@ -1,4 +1,4 @@
-package ses1grp6.dbsystemandroid.donor;
+package ses1grp6.dbsystemandroid.donor.model;
 
 import org.json.JSONException;
 import org.json.JSONObject;

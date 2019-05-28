@@ -24,8 +24,8 @@ import java.util.List;
 import java.util.Locale;
 
 import ses1grp6.dbsystemandroid.R;
-import ses1grp6.dbsystemandroid.SimpleRecyclerAdaptor;
-import ses1grp6.dbsystemandroid.UserData;
+import ses1grp6.dbsystemandroid.util.SimpleRecyclerAdaptor;
+import ses1grp6.dbsystemandroid.util.UserData;
 import ses1grp6.dbsystemandroid.network.DBSystemNetwork;
 import ses1grp6.dbsystemandroid.network.RequestResponse;
 

@@ -1,4 +1,4 @@
-package ses1grp6.dbsystemandroid;
+package ses1grp6.dbsystemandroid.launch;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import ses1grp6.dbsystemandroid.R;
 import ses1grp6.dbsystemandroid.network.DBSystemNetwork;
 import ses1grp6.dbsystemandroid.network.RequestResponse;
 

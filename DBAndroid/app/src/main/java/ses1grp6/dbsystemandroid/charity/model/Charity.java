@@ -1,4 +1,4 @@
-package ses1grp6.dbsystemandroid.charity;
+package ses1grp6.dbsystemandroid.charity.model;
 
 import org.json.JSONObject;
 

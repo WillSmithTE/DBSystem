@@ -1,4 +1,4 @@
-package ses1grp6.dbsystemandroid;
+package ses1grp6.dbsystemandroid.util;
 
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
