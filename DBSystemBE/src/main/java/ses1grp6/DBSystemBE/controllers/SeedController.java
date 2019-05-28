@@ -1,56 +1,65 @@
 package ses1grp6.DBSystemBE.controllers;
 
-import ses1grp6.DBSystemBE.model.*;
-import ses1grp6.DBSystemBE.repositories.*;
 import java.util.*; 
 import java.nio.charset.*; 
+import org.springframework.context.event.ContextRefreshedEvent;
+import ses1grp6.DBSystemBE.model.Charity;
+import ses1grp6.DBSystemBE.model.CharityUser;
+import ses1grp6.DBSystemBE.model.Donor;
+import ses1grp6.DBSystemBE.model.Application;
+import ses1grp6.DBSystemBE.repositories.CharityRepository;
+import ses1grp6.DBSystemBE.repositories.CharityUserRepository;
+import ses1grp6.DBSystemBE.repositories.DonorRepository;
+import org.springframework.context.event.EventListener;
 
 
 public class SeedController {
 
+    private CharityRepository charityRepository;
+    private DonorRepository donorRepository;
+    // private ApplicationRepository applicationRepository;
+
     @EventListener
-    private void seed(ContextRefreshedEvent event){
+    public void seed(ContextRefreshedEvent event){
         seedCharityTable();
         seedDonorTable();
-        seedApplicationTable();
+        // seedApplicationTable();
     }
     
 
     private void seedCharityTable(){
-        String sql = "SELECT c.name, c.email FROM charity c IMIT 1";
-        
-        List<Charity> data = jdbcTemplate.query(sql, (resultSet, rowNum) -> null);
-        if(data == null || data.size() <= 0) {
-             for(int i = 0; i < 100; i++){
+        // String sql = "SELECT c.name, c.email FROM charity c LIMIT 1";
+        // List<Charity> data = JdbcTemplate().query(sql, (resultSet, rowNum) -> null);
+        // if(data == null || data.size() <= 0) {
+        for(int i = 0; i < 100; i++){
 
-                Charity charity = new Charity();
-                charity.setName("Charity " + getRandomString(5));
-                charity.setEmail(getRandomString(5) + "@charitytest.com");
-                charity.setPassword(new BCryptPasswordEncoder().encode("test123"));
-                charity.setContactNumber(getRandomNumber());
-                charityRepository.save(charity);
-
-             }
+            Charity charity = new Charity();
+            charity.setName("Charity " + getRandomString(5));
+            charity.setEmail(getRandomString(5) + "@charitytest.com");
+            charity.setPassword("test123");
+            charity.setContactNumber("0402000000");
+            charityRepository.save(charity);
 
         }
+
+        // }
     }
 
     private void seedDonorTable(){
-        String sql = "SELECT d.name, d.email FROM donor d IMIT 1";
-        
-        List<Charity> data = jdbcTemplate.query(sql, (resultSet, rowNum) -> null);
-        if(data == null || data.size() <= 0) {
-             for(int i = 0; i < 100; i++){
+        // String sql = "SELECT d.name, d.email FROM donor d LIMIT 1";
+        // List<Charity> data = JdbcTemplate().query(sql, (resultSet, rowNum) -> null);
+        // if(data == null || data.size() <= 0) {
+        for(int i = 0; i < 100; i++){
 
-                Donor donor = new Donor();
-                donor.setName("Donor " + getRandomString(5));
-                donor.setEmail(getRandomString(5) + "@donortest.com");
-                donor.setPassword(new BCryptPasswordEncoder().encode("test123"));
-                donor.setContactNumber(getRandomNumber());
-                donorRepository.save(donor);
+            Donor donor = new Donor();
+            donor.setName("Donor " + getRandomString(5));
+            donor.setEmail(getRandomString(5) + "@donortest.com");
+            donor.setPassword("test123");
+            donor.setContactNumber("0402000000");
+            donorRepository.save(donor);
 
-             }
         }
+        // }
     }
 
 
@@ -61,9 +70,9 @@ public class SeedController {
     //         Application application = new Application();
     //         application.setName("Donor " + getRandomString(5));
     //         application.setEmail(getRandomString(5) + "@donortest.com");
-    //         application.setPassword(new BCryptPasswordEncoder().encode("test123"));
+    //         application.setPassword("test123");
     //         application.setContactNumber(getRandomNumber());
-    //         applicationRepository.save(donor);
+    //         applicationRepository.save(application);
     //     }
     // }
 
@@ -98,9 +107,10 @@ public class SeedController {
         return r.toString(); 
     } 
 
-    private int getRandomNumber(){
-        int n = 100000 + random_float() * 900000;
-        return n.toString();
-    }
+    // private int getRandomNumber(){
+    //     int n = 100000 + random_float() * 900000;
+    //     n = Integer.toString(n);
+    //     return n;
+    // }
 }
 

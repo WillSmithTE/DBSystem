@@ -43,15 +43,15 @@ public class DonorListFragment extends Fragment implements DonorsAdapter.ItemCli
     }
 
     private void getDonors(){
-        DBSystemNetwork.sendGetRequest(context, "donor/", new DBSystemNetwork.OnRequestComplete() {
+        DBSystemNetwork.sendGetRequest("donor/", new DBSystemNetwork.OnRequestComplete() {
             @Override
             public void onRequestCompleted(RequestResponse response) {
                 if (response.isConnectionSuccessful()) {
 
                     try {
                         donors = new ArrayList<>();
-                        for (int i = 0; i < response.getJsonArray().length(); i++) {
-                            JSONObject obj = response.getJsonArray().getJSONObject(i);
+                        for (int i = 0; i < response.getJsonObject().getJSONArray("body").length(); i++) {
+                            JSONObject obj = response.getJsonObject().getJSONArray("body").getJSONObject(i);
                             donors.add(new Donor(obj.getInt("id"), obj.getString("name"), obj.getString("email"), obj.getString("contactNumber")));
                         }
                         buildRecyclerView(donors);

@@ -26,4 +26,6 @@
     <string name="location">Location</string>
     <string name="industry">Industry</string>
     <string name="date_and_time">Date and Time</string>
+    <string name="registration_success_title">Your Registration was Successful!</string>
+    <string name="registration_success_subtext">We have sent you an email confirmation! Please confirm your account by clicking the link in the email.</string>
 </resources>

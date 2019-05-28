@@ -12,11 +12,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+
         <activity android:name=".charity.charityWizard"></activity>
         <activity android:name=".donor.donorWizard" />
+        <activity android:name=".RegistrationResultActivity" />
+
         <activity android:name=".donor.ProfileActivity" />
         <activity android:name=".LoginChoiceActivity" />
-        <activity android:name=".DashboardActivity" />
+        <activity android:name=".DashboardActivity" android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".RegistrationActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".LauncherActivity">
@@ -26,6 +29,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

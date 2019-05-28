@@ -14,14 +14,12 @@ public class LauncherActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launcher);
+        UserData.initialise(getApplicationContext());
 
         // TODO EVENTUALLY SKIP LOGIN IF ALREADY LOGGED IN ON THE DEVICE.
 
 
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
-
-//        Intent loginIntent = new Intent(this, LoginChoiceActivity.class);
-//        startActivity(loginIntent);
     }
 }

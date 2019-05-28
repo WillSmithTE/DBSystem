@@ -1,15 +1,19 @@
 package ses1grp6.DBSystemBE.model;
-
+import java.util.Date;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Basic;
 import javax.persistence.*;
 import javax.persistence.Entity;
 import java.util.Objects;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Application {
 
     @Id
     @Column(name="application_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long applicationID;
 
     @ManyToOne
@@ -34,11 +38,26 @@ public class Application {
     @Column(name = "contact_number")
     private String contactNumber;
 
+    @Column(name= "accepted")
+    private Integer accepted;
+
+    @Basic
+    @Column(name="created_at", updatable=false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private java.util.Date timestamp;
+
+    @PrePersist
+    public void prePersist() {
+        if (this.timestamp == null) {
+            this.timestamp = new Date();
+        }
+    }
+
     public Application() {
     }
 
 
-    public Application(Long applicationID, Donor donor, Charity charity, CharityListing charityListing, Industry industry, String coverLetter, String contactNumber) {
+    public Application(Long applicationID, Donor donor, Charity charity, CharityListing charityListing, Industry industry, String coverLetter, String contactNumber, Integer accepted, java.util.Date timestamp) {
         this.applicationID = applicationID;
         this.donor = donor;
         this.charity = charity;
@@ -46,6 +65,8 @@ public class Application {
         this.industry = industry;
         this.coverLetter = coverLetter;
         this.contactNumber = contactNumber;
+        this.accepted = accepted;
+        this.timestamp = timestamp;
     }
 
     public Long getApplicationID() {
@@ -104,6 +125,22 @@ public class Application {
         this.contactNumber = contactNumber;
     }
 
+    public Integer getAccepted() {
+        return this.accepted;
+    }
+
+    public void setAccepted(Integer accepted) {
+        this.accepted = accepted;
+    }
+
+    public java.util.Date getTimestamp() {
+        return this.timestamp;
+    }
+
+    public void setTimestamp(java.util.Date timestamp) {
+        this.timestamp = timestamp;
+    }
+
     public Application applicationID(Long applicationID) {
         this.applicationID = applicationID;
         return this;
@@ -139,34 +176,13 @@ public class Application {
         return this;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (o == this)
-            return true;
-        if (!(o instanceof Application)) {
-            return false;
-        }
-        Application application = (Application) o;
-        return Objects.equals(applicationID, application.applicationID) && Objects.equals(donor, application.donor) && Objects.equals(charity, application.charity) && Objects.equals(charityListing, application.charityListing) && Objects.equals(industry, application.industry) && Objects.equals(coverLetter, application.coverLetter) && Objects.equals(contactNumber, application.contactNumber);
+    public Application accepted(Integer accepted) {
+        this.accepted = accepted;
+        return this;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(applicationID, donor, charity, charityListing, industry, coverLetter, contactNumber);
-    }
-
-    @Override
-    public String toString() {
-        return "{" +
-            " applicationID='" + getApplicationID() + "'" +
-            ", donor='" + getDonor() + "'" +
-            ", charity='" + getCharity() + "'" +
-            ", charityListing='" + getCharityListing() + "'" +
-            ", industry='" + getIndustry() + "'" +
-            ", coverLetter='" + getCoverLetter() + "'" +
-            ", contactNumber='" + getContactNumber() + "'" +
-            "}";
-    }
-
-
+    public Application timestamp(java.util.Date timestamp) {
+        this.timestamp = timestamp;
+        return this;
+    }   
 }

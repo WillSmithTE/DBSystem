@@ -1,34 +1,43 @@
 package ses1grp6.DBSystemBE.model;
+import java.util.Date;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Basic;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Column;
+import java.util.Objects;
 
 @Entity
 public class CharityUser {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name="charity_user_id")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int charityUserID;
-   
     @ManyToOne
     @JoinColumn(name = "charity_id")
     private Charity charity;
-    
+    @Column(name="first_name")
     private String firstName;
+    @Column(name="last_name")
     private String lastName;
+    @Column(name="contact_number")
     private String contactNumber;
     private String password;
-    
-    @ManyToOne
-    @JoinColumn(name = "location_id")
-    private Location location;
-
+    private String location;
+    @Basic
+    @Column(name="created_at", updatable=false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private java.util.Date timestamp;
 
     public CharityUser() {
     }
 
-
-    public CharityUser(int charityUserID, Charity charity, String firstName, String lastName, String contactNumber, String password, Location location) {
+    public CharityUser(int charityUserID, Charity charity, String firstName, String lastName, String contactNumber, String password, String location) {
         this.charityUserID = charityUserID;
         this.charity = charity;
         this.firstName = firstName;
@@ -86,11 +95,11 @@ public class CharityUser {
         this.password = password;
     }
 
-    public Location getLocation() {
+    public String getLocation() {
         return this.location;
     }
 
-    public void setLocation(Location location) {
+    public void setLocation(String location) {
         this.location = location;
     }
 
@@ -124,7 +133,7 @@ public class CharityUser {
         return this;
     }
 
-    public CharityUser location(Location location) {
+    public CharityUser location(String location) {
         this.location = location;
         return this;
     }
@@ -157,6 +166,4 @@ public class CharityUser {
             ", location='" + getLocation() + "'" +
             "}";
     }
-
-
 }

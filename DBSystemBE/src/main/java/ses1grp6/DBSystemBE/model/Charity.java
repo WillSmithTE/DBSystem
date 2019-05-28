@@ -1,22 +1,32 @@
 package ses1grp6.DBSystemBE.model;
 
-import javax.persistence.Entity;
+import java.util.Date;
+import javax.persistence.*;
+import java.util.Objects;
 /**
  * Created by Will Smith on 4/4/19.
  */
- @Entity
-public class Charity extends User {
 
-    @Id
-    @Column(name="charity_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long charityID;
+@Entity
+public class Charity extends User{
 
+    @Column(name="charity_size")
     private int charitySize;
+
+    @Basic
+    @Column(name="created_at", updatable=false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private java.util.Date timestamp;
     
-    @ManyToOne
-    @JoinColumn(name = "industry_id")
-    private Industry industry;
+    @org.hibernate.annotations.Type( type = "text" )
+    private String charity_description;
+    
+    @PrePersist
+    public void prePersist() {
+        if (this.timestamp == null) {
+            this.timestamp = new Date();
+        }
+    }
 
     public Charity(RegistrationRequest registrationRequest) {
         super(registrationRequest);
@@ -25,19 +35,15 @@ public class Charity extends User {
     public Charity() {
     }
 
+    public Charity(int id) {
+        super(id);
+    }
 
-    public Charity(Long charityID, int charitySize, Industry industry) {
-        this.charityID = charityID;
+
+    public Charity(int charitySize, java.util.Date timestamp, String charity_description) {
         this.charitySize = charitySize;
-        this.industry = industry;
-    }
-
-    public Long getCharityID() {
-        return this.charityID;
-    }
-
-    public void setCharityID(Long charityID) {
-        this.charityID = charityID;
+        this.timestamp = timestamp;
+        this.charity_description = charity_description;
     }
 
     public int getCharitySize() {
@@ -48,53 +54,45 @@ public class Charity extends User {
         this.charitySize = charitySize;
     }
 
-    public Industry getIndustry() {
-        return this.industry;
+    public java.util.Date getTimestamp() {
+        return this.timestamp;
     }
 
-    public void setIndustry(Industry industry) {
-        this.industry = industry;
+    public void setTimestamp(java.util.Date timestamp) {
+        this.timestamp = timestamp;
     }
 
-    public Charity charityID(Long charityID) {
-        this.charityID = charityID;
-        return this;
+    public String getCharity_description() {
+        return this.charity_description;
     }
 
-    public Charity charitySize(int charitySize) {
-        this.charitySize = charitySize;
-        return this;
-    }
-
-    public Charity industry(Industry industry) {
-        this.industry = industry;
-        return this;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == this)
-            return true;
-        if (!(o instanceof Charity)) {
-            return false;
-        }
-        Charity charity = (Charity) o;
-        return Objects.equals(charityID, charity.charityID) && charitySize == charity.charitySize && Objects.equals(industry, charity.industry);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(charityID, charitySize, industry);
+    public void setCharity_description(String charity_description) {
+        this.charity_description = charity_description;
     }
 
     @Override
     public String toString() {
-        return "{" +
-            " charityID='" + getCharityID() + "'" +
-            ", charitySize='" + getCharitySize() + "'" +
-            ", industry='" + getIndustry() + "'" +
-            "}";
+        return "Charity{" +
+                "charitySize=" + charitySize +
+                ", timestamp=" + timestamp +
+                "} " + super.toString();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
+        Charity charity = (Charity) o;
+
+        if (charitySize != charity.charitySize) return false;
+        return timestamp != null ? timestamp.equals(charity.timestamp) : charity.timestamp == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = charitySize;
+        result = 31 * result + (timestamp != null ? timestamp.hashCode() : 0);
+        return result;
+    }
 }
