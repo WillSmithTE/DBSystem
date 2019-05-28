@@ -15,7 +15,7 @@ locations_csv = r'/home/pyr0/StudioProjects/DBSystem2/DBSystem/locations_SS1A.cs
 df_locations = pd.read_csv(locations_csv)
 
 def seedDonor():
-	for i in range(500):
+	for i in range(5):
 		try:
 			insert_sql = (
 				"""INSERT INTO `donor` (name, contact_number, email, email_confirmed, password) 
@@ -29,7 +29,7 @@ def seedDonor():
 		connection.commit()
 
 def seedCharity():
-	for i in range(500):
+	for i in range(5):
 		try:
 			insert_sql = (
 				"""INSERT INTO `charity` (name, charity_description, contact_number, email, email_confirmed, charity_size, password) 
@@ -45,7 +45,7 @@ def seedCharity():
 def seedCharityListing():
 	
 	locations = df_locations['locations']
-	for location in locations:
+	for i in range(5):
 		try:
 			insert_sql = (
 				"""INSERT INTO `charity_listing` (listing_title, listing_description, location, charity_id, industry_id) 
@@ -66,8 +66,8 @@ def seedCharityListing():
 		connection.commit()
 
 def main():
-	#seedDonor()
-	#seedCharity()
+	seedDonor()
+	seedCharity()
 	seedCharityListing()
 
 main()
