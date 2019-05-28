@@ -1,17 +1,16 @@
 package ses1grp6.dbsystemandroid.donor;
 
-import android.content.ClipData;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import ses1grp6.dbsystemandroid.R;
+import ses1grp6.dbsystemandroid.donor.model.Donor;
 
 public class DonorsAdapter extends RecyclerView.Adapter<DonorsAdapter.DonorListViewHolder> {
     ArrayList<Donor> donors;
@@ -46,7 +45,7 @@ public class DonorsAdapter extends RecyclerView.Adapter<DonorsAdapter.DonorListV
 
         String name = donor.getName();
         String email = donor.getEmail();
-        String phone = donor.getPhone();
+        String phone = donor.getContactNumber();
         final int id = donor.getId();
 
         ((TextView)donorListViewHolder.itemView.findViewById(R.id.donor_item_name)).setText(name);

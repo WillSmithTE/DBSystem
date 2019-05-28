@@ -13,9 +13,11 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import ses1grp6.dbsystemandroid.R;
+import ses1grp6.dbsystemandroid.charity.model.Listing;
 import ses1grp6.dbsystemandroid.network.DBSystemNetwork;
 import ses1grp6.dbsystemandroid.network.RequestResponse;
 
@@ -50,7 +52,7 @@ public class ListingFragment extends Fragment implements ListingAdapter.ItemClic
                             listingCharities.add(new Listing(obj));
                         }
                         buildRecyclerView(listingCharities);
-                    } catch (JSONException e) {
+                    } catch (JSONException | ParseException e) {
                         System.out.println(e);
                     }
 

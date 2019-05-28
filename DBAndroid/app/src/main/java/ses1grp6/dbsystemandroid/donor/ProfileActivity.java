@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import ses1grp6.dbsystemandroid.R;
+import ses1grp6.dbsystemandroid.donor.model.Donor;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -18,6 +19,6 @@ public class ProfileActivity extends AppCompatActivity {
         t.setText("" + donor.getId());
         ((TextView)findViewById(R.id.nameProfileTV)).setText(donor.getName());
         ((TextView)findViewById(R.id.emailProfileTV)).setText(donor.getEmail());
-        ((TextView)findViewById(R.id.phoneProfileTV)).setText(donor.getPhone());
+        ((TextView)findViewById(R.id.phoneProfileTV)).setText(donor.getContactNumber());
     }
 }

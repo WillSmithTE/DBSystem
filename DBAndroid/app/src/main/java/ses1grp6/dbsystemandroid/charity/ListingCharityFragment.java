@@ -14,10 +14,11 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import ses1grp6.dbsystemandroid.R;
-import ses1grp6.dbsystemandroid.charity.model.ListingCharity;
+import ses1grp6.dbsystemandroid.charity.model.Listing;
 import ses1grp6.dbsystemandroid.network.DBSystemNetwork;
 import ses1grp6.dbsystemandroid.network.RequestResponse;
 import ses1grp6.dbsystemandroid.util.UserData;
@@ -26,7 +27,7 @@ public class ListingCharityFragment extends Fragment implements ListingCharities
     Context context;
     View rootView;
     ListingCharitiesAdapter adapter;
-    ArrayList<ListingCharity> listingCharities;
+    ArrayList<Listing> listingCharities;
 
     public ListingCharityFragment()  {
     }
@@ -61,10 +62,10 @@ public class ListingCharityFragment extends Fragment implements ListingCharities
                         System.out.println("REACHED oncreateivew listingcharities" + response.data);
                         for (int i = 0; i < response.getJsonObject().getJSONArray("body").length(); i++) {
                             JSONObject obj = response.getJsonObject().getJSONArray("body").getJSONObject(i);
-                            listingCharities.add(new ListingCharity(obj));
+                            listingCharities.add(new Listing(obj));
                         }
                         buildRecyclerView(listingCharities);
-                    } catch (JSONException e) {
+                    } catch (JSONException | ParseException e) {
                         System.out.println(e);
                     }
 
@@ -76,7 +77,7 @@ public class ListingCharityFragment extends Fragment implements ListingCharities
         });
     }
 
-    private void buildRecyclerView(ArrayList<ListingCharity> listingCharities){
+    private void buildRecyclerView(ArrayList<Listing> listingCharities){
         // Setting up the RecyclerView
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.listingCharitiesRecyclerView);
         LinearLayoutManager manager = new LinearLayoutManager(context);
@@ -95,8 +96,8 @@ public class ListingCharityFragment extends Fragment implements ListingCharities
 //        System.out.println(s);
 //
 //        Intent intent = new Intent(getActivity(), ProfileActivity.class);
-//        ListingCharity donor = listingCharities.get(0);
-//        for (ListingCharity d : donors){
+//        Listing donor = listingCharities.get(0);
+//        for (Listing d : donors){
 //            if (d.getId() == id) {
 //                donor = d;
 //            }
