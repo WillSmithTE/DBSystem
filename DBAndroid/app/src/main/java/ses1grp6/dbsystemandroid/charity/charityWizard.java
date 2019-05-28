@@ -47,7 +47,8 @@ public class charityWizard extends AppCompatActivity {
                 if (response.hasStatusSuccessful()) {
 
                     Intent intent = new Intent(charityWizard.this, SimpleResultActivity.class);
-                    new ResultData("Listing Added", "");
+                    ResultData resultData = new ResultData("Listing Added", "");
+                    resultData.putToIntent(intent);
                     startActivity(intent);
                 } else {
                     Toast.makeText(charityWizard.this, response.getErrorMessage(),
