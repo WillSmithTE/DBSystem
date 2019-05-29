@@ -40,9 +40,9 @@ public class Application implements Parcelable {
         this.donor = new Donor(obj.getJSONObject(DONOR));
         this.charity = new Charity(obj.getJSONObject(CHARITY));
         this.coverLetter = obj.getString(COVER_LETTER);
-        this.contactNumber = obj.getString(CONTACT_NUMBER);
-        setTimestamp(obj.getString(TIMESTAMP));
-        this.industry = obj.getString(INDUSTRY);
+        if (obj.has(CONTACT_NUMBER)) this.contactNumber = obj.getString(CONTACT_NUMBER);
+        if (obj.has(TIMESTAMP)) setTimestamp(obj.getString(TIMESTAMP));
+        if (obj.has(INDUSTRY)) this.industry = obj.getString(INDUSTRY);
     }
 
     public void putToIntent(Intent intent) {

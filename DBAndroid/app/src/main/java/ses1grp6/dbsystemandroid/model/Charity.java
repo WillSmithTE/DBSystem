@@ -13,6 +13,11 @@ import java.util.Date;
 
 public class Charity implements Parcelable {
 
+    private static final String ID = "id";
+    private static final String NAME = "name";
+    private static final String EMAIL = "email";
+    private static final String CONTACT_NUMBER = "contactNumber";
+    private static final String TIMESTAMP = "timestamp";
     private int id;
     private String name;
     private String email;
@@ -26,11 +31,11 @@ public class Charity implements Parcelable {
     }
 
     public Charity(JSONObject obj) throws JSONException, ParseException {
-        this.id = obj.getInt("id");
-        this.name = obj.getString("name");
-        this.email = obj.getString("email");
-        this.contactNumber = obj.getString("contactNumber");
-        setTimestamp(obj.getString("timestamp"));
+        this.id = obj.getInt(ID);
+        this.name = obj.getString(NAME);
+        this.email = obj.getString(EMAIL);
+        this.contactNumber = obj.getString(CONTACT_NUMBER);
+        setTimestamp(obj.getString(TIMESTAMP));
     }
 
     public void putToIntent(Intent intent) {

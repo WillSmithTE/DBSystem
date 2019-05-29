@@ -18,18 +18,24 @@ public class Listing implements Parcelable {
     private static final String CONTACT_NUMBER = "contactNumber";
     private static final String LISTING_DESCRIPTION = "listingDescription";
     private static final String INDUSTRY = "industry";
-    private static final String TIMESTAMP = "timestamp";
+    private static final String CREATED_AT = "createdAt";
     private static final String LOCATION = "location";
     private static final String LISTING_TITLE = "listingTitle";
     private static final String CHARITY = "charity";
+    private static final String EVENT_START_DATE = "eventStartDate";
+    private static final String EVENT_END_DATE = "eventEndDate";
+    private static final String EXPIRES_AT = "expires_at";
     private int id;
     private Charity charity;
     private String listingTitle;
     private String contactNumber;
     private String listingDescription;
     private String location;
-    private Date timestamp;
+    private Date createdAt;
+    private Date eventStartDate;
+    private Date eventEndDate;
     private String industry;
+    private Date expiresAt;
 
 
     public Listing(int id, Charity charity) {
@@ -41,11 +47,14 @@ public class Listing implements Parcelable {
         this.listingTitle = obj.getString(LISTING_TITLE);
         this.listingDescription = obj.getString(LISTING_DESCRIPTION);
         this.location = obj.getString(LOCATION);
-        setTimestamp(obj.getString(TIMESTAMP));
+        setCreatedAt(obj.getString(CREATED_AT));
         this.id = obj.getInt(ID);
         this.charity = new Charity(obj.getJSONObject(CHARITY));
-        this.contactNumber = obj.getString(CONTACT_NUMBER);
-        this.industry = obj.getString(INDUSTRY);
+        if (obj.has(CONTACT_NUMBER)) this.contactNumber = obj.getString(CONTACT_NUMBER);
+        if (obj.has(INDUSTRY)) this.industry = obj.getString(INDUSTRY);
+        if (obj.has(EVENT_START_DATE)) setEventStartDate(obj.getString(EVENT_START_DATE));
+        if (obj.has(EVENT_END_DATE)) setEventEndDate(obj.getString(EVENT_END_DATE));
+        if (obj.has(EXPIRES_AT)) setExpiresAt(obj.getString(EXPIRES_AT));
     }
 
     public boolean hasListingTitle() {
@@ -58,6 +67,18 @@ public class Listing implements Parcelable {
 
     public boolean hasListingDescription() {
         return listingDescription != null;
+    }
+
+    public boolean hasEventStartDate() {
+        return eventStartDate != null;
+    }
+
+    public boolean hasEventEndDate() {
+        return eventEndDate != null;
+    }
+
+    public boolean hasExpiresAt() {
+        return expiresAt != null;
     }
 
     public boolean hasLocation() {
@@ -92,12 +113,40 @@ public class Listing implements Parcelable {
         this.location = location;
     }
 
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public void setTimestamp(String timestampString) throws ParseException {
-        this.timestamp = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(timestampString);;
+    private Date getDateFromString(String s) throws ParseException {
+        return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(s);
+    }
+
+    public void setCreatedAt(String s) throws ParseException {
+        this.createdAt = getDateFromString(s);
+    }
+
+    public void setEventStartDate(String s) throws ParseException {
+        this.eventStartDate = getDateFromString(s);
+    }
+
+    public void setEventEndDate(String s) throws ParseException {
+        this.eventEndDate = getDateFromString(s);
+    }
+
+    public void setExpiresAt(String s) throws ParseException {
+        this.eventEndDate = getDateFromString(s);
+    }
+
+    public void setEventStartDate(Date eventStartDate) {
+        this.eventStartDate = eventStartDate;
+    }
+
+    public void setEventEndDate(Date eventEndDate) {
+        this.eventEndDate = eventEndDate;
+    }
+
+    public void setExpiresAt(Date expiresAt) {
+        this.expiresAt = expiresAt;
     }
 
     public void setIndustry(String industry) {
@@ -132,12 +181,24 @@ public class Listing implements Parcelable {
         return industry;
     }
 
-    public Date getTimestamp() {
-        return timestamp;
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public Date getEventStartDate() {
+        return eventStartDate;
+    }
+
+    public Date getEventEndDate() {
+        return eventEndDate;
+    }
+
+    public Date getExpiresAt() {
+        return expiresAt;
     }
 
     public String getFormattedTimestamp() {
-        return new SimpleDateFormat("dd MM yyyy").format(timestamp);
+        return new SimpleDateFormat("dd MM yyyy").format(createdAt);
     }
 
     @Override
@@ -153,7 +214,7 @@ public class Listing implements Parcelable {
         dest.writeString(this.contactNumber);
         dest.writeString(this.listingDescription);
         dest.writeString(this.location);
-        dest.writeLong(this.timestamp != null ? this.timestamp.getTime() : -1);
+        dest.writeLong(this.createdAt != null ? this.createdAt.getTime() : -1);
         dest.writeString(this.industry);
     }
 
@@ -165,7 +226,7 @@ public class Listing implements Parcelable {
         this.listingDescription = in.readString();
         this.location = in.readString();
         long tmpTimestamp = in.readLong();
-        this.timestamp = tmpTimestamp == -1 ? null : new Date(tmpTimestamp);
+        this.createdAt = tmpTimestamp == -1 ? null : new Date(tmpTimestamp);
         this.industry = in.readString();
     }
 
