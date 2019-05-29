@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import ses1grp6.dbsystemandroid.R;
-import ses1grp6.dbsystemandroid.charity.model.Listing;
+import ses1grp6.dbsystemandroid.model.Listing;
 
 public class ListingActivity extends AppCompatActivity {
 

@@ -10,7 +10,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import ses1grp6.dbsystemandroid.R;
-import ses1grp6.dbsystemandroid.donor.model.Donor;
+import ses1grp6.dbsystemandroid.model.Donor;
 
 public class DonorsAdapter extends RecyclerView.Adapter<DonorsAdapter.DonorListViewHolder> {
     ArrayList<Donor> donors;

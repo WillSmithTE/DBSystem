@@ -1,7 +1,6 @@
-package ses1grp6.dbsystemandroid.donor.model;
+package ses1grp6.dbsystemandroid.model;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -12,80 +11,85 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import ses1grp6.dbsystemandroid.charity.model.Charity;
+public class Listing implements Parcelable {
 
-public class Application implements Parcelable {
-
-    private final static String INTENT_NAME = "applicationModel";
-    private static final String DONOR = "donor";
-    private static final String CHARITY = "charity";
-    private static final String COVER_LETTER = "coverLetter";
+    private static final String INTENT_NAME = "listingModel";
+    private static final String ID = "id";
     private static final String CONTACT_NUMBER = "contactNumber";
+    private static final String LISTING_DESCRIPTION = "listingDescription";
     private static final String INDUSTRY = "industry";
     private static final String TIMESTAMP = "timestamp";
-    private static final String ID = "id";
+    private static final String LOCATION = "location";
+    private static final String LISTING_TITLE = "listingTitle";
+    private static final String CHARITY = "charity";
     private int id;
-    private Donor donor;
     private Charity charity;
-    private String coverLetter;
+    private String listingTitle;
     private String contactNumber;
+    private String listingDescription;
+    private String location;
     private Date timestamp;
     private String industry;
 
-    public Application(int id, Donor donor, Charity charity) {
+
+    public Listing(int id, Charity charity) {
         this.id = id;
-        this.donor = donor;
         this.charity = charity;
     }
 
-    public Application(JSONObject obj) throws ParseException, JSONException {
-        this.id = obj.getInt(ID);
-        this.donor = new Donor(obj.getJSONObject(DONOR));
-        this.charity = new Charity(obj.getJSONObject(CHARITY));
-        this.coverLetter = obj.getString(COVER_LETTER);
-        this.contactNumber = obj.getString(CONTACT_NUMBER);
+    public Listing(JSONObject obj) throws JSONException, ParseException {
+        this.listingTitle = obj.getString(LISTING_TITLE);
+        this.listingDescription = obj.getString(LISTING_DESCRIPTION);
+        this.location = obj.getString(LOCATION);
         setTimestamp(obj.getString(TIMESTAMP));
+        this.id = obj.getInt(ID);
+        this.charity = new Charity(obj.getJSONObject(CHARITY));
+        this.contactNumber = obj.getString(CONTACT_NUMBER);
         this.industry = obj.getString(INDUSTRY);
     }
 
-    public void putToIntent(Intent intent) {
-        intent.putExtra(INTENT_NAME, this);
-    }
-
-    public static Application getFromIntent(Intent intent) {
-        return intent.getParcelableExtra(INTENT_NAME);
-    }
-
-    public boolean hasCoverLetter() {
-        return coverLetter != null;
+    public boolean hasListingTitle() {
+        return listingTitle != null;
     }
 
     public boolean hasContactNumber() {
         return contactNumber != null;
     }
 
-    public boolean hasTimestamp() {
-        return timestamp != null;
+    public boolean hasListingDescription() {
+        return listingDescription != null;
+    }
+
+    public boolean hasLocation() {
+        return location != null;
     }
 
     public boolean hasIndustry() {
         return industry != null;
     }
 
-    public void setDonor(Donor donor) {
-        this.donor = donor;
+    public void putToIntent(Intent intent) {
+        intent.putExtra(INTENT_NAME, this);
     }
 
-    public void setCharity(Charity charity) {
-        this.charity = charity;
+    public static Listing getFromIntent(Intent intent) {
+        return intent.getParcelableExtra(INTENT_NAME);
     }
 
-    public void setCoverLetter(String coverLetter) {
-        this.coverLetter = coverLetter;
+    public void setListingTitle(String listingTitle) {
+        this.listingTitle = listingTitle;
     }
 
     public void setContactNumber(String contactNumber) {
         this.contactNumber = contactNumber;
+    }
+
+    public void setListingDescription(String listingDescription) {
+        this.listingDescription = listingDescription;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public void setTimestamp(Date timestamp) {
@@ -100,24 +104,28 @@ public class Application implements Parcelable {
         this.industry = industry;
     }
 
-    public Donor getDonor() {
-        return donor;
+    public int getId() {
+        return id;
     }
 
     public Charity getCharity() {
         return charity;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public String getCoverLetter() {
-        return coverLetter;
+    public String getListingTitle() {
+        return listingTitle;
     }
 
     public String getContactNumber() {
         return contactNumber;
+    }
+
+    public String getListingDescription() {
+        return listingDescription;
+    }
+
+    public String getLocation() {
+        return location;
     }
 
     public String getIndustry() {
@@ -140,34 +148,36 @@ public class Application implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.id);
-        dest.writeParcelable(this.donor, flags);
         dest.writeParcelable(this.charity, flags);
-        dest.writeString(this.coverLetter);
+        dest.writeString(this.listingTitle);
         dest.writeString(this.contactNumber);
+        dest.writeString(this.listingDescription);
+        dest.writeString(this.location);
         dest.writeLong(this.timestamp != null ? this.timestamp.getTime() : -1);
         dest.writeString(this.industry);
     }
 
-    protected Application(Parcel in) {
+    protected Listing(Parcel in) {
         this.id = in.readInt();
-        this.donor = (Donor) in.readSerializable();
         this.charity = in.readParcelable(Charity.class.getClassLoader());
-        this.coverLetter = in.readString();
+        this.listingTitle = in.readString();
         this.contactNumber = in.readString();
+        this.listingDescription = in.readString();
+        this.location = in.readString();
         long tmpTimestamp = in.readLong();
         this.timestamp = tmpTimestamp == -1 ? null : new Date(tmpTimestamp);
         this.industry = in.readString();
     }
 
-    public static final Parcelable.Creator<Application> CREATOR = new Parcelable.Creator<Application>() {
+    public static final Parcelable.Creator<Listing> CREATOR = new Parcelable.Creator<Listing>() {
         @Override
-        public Application createFromParcel(Parcel source) {
-            return new Application(source);
+        public Listing createFromParcel(Parcel source) {
+            return new Listing(source);
         }
 
         @Override
-        public Application[] newArray(int size) {
-            return new Application[size];
+        public Listing[] newArray(int size) {
+            return new Listing[size];
         }
     };
 }

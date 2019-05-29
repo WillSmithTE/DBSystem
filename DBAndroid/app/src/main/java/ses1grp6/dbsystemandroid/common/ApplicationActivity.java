@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import ses1grp6.dbsystemandroid.R;
-import ses1grp6.dbsystemandroid.donor.model.Application;
+import ses1grp6.dbsystemandroid.model.Application;
 
 public class ApplicationActivity extends AppCompatActivity {
 

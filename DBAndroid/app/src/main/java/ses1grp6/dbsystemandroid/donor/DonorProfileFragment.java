@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import ses1grp6.dbsystemandroid.R;
-import ses1grp6.dbsystemandroid.donor.model.Donor;
 
 public class DonorProfileFragment extends Fragment {
     Context context;

@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ses1grp6.dbsystemandroid.R;
-import ses1grp6.dbsystemandroid.charity.model.Listing;
+import ses1grp6.dbsystemandroid.model.Listing;
 import ses1grp6.dbsystemandroid.util.SimpleRecyclerAdaptor;
 import ses1grp6.dbsystemandroid.util.UserData;
 import ses1grp6.dbsystemandroid.network.DBSystemNetwork;
