@@ -40,6 +40,18 @@ public class Donor implements Parcelable {
         setTimestamp(jsonObject.getString(TIMESTAMP));
     }
 
+    public boolean hasName() {
+        return name != null;
+    }
+
+    public boolean hasContactNumber() {
+        return contactNumber != null;
+    }
+
+    public boolean hasTimestamp() {
+        return timestamp != null;
+    }
+
     public void putToIntent(Intent intent) {
         intent.putExtra(INTENT_NAME, this);
     }

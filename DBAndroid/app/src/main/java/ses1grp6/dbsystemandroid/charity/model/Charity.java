@@ -42,6 +42,18 @@ public class Charity implements Parcelable {
         return intent.getParcelableExtra(INTENT_NAME);
     }
 
+    public boolean hasName() {
+        return name != null;
+    }
+
+    public boolean hasContactNumber() {
+        return contactNumber != null;
+    }
+
+    public boolean hasTimestamp() {
+        return timestamp != null;
+    }
+
     public void setName(String name) {
         this.name = name;
     }

@@ -50,6 +50,26 @@ public class Listing implements Parcelable {
         this.industry = obj.getString(INDUSTRY);
     }
 
+    public boolean hasListingTitle() {
+        return listingTitle != null;
+    }
+
+    public boolean hasContactNumber() {
+        return contactNumber != null;
+    }
+
+    public boolean hasListingDescription() {
+        return listingDescription != null;
+    }
+
+    public boolean hasLocation() {
+        return location != null;
+    }
+
+    public boolean hasIndustry() {
+        return industry != null;
+    }
+
     public void putToIntent(Intent intent) {
         intent.putExtra(INTENT_NAME, this);
     }

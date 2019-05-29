@@ -17,7 +17,6 @@ import ses1grp6.dbsystemandroid.charity.model.Charity;
 public class Application implements Parcelable {
 
     private final static String INTENT_NAME = "applicationModel";
-    private static final String TITLE = "title";
     private static final String DONOR = "donor";
     private static final String CHARITY = "charity";
     private static final String COVER_LETTER = "coverLetter";
@@ -26,7 +25,6 @@ public class Application implements Parcelable {
     private static final String TIMESTAMP = "timestamp";
     private static final String ID = "id";
     private int id;
-    private String title;
     private Donor donor;
     private Charity charity;
     private String coverLetter;
@@ -34,13 +32,14 @@ public class Application implements Parcelable {
     private Date timestamp;
     private String industry;
 
-    public Application(int id) {
+    public Application(int id, Donor donor, Charity charity) {
         this.id = id;
+        this.donor = donor;
+        this.charity = charity;
     }
 
     public Application(JSONObject obj) throws ParseException, JSONException {
         this.id = obj.getInt(ID);
-        this.title = obj.getString(TITLE);
         this.donor = new Donor(obj.getJSONObject(DONOR));
         this.charity = new Charity(obj.getJSONObject(CHARITY));
         this.coverLetter = obj.getString(COVER_LETTER);
@@ -57,8 +56,20 @@ public class Application implements Parcelable {
         return intent.getParcelableExtra(INTENT_NAME);
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public boolean hasCoverLetter() {
+        return coverLetter != null;
+    }
+
+    public boolean hasContactNumber() {
+        return contactNumber != null;
+    }
+
+    public boolean hasTimestamp() {
+        return timestamp != null;
+    }
+
+    public boolean hasIndustry() {
+        return industry != null;
     }
 
     public void setDonor(Donor donor) {
@@ -87,10 +98,6 @@ public class Application implements Parcelable {
 
     public void setIndustry(String industry) {
         this.industry = industry;
-    }
-
-    public String getTitle() {
-        return title;
     }
 
     public Donor getDonor() {
@@ -133,7 +140,6 @@ public class Application implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.id);
-        dest.writeString(this.title);
         dest.writeParcelable(this.donor, flags);
         dest.writeParcelable(this.charity, flags);
         dest.writeString(this.coverLetter);
@@ -144,7 +150,6 @@ public class Application implements Parcelable {
 
     protected Application(Parcel in) {
         this.id = in.readInt();
-        this.title = in.readString();
         this.donor = (Donor) in.readSerializable();
         this.charity = in.readParcelable(Charity.class.getClassLoader());
         this.coverLetter = in.readString();
