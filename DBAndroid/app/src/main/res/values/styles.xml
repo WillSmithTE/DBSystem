@@ -38,6 +38,16 @@
         <item name="android:textSize">16sp</item>
     </style>
 
+    <style name="date" parent="AppTheme">
+        <item name="android:textColor">@color/colorThinBlack</item>
+        <item name="android:fontFamily">@font/secular_one</item>
+        <item name="android:textSize">9sp</item>
+    </style>
+
+    <style name="date.center">
+        <item name="android:gravity">center</item>
+    </style>
+
     <style name="body" parent="AppTheme">
         <item name="android:textColor">@color/colorThinBlack</item>
         <item name="android:fontFamily">@font/droid_sans</item>
