@@ -1,12 +1,10 @@
 package ses1grp6.dbsystemandroid.network;
 
-import android.content.Context;
-
 import org.json.JSONObject;
 
 public class DBSystemNetwork {
 
-    public static final String API_URL = "http://192.168.0.31:8080";
+    public static final String API_URL = "http://192.168.43.82:8080";
 
     /**
      * Sends a POST request with a JSON to {@link DBSystemNetwork#API_URL} plus the request mapping specified.

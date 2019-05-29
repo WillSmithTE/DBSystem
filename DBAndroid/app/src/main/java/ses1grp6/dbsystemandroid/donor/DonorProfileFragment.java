@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import ses1grp6.dbsystemandroid.R;
+import ses1grp6.dbsystemandroid.donor.model.Donor;
 
 public class DonorProfileFragment extends Fragment {
     Context context;
@@ -18,8 +19,6 @@ public class DonorProfileFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Donor donor = new Donor(1, "name", "email", "phone");
-
         this.context = getContext();
         rootView = inflater.inflate(R.layout.donor_item, container, true);
 

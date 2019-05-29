@@ -14,9 +14,11 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import ses1grp6.dbsystemandroid.R;
+import ses1grp6.dbsystemandroid.donor.model.Donor;
 import ses1grp6.dbsystemandroid.network.DBSystemNetwork;
 import ses1grp6.dbsystemandroid.network.RequestResponse;
 
@@ -47,10 +49,10 @@ public class DonorListFragment extends Fragment implements DonorsAdapter.ItemCli
                         donors = new ArrayList<>();
                         for (int i = 0; i < response.getJsonObject().getJSONArray("body").length(); i++) {
                             JSONObject obj = response.getJsonObject().getJSONArray("body").getJSONObject(i);
-                            donors.add(new Donor(obj.getInt("id"), obj.getString("name"), obj.getString("email"), obj.getString("contactNumber")));
+                            donors.add(new Donor(obj));
                         }
                         buildRecyclerView(donors);
-                    } catch (JSONException e) {
+                    } catch (JSONException | ParseException e) {
                         System.out.println(e);
                     }
 

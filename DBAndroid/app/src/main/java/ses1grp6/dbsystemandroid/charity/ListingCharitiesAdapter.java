@@ -10,10 +10,10 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import ses1grp6.dbsystemandroid.R;
-import ses1grp6.dbsystemandroid.charity.model.ListingCharity;
+import ses1grp6.dbsystemandroid.charity.model.Listing;
 
 public class ListingCharitiesAdapter extends RecyclerView.Adapter<ListingCharitiesAdapter.DonorListViewHolder> {
-    ArrayList<ListingCharity> donors;
+    ArrayList<Listing> donors;
     private ItemClickListener itemClickListener;
 
     public int getItem(int position) { return donors.get(position - 1).getId(); }
@@ -28,7 +28,7 @@ public class ListingCharitiesAdapter extends RecyclerView.Adapter<ListingChariti
         }
     }
 
-    public ListingCharitiesAdapter(ArrayList<ListingCharity> donors){
+    public ListingCharitiesAdapter(ArrayList<Listing> donors){
         this.donors = donors;
     }
 
@@ -41,7 +41,7 @@ public class ListingCharitiesAdapter extends RecyclerView.Adapter<ListingChariti
 
     @Override
     public void onBindViewHolder(@NonNull final DonorListViewHolder donorListViewHolder, int i) {
-        ListingCharity donor = donors.get(i);
+        Listing donor = donors.get(i);
 
         String listingTitle = donor.getListingTitle();
         String listingDesc = donor.getListingDescription();
