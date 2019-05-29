@@ -22,7 +22,7 @@ public class SimpleResultActivity extends AppCompatActivity {
         TextView body = findViewById(R.id.resultBody);
 
         title.setText(resultData.title);
-        title.setText(resultData.body);
+        body.setText(resultData.body);
     }
 
     public void onBackToDashboardClicked(View view) {

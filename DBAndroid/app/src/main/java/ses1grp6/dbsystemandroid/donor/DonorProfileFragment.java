@@ -19,8 +19,6 @@ public class DonorProfileFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Donor donor = new Donor(1, "name", "email", "contactNumber");
-
         this.context = getContext();
         rootView = inflater.inflate(R.layout.donor_item, container, true);
 

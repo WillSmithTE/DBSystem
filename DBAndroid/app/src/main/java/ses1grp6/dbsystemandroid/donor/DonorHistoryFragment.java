@@ -17,11 +17,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import ses1grp6.dbsystemandroid.R;
 import ses1grp6.dbsystemandroid.charity.model.Listing;
@@ -94,7 +91,7 @@ public class DonorHistoryFragment extends Fragment implements SimpleRecyclerAdap
     public void onBindViewHolder(@NonNull HistoryHolder viewHolder, int i) {
         Listing hist = history.get(i);
         viewHolder.title.setText("For  \"" + hist.getListingTitle() + "\"");
-        viewHolder.time.setText(hist.getTimestampString()); // Hacky fix to cut off text by adding space.
+        viewHolder.time.setText(hist.getFormattedTimestamp()); // Hacky fix to cut off text by adding space.
         viewHolder.charityName.setText("By " + hist.getCharity().getName());
         viewHolder.address.setText("At " + hist.getLocation());
         String descip = hist.getListingDescription().substring(0, Math.min(hist.getListingDescription().length(), 90));

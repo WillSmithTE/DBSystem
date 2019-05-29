@@ -1,7 +1,5 @@
 package ses1grp6.dbsystemandroid.network;
 
-import android.content.Context;
-
 import org.json.JSONObject;
 
 public class DBSystemNetwork {
