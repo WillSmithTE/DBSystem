@@ -1,26 +1,13 @@
 package ses1grp6.DBSystemBE.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.TransactionException;
-import ses1grp6.DBSystemBE.model.*;
+import org.springframework.web.bind.annotation.*;
 import ses1grp6.DBSystemBE.model.ResponseStatus;
+import ses1grp6.DBSystemBE.model.*;
 import ses1grp6.DBSystemBE.repositories.CharityRepository;
 import ses1grp6.DBSystemBE.repositories.DonorRepository;
-import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 import ses1grp6.DBSystemBE.repositories.UserRepository;
-
-import java.nio.charset.Charset;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
-import java.util.Date;
-import java.util.Optional;
-import java.util.Properties;
-import java.util.function.Supplier;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -31,7 +18,14 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.persistence.PersistenceException;
+import java.nio.charset.Charset;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
+import java.util.Optional;
+import java.util.Properties;
+import java.util.function.Supplier;
 
 /**
  * Created by Will Smith on 4/4/19.

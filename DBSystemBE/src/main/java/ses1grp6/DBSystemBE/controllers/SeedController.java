@@ -1,16 +1,14 @@
 package ses1grp6.DBSystemBE.controllers;
 
-import java.util.*; 
-import java.nio.charset.*; 
 import org.springframework.context.event.ContextRefreshedEvent;
-import ses1grp6.DBSystemBE.model.Charity;
-import ses1grp6.DBSystemBE.model.CharityUser;
-import ses1grp6.DBSystemBE.model.Donor;
-import ses1grp6.DBSystemBE.model.Application;
-import ses1grp6.DBSystemBE.repositories.CharityRepository;
-import ses1grp6.DBSystemBE.repositories.CharityUserRepository;
-import ses1grp6.DBSystemBE.repositories.DonorRepository;
 import org.springframework.context.event.EventListener;
+import ses1grp6.DBSystemBE.model.Charity;
+import ses1grp6.DBSystemBE.model.Donor;
+import ses1grp6.DBSystemBE.repositories.CharityRepository;
+import ses1grp6.DBSystemBE.repositories.DonorRepository;
+
+import java.nio.charset.Charset;
+import java.util.Random;
 
 
 public class SeedController {

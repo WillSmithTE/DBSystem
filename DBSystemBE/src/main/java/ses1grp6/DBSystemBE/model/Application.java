@@ -1,12 +1,7 @@
 package ses1grp6.DBSystemBE.model;
-import java.util.Date;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Basic;
+
 import javax.persistence.*;
-import javax.persistence.Entity;
-import java.util.Objects;
-import javax.persistence.ManyToOne;
+import java.util.Date;
 
 @Entity
 public class Application {
