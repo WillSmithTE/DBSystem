@@ -89,4 +89,11 @@
         android:layout_height="wrap_content"
         android:text="Contact Number : 04538923489" />
 
+    <FrameLayout
+        android:id="@+id/listingFragmentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </FrameLayout>
+
 </LinearLayout>

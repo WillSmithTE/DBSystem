@@ -204,8 +204,24 @@ public class Listing implements Parcelable {
         return expiresAt;
     }
 
+    private String formatDate(Date date) {
+        return new SimpleDateFormat("dd MM yyyy").format(date);
+    }
+
     public String getFormattedCreatedAt() {
-        return new SimpleDateFormat("dd MM yyyy").format(createdAt);
+        return formatDate(createdAt);
+    }
+
+    public String getFormattedStartDate() {
+        return formatDate(eventStartDate);
+    }
+
+    public String getFormattedExpiresAt() {
+        return formatDate(expiresAt);
+    }
+
+    public String getFormattedEndDate() {
+        return formatDate(eventEndDate);
     }
 
     @Override
