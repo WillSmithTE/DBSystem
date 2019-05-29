@@ -1,8 +1,7 @@
 package ses1grp6.DBSystemBE.model;
 
-import java.util.Date;
 import javax.persistence.*;
-import java.util.Objects;
+import java.util.Date;
 /**
  * Created by Will Smith on 4/4/19.
  */
