@@ -1,6 +1,7 @@
 package ses1grp6.dbsystemandroid.charity;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -24,6 +25,8 @@ import java.util.List;
 import java.util.Locale;
 
 import ses1grp6.dbsystemandroid.R;
+import ses1grp6.dbsystemandroid.common.ListingActivity;
+import ses1grp6.dbsystemandroid.model.Listing;
 import ses1grp6.dbsystemandroid.util.SimpleRecyclerAdaptor;
 import ses1grp6.dbsystemandroid.util.UserData;
 import ses1grp6.dbsystemandroid.network.DBSystemNetwork;
@@ -56,6 +59,14 @@ public class CharityHistoryFragment extends Fragment implements SimpleRecyclerAd
         RecyclerView recyclerView = rootView.findViewById(R.id.historyRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         adapter = new SimpleRecyclerAdaptor<>(HistoryHolder.class, this, R.layout.charity_history_card, history);
+        adapter.setOnItemClickListener(new SimpleRecyclerAdaptor.OnItemClickListener<Listing>() {
+            @Override
+            public void onClick(View view, Listing dataSet) {
+                Intent intent = new Intent(getContext(), ListingActivity.class);
+                dataSet.putToIntent(intent);
+                startActivity(intent);
+            }
+        });
         recyclerView.setAdapter(adapter);
         fetchCharityHistory();
     }

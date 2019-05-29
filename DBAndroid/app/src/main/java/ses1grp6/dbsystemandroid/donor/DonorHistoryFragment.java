@@ -1,6 +1,7 @@
 package ses1grp6.dbsystemandroid.donor;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ses1grp6.dbsystemandroid.R;
+import ses1grp6.dbsystemandroid.common.ListingActivity;
 import ses1grp6.dbsystemandroid.model.Listing;
 import ses1grp6.dbsystemandroid.util.SimpleRecyclerAdaptor;
 import ses1grp6.dbsystemandroid.util.UserData;
@@ -53,6 +55,14 @@ public class DonorHistoryFragment extends Fragment implements SimpleRecyclerAdap
         RecyclerView recyclerView = rootView.findViewById(R.id.historyRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         adapter = new SimpleRecyclerAdaptor<>(HistoryHolder.class, this, R.layout.donor_history_card, history);
+        adapter.setOnItemClickListener(new SimpleRecyclerAdaptor.OnItemClickListener<Listing>() {
+            @Override
+            public void onClick(View view, Listing dataSet) {
+                Intent intent = new Intent(getContext(), ListingActivity.class);
+                dataSet.putToIntent(intent);
+                startActivity(intent);
+            }
+        });
         recyclerView.setAdapter(adapter);
         fetchDonorHistory();
     }

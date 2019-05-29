@@ -13,7 +13,7 @@
         style="@style/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="For HappyCharity" />
+        android:text='For "HappyCharity"' />
 
     <TextView
         android:id="@+id/appliCoverLetter"

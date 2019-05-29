@@ -23,6 +23,7 @@ public class SimpleRecyclerAdaptor<A extends RecyclerView.ViewHolder, T> extends
     private final Binder<A> binder;
     private final Class<A> holderCls;
     private final @LayoutRes int viewHolderRes;
+    private OnItemClickListener onItemClickListener;
 
     /**
      * @param holderCls A class that extends {@link RecyclerView.ViewHolder}, e.g myViewHolder.class
@@ -37,10 +38,21 @@ public class SimpleRecyclerAdaptor<A extends RecyclerView.ViewHolder, T> extends
         this.holderCls = holderCls;
     }
 
+    /**
+     * Sets a listener for when an item/ViewHolder is selected.
+     */
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
     @NonNull
     @Override
     public A onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(viewHolderRes, viewGroup, false);
+
+        if (onItemClickListener != null) {
+            view.setOnClickListener(new OnViewHolderClickListener(i));
+        }
 
         try {
             return holderCls.getConstructor(View.class).newInstance(view);
@@ -66,5 +78,24 @@ public class SimpleRecyclerAdaptor<A extends RecyclerView.ViewHolder, T> extends
     public interface Binder<A> {
 
         void onBindViewHolder(@NonNull A viewHolder, int i);
+    }
+
+    public interface OnItemClickListener<T> {
+
+        void onClick(View view, T dataSet);
+    }
+
+    private class OnViewHolderClickListener implements View.OnClickListener {
+
+        private final int i;
+
+        public OnViewHolderClickListener(int i) {
+            this.i = i;
+        }
+
+        @Override
+        public void onClick(View view) {
+            onItemClickListener.onClick(view, items.get(i));
+        }
     }
 }
