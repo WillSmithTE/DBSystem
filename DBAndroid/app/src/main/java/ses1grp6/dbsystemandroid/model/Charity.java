@@ -1,7 +1,6 @@
-package ses1grp6.dbsystemandroid.charity.model;
+package ses1grp6.dbsystemandroid.model;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -14,6 +13,11 @@ import java.util.Date;
 
 public class Charity implements Parcelable {
 
+    private static final String ID = "id";
+    private static final String NAME = "name";
+    private static final String EMAIL = "email";
+    private static final String CONTACT_NUMBER = "contactNumber";
+    private static final String TIMESTAMP = "timestamp";
     private int id;
     private String name;
     private String email;
@@ -27,11 +31,11 @@ public class Charity implements Parcelable {
     }
 
     public Charity(JSONObject obj) throws JSONException, ParseException {
-        this.id = obj.getInt("id");
-        this.name = obj.getString("name");
-        this.email = obj.getString("email");
-        this.contactNumber = obj.getString("contactNumber");
-        setTimestamp(obj.getString("timestamp"));
+        this.id = obj.getInt(ID);
+        this.name = obj.getString(NAME);
+        this.email = obj.getString(EMAIL);
+        this.contactNumber = obj.getString(CONTACT_NUMBER);
+        setTimestamp(obj.getString(TIMESTAMP));
     }
 
     public void putToIntent(Intent intent) {
@@ -40,6 +44,18 @@ public class Charity implements Parcelable {
 
     public static Charity getFromIntent(Intent intent) {
         return intent.getParcelableExtra(INTENT_NAME);
+    }
+
+    public boolean hasName() {
+        return name != null;
+    }
+
+    public boolean hasContactNumber() {
+        return contactNumber != null;
+    }
+
+    public boolean hasTimestamp() {
+        return timestamp != null;
     }
 
     public void setName(String name) {

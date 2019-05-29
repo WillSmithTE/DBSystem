@@ -17,7 +17,7 @@ import ses1grp6.dbsystemandroid.util.UserData;
 import ses1grp6.dbsystemandroid.util.simpleResult.ResultData;
 import ses1grp6.dbsystemandroid.util.simpleResult.SimpleResultActivity;
 
-public class charityWizard extends AppCompatActivity {
+public class CharityWizard extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,12 +46,12 @@ public class charityWizard extends AppCompatActivity {
             public void onRequestCompleted(RequestResponse response) {
                 if (response.hasStatusSuccessful()) {
 
-                    Intent intent = new Intent(charityWizard.this, SimpleResultActivity.class);
+                    Intent intent = new Intent(CharityWizard.this, SimpleResultActivity.class);
                     ResultData resultData = new ResultData("Listing Added", "");
                     resultData.putToIntent(intent);
                     startActivity(intent);
                 } else {
-                    Toast.makeText(charityWizard.this, response.getErrorMessage(),
+                    Toast.makeText(CharityWizard.this, response.getErrorMessage(),
                             Toast.LENGTH_LONG).show();
                 }
             }

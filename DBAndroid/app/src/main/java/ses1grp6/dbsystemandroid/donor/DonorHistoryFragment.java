@@ -1,6 +1,7 @@
 package ses1grp6.dbsystemandroid.donor;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -21,7 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ses1grp6.dbsystemandroid.R;
-import ses1grp6.dbsystemandroid.charity.model.Listing;
+import ses1grp6.dbsystemandroid.common.ListingActivity;
+import ses1grp6.dbsystemandroid.model.Listing;
 import ses1grp6.dbsystemandroid.util.SimpleRecyclerAdaptor;
 import ses1grp6.dbsystemandroid.util.UserData;
 import ses1grp6.dbsystemandroid.network.DBSystemNetwork;
@@ -53,6 +55,14 @@ public class DonorHistoryFragment extends Fragment implements SimpleRecyclerAdap
         RecyclerView recyclerView = rootView.findViewById(R.id.historyRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         adapter = new SimpleRecyclerAdaptor<>(HistoryHolder.class, this, R.layout.donor_history_card, history);
+        adapter.setOnItemClickListener(new SimpleRecyclerAdaptor.OnItemClickListener<Listing>() {
+            @Override
+            public void onClick(View view, Listing dataSet) {
+                Intent intent = new Intent(getContext(), ListingActivity.class);
+                dataSet.putToIntent(intent);
+                startActivity(intent);
+            }
+        });
         recyclerView.setAdapter(adapter);
         fetchDonorHistory();
     }
@@ -90,13 +100,13 @@ public class DonorHistoryFragment extends Fragment implements SimpleRecyclerAdap
     @Override
     public void onBindViewHolder(@NonNull HistoryHolder viewHolder, int i) {
         Listing hist = history.get(i);
-        viewHolder.title.setText("For  \"" + hist.getListingTitle() + "\"");
+        viewHolder.title.setText(getString(R.string.prefix_application_title) + "\"" + hist.getListingTitle() + "\"");
         viewHolder.time.setText(hist.getFormattedTimestamp()); // Hacky fix to cut off text by adding space.
-        viewHolder.charityName.setText("By " + hist.getCharity().getName());
-        viewHolder.address.setText("At " + hist.getLocation());
+        viewHolder.charityName.setText(getString(R.string.prefix_by_name) + hist.getCharity().getName());
+        viewHolder.address.setText(getString(R.string.prefix_location) + hist.getLocation());
         String descip = hist.getListingDescription().substring(0, Math.min(hist.getListingDescription().length(), 90));
         viewHolder.description.setText(descip + ".....");
-        viewHolder.industry.setText("Under " + hist.getIndustry());
+        viewHolder.industry.setText(getString(R.string.prefix_industry) + hist.getIndustry());
     }
 
     public static class HistoryHolder extends RecyclerView.ViewHolder {

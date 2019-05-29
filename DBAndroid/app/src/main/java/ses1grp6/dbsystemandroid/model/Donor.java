@@ -1,14 +1,12 @@
-package ses1grp6.dbsystemandroid.donor.model;
+package ses1grp6.dbsystemandroid.model;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -38,6 +36,18 @@ public class Donor implements Parcelable {
         this.contactNumber = jsonObject.getString(CONTACT_NUMBER);
         this.id = jsonObject.getInt(ID);
         setTimestamp(jsonObject.getString(TIMESTAMP));
+    }
+
+    public boolean hasName() {
+        return name != null;
+    }
+
+    public boolean hasContactNumber() {
+        return contactNumber != null;
+    }
+
+    public boolean hasTimestamp() {
+        return timestamp != null;
     }
 
     public void putToIntent(Intent intent) {

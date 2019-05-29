@@ -28,5 +28,11 @@
     <string name="date_and_time">Date and Time</string>
     <string name="registration_success_title">Your Registration was Successful!</string>
     <string name="registration_success_subtext">We have sent you an email confirmation! Please confirm your account by clicking the link in the email.</string>
-    <string name="donorHistoryTitle">For -></string>
+    <string name="prefix_application_title">For </string>
+    <string name="prefix_industry">Under </string>
+    <string name="prefix_location">At </string>
+    <string name="prefix_by_name">By </string>
+    <string name="prefix_expiry">Expires at </string>
+    <string name="prefix_created_at">Created at </string>
+    <string name="prefix_contact_number">Contact Number : </string>
 </resources>

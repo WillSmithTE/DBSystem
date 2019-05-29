@@ -10,7 +10,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import ses1grp6.dbsystemandroid.R;
-import ses1grp6.dbsystemandroid.charity.model.Listing;
+import ses1grp6.dbsystemandroid.model.Listing;
 
 public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.DonorListViewHolder> {
     ArrayList<Listing> donors;

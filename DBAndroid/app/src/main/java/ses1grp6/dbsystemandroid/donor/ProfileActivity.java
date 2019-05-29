@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 
 import ses1grp6.dbsystemandroid.R;
-import ses1grp6.dbsystemandroid.donor.model.Donor;
+import ses1grp6.dbsystemandroid.model.Donor;
 
 public class ProfileActivity extends AppCompatActivity {
 
