@@ -43,18 +43,22 @@ public class Listing implements Parcelable {
         this.charity = charity;
     }
 
-    public Listing(JSONObject obj) throws JSONException, ParseException {
-        this.listingTitle = obj.getString(LISTING_TITLE);
-        this.listingDescription = obj.getString(LISTING_DESCRIPTION);
-        this.location = obj.getString(LOCATION);
-        setCreatedAt(obj.getString(CREATED_AT));
-        this.id = obj.getInt(ID);
-        this.charity = new Charity(obj.getJSONObject(CHARITY));
-        if (obj.has(CONTACT_NUMBER)) this.contactNumber = obj.getString(CONTACT_NUMBER);
-        if (obj.has(INDUSTRY)) this.industry = obj.getString(INDUSTRY);
-        if (obj.has(EVENT_START_DATE)) setEventStartDate(obj.getString(EVENT_START_DATE));
-        if (obj.has(EVENT_END_DATE)) setEventEndDate(obj.getString(EVENT_END_DATE));
-        if (obj.has(EXPIRES_AT)) setExpiresAt(obj.getString(EXPIRES_AT));
+    public Listing(JSONObject jsonObject) throws JSONException, ParseException {
+        this.listingTitle = jsonObject.getString(LISTING_TITLE);
+        this.listingDescription = jsonObject.getString(LISTING_DESCRIPTION);
+        this.location = jsonObject.getString(LOCATION);
+        setCreatedAt(jsonObject.getString(CREATED_AT));
+        this.id = jsonObject.getInt(ID);
+        this.charity = new Charity(jsonObject.getJSONObject(CHARITY));
+        if (checkNull(jsonObject, CONTACT_NUMBER)) this.contactNumber = jsonObject.getString(CONTACT_NUMBER);
+        if (checkNull(jsonObject, INDUSTRY)) this.industry = jsonObject.getString(INDUSTRY);
+        if (checkNull(jsonObject, EVENT_START_DATE)) setEventStartDate(jsonObject.getString(EVENT_START_DATE));
+        if (checkNull(jsonObject, EVENT_END_DATE)) setEventEndDate(jsonObject.getString(EVENT_END_DATE));
+        if (checkNull(jsonObject, EXPIRES_AT)) setExpiresAt(jsonObject.getString(EXPIRES_AT));
+    }
+
+    public boolean checkNull(JSONObject jsonObject, String key) throws JSONException{
+        return jsonObject.has(key) && !jsonObject.getString(key).equals(null);
     }
 
     public boolean hasListingTitle() {

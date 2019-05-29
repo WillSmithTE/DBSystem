@@ -35,15 +35,20 @@ public class Application implements Parcelable {
         this.charity = charity;
     }
 
-    public Application(JSONObject obj) throws ParseException, JSONException {
-        this.id = obj.getInt(ID);
-        this.donor = new Donor(obj.getJSONObject(DONOR));
-        this.charity = new Charity(obj.getJSONObject(CHARITY));
-        this.coverLetter = obj.getString(COVER_LETTER);
-        if (obj.has(CONTACT_NUMBER)) this.contactNumber = obj.getString(CONTACT_NUMBER);
-        if (obj.has(CREATED_AT)) setTimestamp(obj.getString(CREATED_AT));
-        if (obj.has(INDUSTRY)) this.industry = obj.getString(INDUSTRY);
+    public Application(JSONObject jsonObject) throws ParseException, JSONException {
+        this.id = jsonObject.getInt(ID);
+        this.donor = new Donor(jsonObject.getJSONObject(DONOR));
+        this.charity = new Charity(jsonObject.getJSONObject(CHARITY));
+        this.coverLetter = jsonObject.getString(COVER_LETTER);
+        if (checkNull(jsonObject, CONTACT_NUMBER)) this.contactNumber = jsonObject.getString(CONTACT_NUMBER);
+        if (checkNull(jsonObject, CREATED_AT)) setTimestamp(jsonObject.getString(CREATED_AT));
+        if (checkNull(jsonObject, INDUSTRY)) this.industry = jsonObject.getString(INDUSTRY);
     }
+
+    public boolean checkNull(JSONObject jsonObject, String key) throws JSONException{
+        return jsonObject.has(key) && !jsonObject.getString(key).equals(null);
+    }
+
 
     public void putToIntent(Intent intent) {
         intent.putExtra(INTENT_NAME, this);
