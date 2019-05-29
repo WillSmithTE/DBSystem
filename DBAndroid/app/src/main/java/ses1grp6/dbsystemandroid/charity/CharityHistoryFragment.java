@@ -95,10 +95,10 @@ public class CharityHistoryFragment extends Fragment implements SimpleRecyclerAd
         CharityHistory hist = history.get(i);
         viewHolder.title.setText(hist.title);
         viewHolder.date.setText(new SimpleDateFormat("d MMM y", Locale.getDefault()).format(hist.date) + " "); // Hacky fix to cut off text by adding space.
-        viewHolder.address.setText("At " + hist.address);
+        viewHolder.address.setText(getString(R.string.prefix_location) + hist.address);
         String descip = hist.description.substring(0, Math.min(hist.description.length(), 90));
         viewHolder.description.setText(descip + ".....");
-        viewHolder.industry.setText("Under " + hist.industry);
+        viewHolder.industry.setText(getString(R.string.prefix_industry) + hist.industry);
     }
 
     public static class HistoryHolder extends RecyclerView.ViewHolder {

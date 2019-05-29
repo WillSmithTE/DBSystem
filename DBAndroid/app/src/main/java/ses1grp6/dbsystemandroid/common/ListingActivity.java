@@ -3,6 +3,7 @@ package ses1grp6.dbsystemandroid.common;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import ses1grp6.dbsystemandroid.R;
@@ -36,7 +37,16 @@ public class ListingActivity extends AppCompatActivity {
 
         titleText.setText(listing.getListingTitle());
         descriptionText.setText(listing.getListingDescription());
-        industryText.setText(listing.getIndustry());
-        locationText.setText(listing.getLocation());
+        checkAndSetText(industryText, listing.hasIndustry(), getString(R.string.prefix_industry) + listing.getIndustry());
+        checkAndSetText(locationText, listing.hasLocation(), getString(R.string.prefix_location) + listing.getLocation());
+    }
+
+    private void checkAndSetText(TextView view, boolean check, String text) {
+
+        if (check) {
+            view.setText(text);
+        } else {
+            view.setVisibility(View.INVISIBLE);
+        }
     }
 }

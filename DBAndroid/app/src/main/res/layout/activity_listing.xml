@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/baseView.spaced"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -16,57 +17,76 @@
 
     <TextView
         android:id="@+id/listingIndustry"
-        style="@style/cardStyle.subTitle"
+        style="@style/subTitle.small"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:text="Under Science" />
 
     <TextView
         android:id="@+id/listingExpiry"
-        style="@style/cardStyle.subTitle"
+        style="@style/subTitle.small"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:text="Expires at DATE" />
 
     <TextView
         android:id="@+id/listingDescription"
         style="@style/body"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:text="The end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never" />
 
-    <TextView
-        android:id="@+id/listingTimestamp"
-        style="@style/date"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:layout_margin="10dp"
+        android:background="@drawable/simple_box"
+        android:orientation="vertical"
+        android:padding="10dp">
 
-    <TextView
-        android:id="@+id/listingStartDate"
-        style="@style/date.center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
+        <TextView
+            android:id="@+id/listingTimestamp"
+            style="@style/date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Created at DATE" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/arrow_down_float" />
+        <TextView
+            android:id="@+id/listingStartDate"
+            style="@style/date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="START DATE" />
 
-    <TextView
-        android:id="@+id/listingEndDate"
-        style="@style/date.center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@android:drawable/arrow_down_float" />
+
+        <TextView
+            android:id="@+id/listingEndDate"
+            style="@style/date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="END DATE" />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/listingLocation"
-        style="@style/subTitle"
+        style="@style/subTitle.small"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:text="At Someplace" />
+
+    <TextView
+        android:id="@+id/listingContactNumber"
+        style="@style/subTitle.small"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Contact Number : 04538923489" />
 
 </LinearLayout>
