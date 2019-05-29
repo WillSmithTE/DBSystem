@@ -46,7 +46,7 @@ public class Application implements Parcelable {
     }
 
     public boolean checkNull(JSONObject jsonObject, String key) throws JSONException{
-        return jsonObject.has(key) && !jsonObject.getString(key).equals(null);
+        return jsonObject.has(key) && !jsonObject.getString(key).equals("null");
     }
 
 

@@ -57,8 +57,11 @@ public class Listing implements Parcelable {
         if (checkNull(jsonObject, EXPIRES_AT)) setExpiresAt(jsonObject.getString(EXPIRES_AT));
     }
 
+    /**
+     * Null checks delegated.
+     */
     public boolean checkNull(JSONObject jsonObject, String key) throws JSONException{
-        return jsonObject.has(key) && !jsonObject.getString(key).equals(null);
+        return jsonObject.has(key) && !jsonObject.getString(key).equals("null") && !jsonObject.getString(key).equals("") && !jsonObject.isNull(key);
     }
 
     public boolean hasListingTitle() {
