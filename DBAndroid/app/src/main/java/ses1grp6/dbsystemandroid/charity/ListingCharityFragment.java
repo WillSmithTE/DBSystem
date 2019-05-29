@@ -18,7 +18,6 @@ import org.json.JSONObject;
 import java.text.ParseException;
 import java.util.ArrayList;
 
-import ses1grp6.dbsystemandroid.DashboardActivity;
 import ses1grp6.dbsystemandroid.R;
 import ses1grp6.dbsystemandroid.model.Listing;
 import ses1grp6.dbsystemandroid.network.DBSystemNetwork;
@@ -45,7 +44,7 @@ public class ListingCharityFragment extends Fragment implements ListingCharities
             @Override
             public void onClick(View v)
             {
-                Intent intent = new Intent(context, charityWizard.class);
+                Intent intent = new Intent(context, CharityWizard.class);
                 startActivity(intent);
             }
         });
