@@ -19,14 +19,14 @@ public class Application implements Parcelable {
     private static final String COVER_LETTER = "coverLetter";
     private static final String CONTACT_NUMBER = "contactNumber";
     private static final String INDUSTRY = "industry";
-    private static final String TIMESTAMP = "timestamp";
+    private static final String CREATED_AT = "createdAt";
     private static final String ID = "id";
     private int id;
     private Donor donor;
     private Charity charity;
     private String coverLetter;
     private String contactNumber;
-    private Date timestamp;
+    private Date createdAt;
     private String industry;
 
     public Application(int id, Donor donor, Charity charity) {
@@ -41,7 +41,7 @@ public class Application implements Parcelable {
         this.charity = new Charity(obj.getJSONObject(CHARITY));
         this.coverLetter = obj.getString(COVER_LETTER);
         if (obj.has(CONTACT_NUMBER)) this.contactNumber = obj.getString(CONTACT_NUMBER);
-        if (obj.has(TIMESTAMP)) setTimestamp(obj.getString(TIMESTAMP));
+        if (obj.has(CREATED_AT)) setTimestamp(obj.getString(CREATED_AT));
         if (obj.has(INDUSTRY)) this.industry = obj.getString(INDUSTRY);
     }
 
@@ -62,7 +62,7 @@ public class Application implements Parcelable {
     }
 
     public boolean hasTimestamp() {
-        return timestamp != null;
+        return createdAt != null;
     }
 
     public boolean hasIndustry() {
@@ -85,12 +85,12 @@ public class Application implements Parcelable {
         this.contactNumber = contactNumber;
     }
 
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     public void setTimestamp(String timestampString) throws ParseException {
-        this.timestamp = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(timestampString);;
+        this.createdAt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(timestampString);;
     }
 
     public void setIndustry(String industry) {
@@ -121,12 +121,12 @@ public class Application implements Parcelable {
         return industry;
     }
 
-    public Date getTimestamp() {
-        return timestamp;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-    public String getFormattedTimestamp() {
-        return new SimpleDateFormat("dd MM yyyy").format(timestamp);
+    public String getFormattedCreatedAt() {
+        return new SimpleDateFormat("dd MM yyyy").format(createdAt);
     }
 
     @Override
@@ -141,7 +141,7 @@ public class Application implements Parcelable {
         dest.writeParcelable(this.charity, flags);
         dest.writeString(this.coverLetter);
         dest.writeString(this.contactNumber);
-        dest.writeLong(this.timestamp != null ? this.timestamp.getTime() : -1);
+        dest.writeLong(this.createdAt != null ? this.createdAt.getTime() : -1);
         dest.writeString(this.industry);
     }
 
@@ -152,7 +152,7 @@ public class Application implements Parcelable {
         this.coverLetter = in.readString();
         this.contactNumber = in.readString();
         long tmpTimestamp = in.readLong();
-        this.timestamp = tmpTimestamp == -1 ? null : new Date(tmpTimestamp);
+        this.createdAt = tmpTimestamp == -1 ? null : new Date(tmpTimestamp);
         this.industry = in.readString();
     }
 

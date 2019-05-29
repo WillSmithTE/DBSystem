@@ -197,7 +197,7 @@ public class Listing implements Parcelable {
         return expiresAt;
     }
 
-    public String getFormattedTimestamp() {
+    public String getFormattedCreatedAt() {
         return new SimpleDateFormat("dd MM yyyy").format(createdAt);
     }
 

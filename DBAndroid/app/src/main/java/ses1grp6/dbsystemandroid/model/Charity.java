@@ -17,12 +17,12 @@ public class Charity implements Parcelable {
     private static final String NAME = "name";
     private static final String EMAIL = "email";
     private static final String CONTACT_NUMBER = "contactNumber";
-    private static final String TIMESTAMP = "timestamp";
+    private static final String CREATED_AT = "createdAt";
     private int id;
     private String name;
     private String email;
     private String contactNumber;
-    private Date timestamp;
+    private Date createdAt;
     private static final String INTENT_NAME = "charityModel";
 
     public Charity(int id, String email) {
@@ -35,7 +35,7 @@ public class Charity implements Parcelable {
         this.name = obj.getString(NAME);
         this.email = obj.getString(EMAIL);
         this.contactNumber = obj.getString(CONTACT_NUMBER);
-        setTimestamp(obj.getString(TIMESTAMP));
+        setTimestamp(obj.getString(CREATED_AT));
     }
 
     public void putToIntent(Intent intent) {
@@ -55,7 +55,7 @@ public class Charity implements Parcelable {
     }
 
     public boolean hasTimestamp() {
-        return timestamp != null;
+        return createdAt != null;
     }
 
     public void setName(String name) {
@@ -66,12 +66,12 @@ public class Charity implements Parcelable {
         this.contactNumber = contactNumber;
     }
 
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     public void setTimestamp(String timestampString) throws ParseException {
-        this.timestamp = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(timestampString);
+        this.createdAt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(timestampString);
     }
 
     public int getId() {
@@ -90,12 +90,12 @@ public class Charity implements Parcelable {
         return contactNumber;
     }
 
-    public Date getTimestamp() {
-        return timestamp;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-    public String getFormattedTimestamp() {
-        return new SimpleDateFormat("dd MM yyyy").format(timestamp);
+    public String getFormattedCreatedAt() {
+        return new SimpleDateFormat("dd MM yyyy").format(createdAt);
     }
 
     @Override
@@ -109,7 +109,7 @@ public class Charity implements Parcelable {
         dest.writeString(this.name);
         dest.writeString(this.email);
         dest.writeString(this.contactNumber);
-        dest.writeLong(this.timestamp != null ? this.timestamp.getTime() : -1);
+        dest.writeLong(this.createdAt != null ? this.createdAt.getTime() : -1);
     }
 
     protected Charity(Parcel in) {
@@ -118,7 +118,7 @@ public class Charity implements Parcelable {
         this.email = in.readString();
         this.contactNumber = in.readString();
         long tmpTimestamp = in.readLong();
-        this.timestamp = tmpTimestamp == -1 ? null : new Date(tmpTimestamp);
+        this.createdAt = tmpTimestamp == -1 ? null : new Date(tmpTimestamp);
     }
 
     public static final Parcelable.Creator<Charity> CREATOR = new Parcelable.Creator<Charity>() {

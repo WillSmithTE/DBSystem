@@ -101,7 +101,7 @@ public class DonorHistoryFragment extends Fragment implements SimpleRecyclerAdap
     public void onBindViewHolder(@NonNull HistoryHolder viewHolder, int i) {
         Listing hist = history.get(i);
         viewHolder.title.setText(getString(R.string.prefix_application_title) + "\"" + hist.getListingTitle() + "\"");
-        viewHolder.time.setText(hist.getFormattedTimestamp()); // Hacky fix to cut off text by adding space.
+        viewHolder.time.setText(hist.getFormattedCreatedAt()); // Hacky fix to cut off text by adding space.
         viewHolder.charityName.setText(getString(R.string.prefix_by_name) + hist.getCharity().getName());
         viewHolder.address.setText(getString(R.string.prefix_location) + hist.getLocation());
         String descip = hist.getListingDescription().substring(0, Math.min(hist.getListingDescription().length(), 90));

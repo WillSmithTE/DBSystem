@@ -31,7 +31,7 @@ public class ApplicationActivity extends AppCompatActivity {
 
         titleText.setText(getString(R.string.prefix_application_title) + "\"" + application.getCharity().getName() + "\"");
         coverLetterText.setText(application.getCoverLetter());
-        checkAndSetText(timestampText, application.hasTimestamp(), getString(R.string.prefix_created_at) + application.getFormattedTimestamp());
+        checkAndSetText(timestampText, application.hasTimestamp(), getString(R.string.prefix_created_at) + application.getFormattedCreatedAt());
         checkAndSetText(contactNumberText, application.hasContactNumber(), application.getContactNumber());
     }
 
