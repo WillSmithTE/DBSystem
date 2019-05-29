@@ -134,7 +134,7 @@ public class Application implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.id);
         dest.writeString(this.title);
-        dest.writeParcelable(this.donor, flagsg);
+        dest.writeParcelable(this.donor, flags);
         dest.writeParcelable(this.charity, flags);
         dest.writeString(this.coverLetter);
         dest.writeString(this.contactNumber);
