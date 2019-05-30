@@ -55,6 +55,16 @@ public class ListingController {
         }
     }
 
+    @RequestMapping(value = "/industries", method = RequestMethod.GET)
+    public @ResponseBody
+    Response getIndustries() {
+        try {
+            return Response.success(industryRepository.findAll());
+        } catch (Exception e) {
+            return Response.fail("Failed to fetch industries: " + e.getMessage());
+        }
+    }
+
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public @ResponseBody
     Response get(@PathVariable("id") Integer id) {
