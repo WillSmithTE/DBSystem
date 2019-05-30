@@ -36,4 +36,11 @@
         android:layout_height="wrap_content"
         android:text="Contact : 045293402" />
 
+    <FrameLayout
+        android:id="@+id/appliFragContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </FrameLayout>
+
 </LinearLayout>

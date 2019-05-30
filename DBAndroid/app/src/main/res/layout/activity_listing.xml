@@ -90,7 +90,7 @@
         android:text="Contact Number : 04538923489" />
 
     <FrameLayout
-        android:id="@+id/listingFragmentContainer"
+        android:id="@+id/listingFragContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
