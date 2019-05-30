@@ -1,25 +1,13 @@
 package ses1grp6.DBSystemBE.controllers;
 
-import ses1grp6.DBSystemBE.model.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.TransactionException;
+import org.springframework.web.bind.annotation.*;
 import ses1grp6.DBSystemBE.model.ResponseStatus;
+import ses1grp6.DBSystemBE.model.*;
 import ses1grp6.DBSystemBE.repositories.CharityRepository;
 import ses1grp6.DBSystemBE.repositories.DonorRepository;
-import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 import ses1grp6.DBSystemBE.repositories.UserRepository;
-
-import java.nio.charset.Charset;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
-import java.util.Date;
-import java.util.Optional;
-import java.util.Properties;
-import java.util.function.Supplier;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -30,6 +18,14 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.nio.charset.Charset;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
+import java.util.Optional;
+import java.util.Properties;
+import java.util.function.Supplier;
 
 /**
  * Created by Will Smith on 4/4/19.
@@ -80,25 +76,25 @@ public class AuthController {
             repository.save(user);
             return Response.success(user);
         } else {
-            return Response.fail("Error confirming email - couldn't find email with id "+ id);
+            return Response.fail("Error confirming email - couldn't find email with id " + id);
         }
     }
 
     @PostMapping(value = "/login")
     public Response login(@RequestBody LoginRequest loginRequest) {
-        Response loginResponse = tryLogin(donorRepository, loginRequest);
+        Response loginResponse = tryLogin(donorRepository, loginRequest, "donor");
         if (loginResponse.getStatus() == ResponseStatus.FAIL) {
-            return tryLogin(charityRepository, loginRequest);
+            return tryLogin(charityRepository, loginRequest, "charity");
         } else {
             return loginResponse;
         }
     }
 
-    private <T extends UserRepository> Response tryLogin(T repository, LoginRequest loginRequest) {
+    private <T extends UserRepository> Response tryLogin(T repository, LoginRequest loginRequest, String userType) {
         User preExistingUser = repository.findByEmail(loginRequest.getEmail());
         if (preExistingUser != null && preExistingUser.getPassword().equals(loginRequest.getPassword())) {
             if (preExistingUser.isEmailConfirmed()) {
-                return Response.success(AuthController.createToken(loginRequest.getEmail()));
+                return AuthController.createLoginSuccessObject(loginRequest, userType, preExistingUser.getId());
             } else {
                 sendConfirmationEmail(loginRequest.getEmail(), preExistingUser.getId());
                 return Response.fail("Email not confirmed. Confirmation email resent.");
@@ -148,14 +144,24 @@ public class AuthController {
     private <T extends UserRepository> Response register(String email, T repository, Supplier<User> userGenerator) {
         User preExistingUser = repository.findByEmail(email);
         if (preExistingUser == null) {
-            User newUser = (User) repository.save(userGenerator.get());
-            sendConfirmationEmail(email, newUser.getId());
-            return Response.success(newUser);
+            try {
+                User newUser = (User) repository.save(userGenerator.get());
+                sendConfirmationEmail(email, newUser.getId());
+                return Response.success(newUser);
+            } catch (TransactionException e) {
+                return Response.fail("Failed to register: " + e.getMessage());
+            }
         } else {
             return Response.fail("Email taken.");
-    }
+        }
 
     }
+
+    private static Response createLoginSuccessObject(LoginRequest request, String userType, int id) {
+        byte[] token = AuthController.createToken(request.getEmail());
+        return Response.success(new LoginResponse(token, userType, id));
+    }
+
 
     private static byte[] createToken(String email) throws SecurityException {
         try {

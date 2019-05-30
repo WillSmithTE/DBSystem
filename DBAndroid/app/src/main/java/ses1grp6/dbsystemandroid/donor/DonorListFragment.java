@@ -3,10 +3,7 @@ package ses1grp6.dbsystemandroid.donor;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,11 +14,11 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
+import java.text.ParseException;
 import java.util.ArrayList;
 
-import ses1grp6.dbsystemandroid.LoginActivity;
 import ses1grp6.dbsystemandroid.R;
+import ses1grp6.dbsystemandroid.model.Donor;
 import ses1grp6.dbsystemandroid.network.DBSystemNetwork;
 import ses1grp6.dbsystemandroid.network.RequestResponse;
 
@@ -43,19 +40,19 @@ public class DonorListFragment extends Fragment implements DonorsAdapter.ItemCli
     }
 
     private void getDonors(){
-        DBSystemNetwork.sendGetRequest(context, "donor/", new DBSystemNetwork.OnRequestComplete() {
+        DBSystemNetwork.sendGetRequest("donor/", new DBSystemNetwork.OnRequestComplete() {
             @Override
             public void onRequestCompleted(RequestResponse response) {
                 if (response.isConnectionSuccessful()) {
 
                     try {
                         donors = new ArrayList<>();
-                        for (int i = 0; i < response.getJsonArray().length(); i++) {
-                            JSONObject obj = response.getJsonArray().getJSONObject(i);
-                            donors.add(new Donor(obj.getInt("id"), obj.getString("name"), obj.getString("email"), obj.getString("contactNumber")));
+                        for (int i = 0; i < response.getJsonObject().getJSONArray("body").length(); i++) {
+                            JSONObject obj = response.getJsonObject().getJSONArray("body").getJSONObject(i);
+                            donors.add(new Donor(obj));
                         }
                         buildRecyclerView(donors);
-                    } catch (JSONException e) {
+                    } catch (JSONException | ParseException e) {
                         System.out.println(e);
                     }
 

@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorSimpleGreen"
-    tools:context=".LoginChoiceActivity">
+    android:background="@color/colorBackground"
+    tools:context=".launch.LoginChoiceActivity">
 
     <Button
         android:id="@+id/charityButton"

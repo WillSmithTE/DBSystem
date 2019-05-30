@@ -4,6 +4,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by Will Smith on 3/5/19.
@@ -12,12 +13,17 @@ import javax.persistence.MappedSuperclass;
 @MappedSuperclass
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    protected Integer id;
+   
     private String name;
+    @NotNull
     private String email;
+    
     private String contactNumber;
+    @NotNull
     private String password;
+    
     private boolean emailConfirmed = false;
 
     public User(String name, String email, String contactNumber, String password) {
@@ -33,6 +39,10 @@ public class User {
         this.contactNumber = contactNumber;
         this.password = password;
         this.emailConfirmed = emailConfirmed;
+    }
+
+    public User(Integer id) {
+        this.id = id;
     }
     
     public User() {
