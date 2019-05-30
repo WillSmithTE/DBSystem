@@ -15,10 +15,11 @@
 
         <TextView
             android:id="@+id/appliTitle"
-            style="@style/title"
+            style="@style/subTitle.small"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text='For "HappyCharity"' />
+            android:text='For "HappyCharity"'
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/appliCoverLetter"
@@ -28,18 +29,18 @@
             android:text="the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never " />
 
         <TextView
-            android:id="@+id/appliContactNumber"
-            style="@style/subTitle.small"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Contact : 045293402" />
-
-        <TextView
             android:id="@+id/appliTimestamp"
             style="@style/date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Created At DATE" />
+
+        <TextView
+            android:id="@+id/appliContactNumber"
+            style="@style/subTitle.small"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Contact : 045293402" />
 
         <FrameLayout
             android:id="@+id/appliFragContainer"

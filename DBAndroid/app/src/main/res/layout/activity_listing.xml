@@ -21,11 +21,18 @@
             android:text="TextView" />
 
         <TextView
-            android:id="@+id/listingDescription"
-            style="@style/body"
+            android:id="@+id/listingOwner"
+            style="@style/subTitle.small"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="The end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never" />
+            android:text="By HappyCharity" />
+
+        <TextView
+            android:id="@+id/listingExpiry"
+            style="@style/subTitle.small"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Expires at DATE" />
 
         <TextView
             android:id="@+id/listingIndustry"
@@ -35,11 +42,11 @@
             android:text="Under Science" />
 
         <TextView
-            android:id="@+id/listingExpiry"
-            style="@style/subTitle.small"
+            android:id="@+id/listingDescription"
+            style="@style/body"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Expires at DATE" />
+            android:text="The end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never" />
 
         <LinearLayout
             android:layout_width="match_parent"

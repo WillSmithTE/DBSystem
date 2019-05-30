@@ -14,6 +14,7 @@ public class ListingActivity extends AppCompatActivity {
 
     private TextView titleText;
     private TextView descriptionText;
+    private TextView listingOwner;
     private TextView industryText;
     private TextView expiryText;
     private TextView startDateText;
@@ -32,6 +33,7 @@ public class ListingActivity extends AppCompatActivity {
         startDateText = findViewById(R.id.listingStartDate);
         endDateText = findViewById(R.id.listingEndDate);
         locationText = findViewById(R.id.listingLocation);
+        listingOwner = findViewById(R.id.listingOwner);
 
         Intent intent = getIntent();
         setupTextViews(intent);
@@ -42,6 +44,7 @@ public class ListingActivity extends AppCompatActivity {
         Listing listing = Listing.getFromIntent(intent);
 
         titleText.setText(listing.getListingTitle());
+        listingOwner.setText(getString(R.string.prefix_by_name) + listing.getCharity().getName());
         descriptionText.setText(listing.getListingDescription());
         checkAndSetText(startDateText, listing.hasEventStartDate(), listing.getFormattedStartDate());
         checkAndSetText(endDateText, listing.hasEventEndDate(), listing.getFormattedEndDate());
