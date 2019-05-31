@@ -1,6 +1,7 @@
 package ses1grp6.dbsystemandroid.donor;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -34,12 +37,23 @@ public class ListingFragment extends Fragment implements ListingAdapter.ItemClic
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.context = getContext();
         rootView = inflater.inflate(R.layout.fragment_listing_list, container, false);
+
+        Button searchButton = (Button) rootView.findViewById(R.id.button);
+        searchButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                arrayBuild();
+            }
+        });
+
         arrayBuild();
         return rootView;
     }
 
     private void arrayBuild(){
-        DBSystemNetwork.sendGetRequest("listing/", new DBSystemNetwork.OnRequestComplete() {
+        DBSystemNetwork.sendGetRequest("listing/search/" + ((EditText)rootView.findViewById(R.id.search_param)).getText(), new DBSystemNetwork.OnRequestComplete() {
             @Override
             public void onRequestCompleted(RequestResponse response) {
                 if (response.isConnectionSuccessful()) {
