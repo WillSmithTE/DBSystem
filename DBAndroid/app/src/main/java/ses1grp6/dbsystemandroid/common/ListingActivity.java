@@ -8,11 +8,13 @@ import android.widget.TextView;
 
 import ses1grp6.dbsystemandroid.R;
 import ses1grp6.dbsystemandroid.model.Listing;
+import ses1grp6.dbsystemandroid.util.FragBundler;
 
 public class ListingActivity extends AppCompatActivity {
 
     private TextView titleText;
     private TextView descriptionText;
+    private TextView listingOwner;
     private TextView industryText;
     private TextView expiryText;
     private TextView startDateText;
@@ -31,14 +33,32 @@ public class ListingActivity extends AppCompatActivity {
         startDateText = findViewById(R.id.listingStartDate);
         endDateText = findViewById(R.id.listingEndDate);
         locationText = findViewById(R.id.listingLocation);
+        listingOwner = findViewById(R.id.listingOwner);
 
         Intent intent = getIntent();
+        setupTextViews(intent);
+        createDynamicFragment(intent);
+    }
+
+    private void setupTextViews(Intent intent) {
         Listing listing = Listing.getFromIntent(intent);
 
         titleText.setText(listing.getListingTitle());
+        listingOwner.setText(getString(R.string.prefix_by_name) + listing.getCharity().getName());
         descriptionText.setText(listing.getListingDescription());
+        checkAndSetText(startDateText, listing.hasEventStartDate(), listing.getFormattedStartDate());
+        checkAndSetText(endDateText, listing.hasEventEndDate(), listing.getFormattedEndDate());
+        checkAndSetText(expiryText, listing.hasExpiresAt(), listing.getFormattedExpiresAt());
         checkAndSetText(industryText, listing.hasIndustry(), getString(R.string.prefix_industry) + listing.getIndustry());
         checkAndSetText(locationText, listing.hasLocation(), getString(R.string.prefix_location) + listing.getLocation());
+    }
+
+    private void createDynamicFragment(Intent intent) {
+        FragBundler fragBundler = new FragBundler(intent);
+
+        if (fragBundler.hasFragment()) {
+            fragBundler.replaceWithFragment(getSupportFragmentManager(), R.id.listingFragContainer);
+        }
     }
 
     private void checkAndSetText(TextView view, boolean check, String text) {

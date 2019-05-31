@@ -21,6 +21,7 @@ public class Application implements Parcelable {
     private static final String INDUSTRY = "industry";
     private static final String CREATED_AT = "createdAt";
     private static final String ID = "id";
+    public static final String ACCEPTED = "accepted";
     private int id;
     private Donor donor;
     private Charity charity;
@@ -28,6 +29,7 @@ public class Application implements Parcelable {
     private String contactNumber;
     private Date createdAt;
     private String industry;
+    private boolean accepted;
 
     public Application(int id, Donor donor, Charity charity) {
         this.id = id;
@@ -40,6 +42,7 @@ public class Application implements Parcelable {
         this.donor = new Donor(jsonObject.getJSONObject(DONOR));
         this.charity = new Charity(jsonObject.getJSONObject(CHARITY));
         this.coverLetter = jsonObject.getString(COVER_LETTER);
+        this.accepted = jsonObject.getString(ACCEPTED).equals("1");
         if (checkNull(jsonObject, CONTACT_NUMBER)) this.contactNumber = jsonObject.getString(CONTACT_NUMBER);
         if (checkNull(jsonObject, CREATED_AT)) setTimestamp(jsonObject.getString(CREATED_AT));
         if (checkNull(jsonObject, INDUSTRY)) this.industry = jsonObject.getString(INDUSTRY);
@@ -49,13 +52,16 @@ public class Application implements Parcelable {
         return jsonObject.has(key) && !jsonObject.getString(key).equals("null");
     }
 
-
     public void putToIntent(Intent intent) {
         intent.putExtra(INTENT_NAME, this);
     }
 
     public static Application getFromIntent(Intent intent) {
         return intent.getParcelableExtra(INTENT_NAME);
+    }
+
+    public boolean isAccepted() {
+        return accepted;
     }
 
     public boolean hasCoverLetter() {
@@ -80,6 +86,10 @@ public class Application implements Parcelable {
 
     public void setCharity(Charity charity) {
         this.charity = charity;
+    }
+
+    public void setAccepted(boolean accepted) {
+        this.accepted = accepted;
     }
 
     public void setCoverLetter(String coverLetter) {
