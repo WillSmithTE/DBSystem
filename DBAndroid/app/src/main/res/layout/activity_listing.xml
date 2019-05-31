@@ -9,6 +9,7 @@
     tools:context=".common.ListingActivity">
 
     <LinearLayout
+        android:id="@+id/listingLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
