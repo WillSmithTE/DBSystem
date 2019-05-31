@@ -30,7 +30,7 @@ public class Charity implements Parcelable {
         this.email = email;
     }
 
-    public Charity(JSONObject obj) throws JSONException, ParseException {
+    public Charity(JSONObject obj) throws JSONException {
         this.id = obj.getInt(ID);
         this.name = obj.getString(NAME);
         this.email = obj.getString(EMAIL);
@@ -70,8 +70,14 @@ public class Charity implements Parcelable {
         this.createdAt = createdAt;
     }
 
-    public void setTimestamp(String timestampString) throws ParseException {
-        this.createdAt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(timestampString);
+    public void setTimestamp(String s) {
+
+        try {
+            this.createdAt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(s);
+        } catch (ParseException e) {
+            System.err.println("Could not read date from \"" + s + "\" Setting Null for CreatedAt!!!");
+            this.createdAt = null;
+        }
     }
 
     public int getId() {

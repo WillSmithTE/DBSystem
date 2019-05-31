@@ -67,7 +67,7 @@ public class ListingFragment extends Fragment implements ListingAdapter.ItemClic
                             listingCharities.add(new Listing(obj));
                         }
                         buildRecyclerView(listingCharities);
-                    } catch (JSONException | ParseException e) {
+                    } catch (JSONException e) {
                         System.out.println(e);
                     }
 
