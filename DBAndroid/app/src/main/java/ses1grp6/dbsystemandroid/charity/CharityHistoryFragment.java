@@ -58,7 +58,7 @@ public class CharityHistoryFragment extends Fragment implements SimpleRecyclerAd
         // Setup recycler view
         RecyclerView recyclerView = rootView.findViewById(R.id.historyRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        adapter = new SimpleRecyclerAdaptor<>(HistoryHolder.class, this, R.layout.charity_history_card, history);
+        adapter = new SimpleRecyclerAdaptor<>(HistoryHolder.class, this, R.layout.card_charity_history, history);
         adapter.setOnItemClickListener(new SimpleRecyclerAdaptor.OnItemClickListener<Listing>() {
             @Override
             public void onClick(View view, Listing dataSet) {
