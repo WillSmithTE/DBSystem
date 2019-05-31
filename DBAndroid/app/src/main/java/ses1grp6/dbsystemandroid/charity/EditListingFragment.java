@@ -52,6 +52,7 @@ public class EditListingFragment extends Fragment {
     }
 
     private void fetchApplicants() {
+        System.out.println("\"listing/applications/\" + listing.getId(): " + "listing/applications/" + listing.getId());
         DBSystemNetwork.sendGetRequest("listing/applications/" + listing.getId(), new DBSystemNetwork.OnRequestComplete() {
             @Override
             public void onRequestCompleted(RequestResponse response) {
@@ -61,7 +62,7 @@ public class EditListingFragment extends Fragment {
                     try {
                         JSONArray jsonDonors = response.getBodyJsonArray();
                         List<Application> applications = new ArrayList<>(jsonDonors.length());
-
+                        
                         for (int i = 0; i < jsonDonors.length(); i++) {
                             applications.add(new Application(jsonDonors.getJSONObject(i)));
                         }
