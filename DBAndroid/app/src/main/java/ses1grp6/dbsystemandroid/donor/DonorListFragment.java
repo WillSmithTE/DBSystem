@@ -52,7 +52,7 @@ public class DonorListFragment extends Fragment implements DonorsAdapter.ItemCli
                             donors.add(new Donor(obj));
                         }
                         buildRecyclerView(donors);
-                    } catch (JSONException | ParseException e) {
+                    } catch (JSONException e) {
                         System.out.println(e);
                     }
 

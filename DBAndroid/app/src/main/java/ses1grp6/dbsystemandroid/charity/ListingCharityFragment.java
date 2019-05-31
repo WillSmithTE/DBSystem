@@ -67,7 +67,7 @@ public class ListingCharityFragment extends Fragment implements ListingCharities
                             listingCharities.add(new Listing(obj));
                         }
                         buildRecyclerView(listingCharities);
-                    } catch (JSONException | ParseException e) {
+                    } catch (JSONException e) {
                         System.out.println(e);
                     }
 

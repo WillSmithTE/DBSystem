@@ -83,7 +83,7 @@ public class DonorHistoryFragment extends Fragment implements SimpleRecyclerAdap
                             JSONObject jsonObject = dataArray.getJSONObject(i);
                             if (jsonObject.getInt("accepted") == 0) continue;
                             historyData = new Listing(jsonObject);
-                        } catch (JSONException | ParseException e) {
+                        } catch (JSONException e) {
                             System.err.println("Found corrupted donor history data!");
                             continue;
                         }

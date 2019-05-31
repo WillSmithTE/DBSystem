@@ -57,7 +57,7 @@
             android:padding="10dp">
 
             <TextView
-                android:id="@+id/listingTimestamp"
+                android:id="@+id/listingCreatedAt"
                 style="@style/date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

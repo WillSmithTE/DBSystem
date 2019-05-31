@@ -43,7 +43,7 @@ public class Listing implements Parcelable {
         this.charity = charity;
     }
 
-    public Listing(JSONObject jsonObject) throws JSONException, ParseException {
+    public Listing(JSONObject jsonObject) throws JSONException {
         this.listingTitle = jsonObject.getString(LISTING_TITLE);
         this.listingDescription = jsonObject.getString(LISTING_DESCRIPTION);
         this.location = jsonObject.getString(LOCATION);
@@ -124,23 +124,29 @@ public class Listing implements Parcelable {
         this.createdAt = createdAt;
     }
 
-    private Date getDateFromString(String s) throws ParseException {
-        return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(s);
+    private Date getDateFromString(String s) {
+
+        try {
+            return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(s);
+        } catch (ParseException e) {
+            System.err.println("Could not read date from \"" + s + "\" Returning Null!!!");
+            return null;
+        }
     }
 
-    public void setCreatedAt(String s) throws ParseException {
+    public void setCreatedAt(String s) {
         this.createdAt = getDateFromString(s);
     }
 
-    public void setEventStartDate(String s) throws ParseException {
+    public void setEventStartDate(String s) {
         this.eventStartDate = getDateFromString(s);
     }
 
-    public void setEventEndDate(String s) throws ParseException {
+    public void setEventEndDate(String s) {
         this.eventEndDate = getDateFromString(s);
     }
 
-    public void setExpiresAt(String s) throws ParseException {
+    public void setExpiresAt(String s) {
         this.eventEndDate = getDateFromString(s);
     }
 

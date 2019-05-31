@@ -36,7 +36,7 @@ public class ApplicationActivity extends AppCompatActivity {
         Application application = Application.getFromIntent(intent);
         titleText.setText(getString(R.string.prefix_application_title) + "\"" + application.getCharity().getName() + "\"");
         coverLetterText.setText(application.getCoverLetter());
-        checkAndSetText(timestampText, application.hasTimestamp(), getString(R.string.prefix_created_at) + application.getFormattedCreatedAt());
+        if (application.hasCreatedAt()) timestampText.setText(application.getFormattedCreatedAt()); else timestampText.setVisibility(View.INVISIBLE);
         checkAndSetText(contactNumberText, application.hasContactNumber(), application.getContactNumber());
     }
 

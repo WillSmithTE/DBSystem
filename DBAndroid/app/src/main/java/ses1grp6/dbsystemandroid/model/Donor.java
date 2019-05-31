@@ -30,12 +30,12 @@ public class Donor implements Parcelable {
         this.id = id;
     }
 
-    public Donor(JSONObject jsonObject) throws JSONException, ParseException {
+    public Donor(JSONObject jsonObject) throws JSONException {
         this.name = jsonObject.getString(NAME);
         this.email = jsonObject.getString(EMAIL);
         this.contactNumber = jsonObject.getString(CONTACT_NUMBER);
         this.id = jsonObject.getInt(ID);
-        setTimestamp(jsonObject.getString(CREATED_AT));
+        setCreatedAt(jsonObject.getString(CREATED_AT));
     }
 
     public boolean hasName() {
@@ -70,8 +70,14 @@ public class Donor implements Parcelable {
         this.createdAt = createdAt;
     }
 
-    public void setTimestamp(String timestampString) throws ParseException {
-        this.createdAt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(timestampString);;
+    public void setCreatedAt(String s) {
+
+        try {
+            this.createdAt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(s);
+        } catch (ParseException e) {
+            System.err.println("Could not read date from \"" + s + "\" Setting Null for CreatedAt!!!");
+            this.createdAt = null;
+        }
     }
 
     public String getName() {

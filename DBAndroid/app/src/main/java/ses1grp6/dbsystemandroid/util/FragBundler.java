@@ -23,20 +23,20 @@ public class FragBundler {
         this.intent = intent;
     }
 
-    public void putToIntent(Class<Fragment> fragClz) {
+    public void putToIntent(Class<? extends Fragment> fragClz) {
         intent.putExtra(INTENT_FRAG_NAME, fragClz.getName());
     }
 
-    public <M extends Parcelable> void putToIntent(Class<Fragment> fragClz, M model) {
+    public <M extends Parcelable> void putToIntent(Class<? extends Fragment> fragClz, M model) {
         putToIntent(fragClz);
         intent.putExtra(INTENT_FRAG_MODEL, model);
     }
 
-    public Class<Fragment> getFragmentClass() {
+    public Class<? extends Fragment> getFragmentClass() {
         String clzName = intent.getStringExtra(INTENT_FRAG_NAME);
 
         try {
-            return (Class<Fragment>) Class.forName(clzName);
+            return (Class<? extends Fragment>) Class.forName(clzName);
         } catch (ClassNotFoundException e) {
             throw new RuntimeException("Could not get fragment out of intent: " + e.getMessage());
         }
@@ -61,7 +61,7 @@ public class FragBundler {
         String clzName = intent.getStringExtra(INTENT_FRAG_NAME);
 
         try {
-            Class<Fragment> fragClz = (Class<Fragment>) Class.forName(clzName);
+            Class<? extends Fragment> fragClz = (Class<Fragment>) Class.forName(clzName);
             return fragClz.newInstance();
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             throw new RuntimeException("Could not get fragment out of intent: " + e.getMessage());

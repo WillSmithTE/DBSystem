@@ -65,7 +65,7 @@ public class EditListingFragment extends Fragment {
                             applications.add(new Application(jsonDonors.getJSONObject(i)));
                         }
                         adaptor.notifyDataSetChanged();
-                    } catch (JSONException | ParseException e) {
+                    } catch (JSONException e) {
                         Toast.makeText(getContext(), "Unable to read applications from response", Toast.LENGTH_LONG).show();
                         System.err.println(response.getErrorMessage());
                     }

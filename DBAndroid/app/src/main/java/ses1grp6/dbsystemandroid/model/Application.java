@@ -37,14 +37,14 @@ public class Application implements Parcelable {
         this.charity = charity;
     }
 
-    public Application(JSONObject jsonObject) throws ParseException, JSONException {
+    public Application(JSONObject jsonObject) throws JSONException {
         this.id = jsonObject.getInt(ID);
         this.donor = new Donor(jsonObject.getJSONObject(DONOR));
         this.charity = new Charity(jsonObject.getJSONObject(CHARITY));
         this.coverLetter = jsonObject.getString(COVER_LETTER);
         this.accepted = jsonObject.getString(ACCEPTED).equals("1");
         if (checkNull(jsonObject, CONTACT_NUMBER)) this.contactNumber = jsonObject.getString(CONTACT_NUMBER);
-        if (checkNull(jsonObject, CREATED_AT)) setTimestamp(jsonObject.getString(CREATED_AT));
+        if (checkNull(jsonObject, CREATED_AT)) setCreatedAt(jsonObject.getString(CREATED_AT));
         if (checkNull(jsonObject, INDUSTRY)) this.industry = jsonObject.getString(INDUSTRY);
     }
 
@@ -72,7 +72,7 @@ public class Application implements Parcelable {
         return contactNumber != null;
     }
 
-    public boolean hasTimestamp() {
+    public boolean hasCreatedAt() {
         return createdAt != null;
     }
 
@@ -104,8 +104,14 @@ public class Application implements Parcelable {
         this.createdAt = createdAt;
     }
 
-    public void setTimestamp(String timestampString) throws ParseException {
-        this.createdAt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(timestampString);;
+    public void setCreatedAt(String s) {
+
+        try {
+            this.createdAt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(s);
+        } catch (ParseException e) {
+            System.err.println("Could not read date from \"" + s + "\" Setting Null for CreatedAt!!!");
+            this.createdAt = null;
+        }
     }
 
     public void setIndustry(String industry) {
