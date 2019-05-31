@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -38,7 +39,7 @@ public class ListingFragment extends Fragment implements ListingAdapter.ItemClic
         this.context = getContext();
         rootView = inflater.inflate(R.layout.fragment_listing_list, container, false);
 
-        Button searchButton = (Button) rootView.findViewById(R.id.button);
+        SearchView searchButton = (SearchView) rootView.findViewById(R.id.searchListing);
         searchButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -53,7 +54,7 @@ public class ListingFragment extends Fragment implements ListingAdapter.ItemClic
     }
 
     private void arrayBuild(){
-        DBSystemNetwork.sendGetRequest("listing/search/" + ((EditText)rootView.findViewById(R.id.search_param)).getText(), new DBSystemNetwork.OnRequestComplete() {
+        DBSystemNetwork.sendGetRequest("listing/search/" + ((SearchView)rootView.findViewById(R.id.searchListing)).getQuery(), new DBSystemNetwork.OnRequestComplete() {
             @Override
             public void onRequestCompleted(RequestResponse response) {
                 if (response.isConnectionSuccessful()) {
