@@ -189,11 +189,12 @@
         app:layout_constraintTop_toBottomOf="@+id/textView10"
         app:layout_constraintVertical_bias="0.0">
 
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/textInputEditText6"
+        <Spinner
+            android:id="@+id/charwizSpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/industry" />
+            android:layout_weight="1" />
+
     </android.support.design.widget.TextInputLayout>
 
 </android.support.constraint.ConstraintLayout>
