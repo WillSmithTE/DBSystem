@@ -3,6 +3,7 @@ package ses1grp6.dbsystemandroid.util;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -15,13 +16,20 @@ import ses1grp6.dbsystemandroid.R;
 public class FragBundler {
 
     private static final String INTENT_FRAG_NAME = "dynamicFragment";
+    private static final String INTENT_FRAG_MODEL = "dynamicFragmentModel";
     private Intent intent;
 
     public FragBundler(Intent intent) {
         this.intent = intent;
     }
-    public void putToIntent(Intent intent, Class<Fragment> fragClz) {
+
+    public void putToIntent(Class<Fragment> fragClz) {
         intent.putExtra(INTENT_FRAG_NAME, fragClz.getName());
+    }
+
+    public <M extends Parcelable> void putToIntent(Class<Fragment> fragClz, M model) {
+        putToIntent(fragClz);
+        intent.putExtra(INTENT_FRAG_MODEL, model);
     }
 
     public Class<Fragment> getFragmentClass() {
@@ -38,7 +46,18 @@ public class FragBundler {
         return intent.hasExtra(INTENT_FRAG_NAME);
     }
 
+    public boolean hasModel() {
+        return intent.hasExtra(INTENT_FRAG_MODEL);
+    }
+
+    @SuppressWarnings("unchecked")
+    public <M extends Parcelable> M getModel() {
+        if (!hasModel()) throw new RuntimeException("Could not find model in intent");
+        return (M) intent.getParcelableExtra(INTENT_FRAG_MODEL);
+    }
+
     public Fragment getFragment() {
+        if (!hasFragment()) throw new RuntimeException("Could not find Dynamic Fragment in intent");
         String clzName = intent.getStringExtra(INTENT_FRAG_NAME);
 
         try {
