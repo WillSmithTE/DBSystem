@@ -51,6 +51,7 @@ public class EditListingFragment extends Fragment {
     }
 
     private void fetchApplicants() {
+        System.out.println("\"listing/applications/\" + listing.getId(): " + "listing/applications/" + listing.getId());
         DBSystemNetwork.sendGetRequest("listing/applications/" + listing.getId(), new DBSystemNetwork.OnRequestComplete() {
             @Override
             public void onRequestCompleted(RequestResponse response) {
@@ -58,10 +59,11 @@ public class EditListingFragment extends Fragment {
                 if (response.hasStatusSuccessful()) {
 
                     try {
-                        JSONArray jsonDonors = response.getBodyJsonArray();
-                        applications = new ArrayList<>(jsonDonors.length());
-
+                        System.out.println("MADE IT HERE: " + response.data);
+                        JSONArray jsonDonors = response.getJsonObject().getJSONArray("body");
+                        applications = new ArrayList<>();
                         for (int i = 0; i < jsonDonors.length(); i++) {
+                            System.out.println("SDFASDF" + jsonDonors.getJSONObject(i).toString());
                             applications.add(new Application(jsonDonors.getJSONObject(i)));
                         }
                         adaptor.notifyDataSetChanged();
