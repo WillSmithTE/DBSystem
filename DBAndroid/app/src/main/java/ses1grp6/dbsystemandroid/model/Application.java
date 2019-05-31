@@ -72,7 +72,7 @@ public class Application implements Parcelable {
         return contactNumber != null;
     }
 
-    public boolean hasTimestamp() {
+    public boolean hasCreatedAt() {
         return createdAt != null;
     }
 
