@@ -30,7 +30,7 @@ import ses1grp6.dbsystemandroid.util.SimpleRecyclerAdaptor;
 
 public class EditListingFragment extends Fragment {
 
-    private List<Application> applications;
+    private List<Application> applications = new ArrayList<>();
     private Listing listing;
     private SimpleRecyclerAdaptor<ApplicationHolder, Application> adaptor;
     private RecyclerView recyclerView;
@@ -43,8 +43,8 @@ public class EditListingFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_edit_listing, container, false);
         recyclerView = view.findViewById(R.id.applicantsRecyclerView);
-        FragBundler bundler = new FragBundler(getActivity().getIntent());
-        listing = bundler.getModel();
+        Intent intent = getActivity().getIntent();
+        listing = Listing.getFromIntent(intent);
         fetchApplicants();
         buildRecyclerView();
         return view;
