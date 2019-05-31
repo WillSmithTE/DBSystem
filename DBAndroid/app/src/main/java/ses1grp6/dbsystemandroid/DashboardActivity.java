@@ -73,15 +73,6 @@ public class DashboardActivity extends AppCompatActivity {
         swapContainerFor(new ListingFragment(), DONOR_DASHBOARD_NAME);
     }
 
-    @Override
-    public void onBackPressed() {
-        if (UserData.getInstance().getUserType() == UserType.CHARITY) {
-            createCharityDashboard();
-        } else {
-            createDonorDashboard();
-        }
-    }
-
     private void swapContainerFor(Fragment fragment, String title) {
           FragmentManager fragManager = getSupportFragmentManager();
           FragmentTransaction transaction = fragManager.beginTransaction();

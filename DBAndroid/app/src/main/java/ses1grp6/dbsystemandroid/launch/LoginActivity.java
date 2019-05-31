@@ -80,6 +80,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void changeToDashboard() {
         Intent intent = new Intent(this, DashboardActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
 }
