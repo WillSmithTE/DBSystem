@@ -45,12 +45,13 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
+        android:id="@+id/resultBackButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="40dp"
+        android:onClick="onBack"
         android:text="Back To Dashboard"
-        android:onClick="onBackToDashboardClicked"
-        app:layout_constraintStart_toStartOf="@+id/resultBody"
+        app:layout_constraintEnd_toEndOf="@+id/resultTitle"
+        app:layout_constraintStart_toStartOf="@+id/resultTitle"
         app:layout_constraintTop_toBottomOf="@+id/resultBody" />
 </android.support.constraint.ConstraintLayout>

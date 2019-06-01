@@ -81,7 +81,7 @@ public class RegistrationActivity extends AppCompatActivity {
             throw new RuntimeException("Registration Request creation has the wrong JSON format.");
         }
 
-        DBSystemNetwork.sendPostRequest("/auth/register", postParams, new DBSystemNetwork.OnRequestComplete() {
+        DBSystemNetwork.sendPostRequest(this, "/auth/register", postParams, new DBSystemNetwork.OnRequestComplete() {
             @Override
             public void onRequestCompleted(RequestResponse response) {
 
@@ -97,6 +97,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private void showRegistrationResult() {
         Intent intent = new Intent(this, SimpleResultActivity.class);
         ResultData resultData = new ResultData(getString(R.string.registration_success_title), getString(R.string.registration_success_subtext));
+        resultData.setBackActivity(LoginActivity.class, "Back To Login");
         resultData.putToIntent(intent);
         startActivity(intent);
     }

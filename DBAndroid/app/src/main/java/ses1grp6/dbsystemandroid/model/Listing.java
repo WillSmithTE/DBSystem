@@ -34,7 +34,7 @@ public class Listing implements Parcelable {
     private Date createdAt;
     private Date eventStartDate;
     private Date eventEndDate;
-    private String industry;
+    private Industry industry;
     private Date expiresAt;
 
 
@@ -51,7 +51,7 @@ public class Listing implements Parcelable {
         this.id = jsonObject.getInt(ID);
         this.charity = new Charity(jsonObject.getJSONObject(CHARITY));
         if (checkNull(jsonObject, CONTACT_NUMBER)) this.contactNumber = jsonObject.getString(CONTACT_NUMBER);
-        if (checkNull(jsonObject, INDUSTRY)) this.industry = jsonObject.getString(INDUSTRY);
+        if (checkNull(jsonObject, INDUSTRY)) this.industry = new Industry(jsonObject.getJSONObject(INDUSTRY));
         if (checkNull(jsonObject, EVENT_START_DATE)) setEventStartDate(jsonObject.getString(EVENT_START_DATE));
         if (checkNull(jsonObject, EVENT_END_DATE)) setEventEndDate(jsonObject.getString(EVENT_END_DATE));
         if (checkNull(jsonObject, EXPIRES_AT)) setExpiresAt(jsonObject.getString(EXPIRES_AT));
@@ -162,7 +162,7 @@ public class Listing implements Parcelable {
         this.expiresAt = expiresAt;
     }
 
-    public void setIndustry(String industry) {
+    public void setIndustry(Industry industry) {
         this.industry = industry;
     }
 
@@ -190,7 +190,7 @@ public class Listing implements Parcelable {
         return location;
     }
 
-    public String getIndustry() {
+    public Industry getIndustry() {
         return industry;
     }
 
@@ -244,7 +244,7 @@ public class Listing implements Parcelable {
         dest.writeString(this.listingDescription);
         dest.writeString(this.location);
         dest.writeLong(this.createdAt != null ? this.createdAt.getTime() : -1);
-        dest.writeString(this.industry);
+        dest.writeParcelable(this.industry, flags);
     }
 
     protected Listing(Parcel in) {
@@ -256,7 +256,7 @@ public class Listing implements Parcelable {
         this.location = in.readString();
         long tmpTimestamp = in.readLong();
         this.createdAt = tmpTimestamp == -1 ? null : new Date(tmpTimestamp);
-        this.industry = in.readString();
+        this.industry = in.readParcelable(Industry.class.getClassLoader());
     }
 
     public static final Parcelable.Creator<Listing> CREATOR = new Parcelable.Creator<Listing>() {

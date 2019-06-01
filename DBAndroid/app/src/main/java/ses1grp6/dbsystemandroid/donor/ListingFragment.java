@@ -54,7 +54,7 @@ public class ListingFragment extends Fragment implements ListingAdapter.ItemClic
     }
 
     private void arrayBuild(){
-        DBSystemNetwork.sendGetRequest("listing/search/" + ((SearchView)rootView.findViewById(R.id.searchListing)).getQuery(), new DBSystemNetwork.OnRequestComplete() {
+        DBSystemNetwork.sendGetRequest(getActivity(), "listing/search/" + ((SearchView)rootView.findViewById(R.id.searchListing)).getQuery(), new DBSystemNetwork.OnRequestComplete() {
             @Override
             public void onRequestCompleted(RequestResponse response) {
                 if (response.isConnectionSuccessful()) {

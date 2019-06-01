@@ -35,7 +35,7 @@ public class DonorProfileFragment extends Fragment {
     }
 
     public void buildProfile(){
-        DBSystemNetwork.sendGetRequest("/donor/" + UserData.getInstance().getId(), new DBSystemNetwork.OnRequestComplete() {
+        DBSystemNetwork.sendGetRequest(getActivity(), "/donor/" + UserData.getInstance().getId(), new DBSystemNetwork.OnRequestComplete() {
             @Override
             public void onRequestCompleted(RequestResponse response) {
                 if (response.isConnectionSuccessful()) {

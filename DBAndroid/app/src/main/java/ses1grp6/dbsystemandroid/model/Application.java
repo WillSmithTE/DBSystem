@@ -28,7 +28,7 @@ public class Application implements Parcelable {
     private String coverLetter;
     private String contactNumber;
     private Date createdAt;
-    private String industry;
+    private Industry industry;
     private boolean accepted;
 
     public Application(int id, Donor donor, Charity charity) {
@@ -45,7 +45,7 @@ public class Application implements Parcelable {
         this.accepted = jsonObject.getString(ACCEPTED).equals("1");
         if (checkNull(jsonObject, CONTACT_NUMBER)) this.contactNumber = jsonObject.getString(CONTACT_NUMBER);
         if (checkNull(jsonObject, CREATED_AT)) setCreatedAt(jsonObject.getString(CREATED_AT));
-        if (checkNull(jsonObject, INDUSTRY)) this.industry = jsonObject.getString(INDUSTRY);
+        if (checkNull(jsonObject, INDUSTRY)) this.industry = new Industry(jsonObject.getJSONObject(INDUSTRY));
     }
 
     public boolean checkNull(JSONObject jsonObject, String key) throws JSONException{
@@ -114,7 +114,7 @@ public class Application implements Parcelable {
         }
     }
 
-    public void setIndustry(String industry) {
+    public void setIndustry(Industry industry) {
         this.industry = industry;
     }
 
@@ -138,7 +138,7 @@ public class Application implements Parcelable {
         return contactNumber;
     }
 
-    public String getIndustry() {
+    public Industry getIndustry() {
         return industry;
     }
 
@@ -163,7 +163,7 @@ public class Application implements Parcelable {
         dest.writeString(this.coverLetter);
         dest.writeString(this.contactNumber);
         dest.writeLong(this.createdAt != null ? this.createdAt.getTime() : -1);
-        dest.writeString(this.industry);
+        dest.writeParcelable(this.industry, flags);
     }
 
     protected Application(Parcel in) {
@@ -174,7 +174,7 @@ public class Application implements Parcelable {
         this.contactNumber = in.readString();
         long tmpTimestamp = in.readLong();
         this.createdAt = tmpTimestamp == -1 ? null : new Date(tmpTimestamp);
-        this.industry = in.readString();
+        this.industry = in.readParcelable(Industry.class.getClassLoader());
     }
 
     public static final Parcelable.Creator<Application> CREATOR = new Parcelable.Creator<Application>() {

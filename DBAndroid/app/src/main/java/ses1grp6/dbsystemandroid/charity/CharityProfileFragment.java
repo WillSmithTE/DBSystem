@@ -45,7 +45,7 @@ public class CharityProfileFragment extends Fragment {
     private void buildProfile(){
         final int Id = UserData.getInstance().getId();
 
-        DBSystemNetwork.sendGetRequest("/charity/" + Id, new DBSystemNetwork.OnRequestComplete() {
+        DBSystemNetwork.sendGetRequest(getActivity(), "/charity/" + Id, new DBSystemNetwork.OnRequestComplete() {
             @Override
             public void onRequestCompleted(RequestResponse response) {
                 if (response.isConnectionSuccessful()) {

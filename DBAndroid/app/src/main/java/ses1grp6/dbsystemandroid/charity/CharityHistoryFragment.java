@@ -73,7 +73,7 @@ public class CharityHistoryFragment extends Fragment implements SimpleRecyclerAd
 
     private void fetchCharityHistory() {
         UserData userData = UserData.getInstance();
-        DBSystemNetwork.sendGetRequest("/charity/history/" + userData.getId(), new DBSystemNetwork.OnRequestComplete() {
+        DBSystemNetwork.sendGetRequest(getActivity(), "/charity/history/" + userData.getId(), new DBSystemNetwork.OnRequestComplete() {
             @Override
             public void onRequestCompleted(RequestResponse response) {
 
