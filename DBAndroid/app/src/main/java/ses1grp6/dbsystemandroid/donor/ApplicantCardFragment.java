@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import ses1grp6.dbsystemandroid.R;
+import ses1grp6.dbsystemandroid.common.ApplicationActivity;
 import ses1grp6.dbsystemandroid.model.Application;
 
 /**
@@ -54,6 +55,15 @@ public class ApplicantCardFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 listener.onClick(view, ApplicantCardFragment.this, index, false);
+            }
+        });
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), ApplicationActivity.class);
+                application.putToIntent(intent);
+                startActivity(intent);
             }
         });
 
