@@ -13,7 +13,6 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import ses1grp6.dbsystemandroid.DashboardActivity;
 import ses1grp6.dbsystemandroid.R;
 import ses1grp6.dbsystemandroid.charity.CharityWizard;
 import ses1grp6.dbsystemandroid.model.Listing;
@@ -68,8 +67,6 @@ public class donorWizard extends AppCompatActivity {
                     Intent intent = new Intent(donorWizard.this, SimpleResultActivity.class);
                     ResultData resultData = new ResultData("Application Successful",
                             "Please wait for a response");
-
-                    resultData.setBackActivity(DashboardActivity.class, "Go back to Dashboard");
                     resultData.putToIntent(intent);
                     startActivity(intent);
                 } else {
