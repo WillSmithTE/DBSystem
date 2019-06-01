@@ -23,10 +23,6 @@ public class Application {
     @JoinColumn(name = "charity_listing_id")
     private CharityListing charityListing;
 
-    @ManyToOne
-    @JoinColumn(name = "industry_id")
-    private Industry industry;
-
     @Column(name = "cover_letter")
     private String coverLetter;
 
@@ -46,21 +42,23 @@ public class Application {
         if (this.timestamp == null) {
             this.timestamp = new Date();
         }
+        if (this.accepted == null) {
+            this.accepted = 0;
+        }
     }
 
     public Application() {
+
     }
 
-
-    public Application(Long applicationID, Donor donor, Charity charity, CharityListing charityListing, Industry industry, String coverLetter, String contactNumber, Integer accepted, java.util.Date timestamp) {
+    public Application(Long applicationID, Donor donor, Charity charity, CharityListing charityListing, String coverLetter, String contactNumber, Integer accepted, java.util.Date timestamp) {
         this.applicationID = applicationID;
         this.donor = donor;
         this.charity = charity;
         this.charityListing = charityListing;
-        this.industry = industry;
         this.coverLetter = coverLetter;
         this.contactNumber = contactNumber;
-        this.accepted = accepted;
+        this.accepted = 0;
         this.timestamp = timestamp;
     }
 
@@ -94,14 +92,6 @@ public class Application {
 
     public void setCharityListing(CharityListing charityListing) {
         this.charityListing = charityListing;
-    }
-
-    public Industry getIndustry() {
-        return this.industry;
-    }
-
-    public void setIndustry(Industry industry) {
-        this.industry = industry;
     }
 
     public String getCoverLetter() {
@@ -153,11 +143,6 @@ public class Application {
 
     public Application charityListing(CharityListing charityListing) {
         this.charityListing = charityListing;
-        return this;
-    }
-
-    public Application industry(Industry industry) {
-        this.industry = industry;
         return this;
     }
 
