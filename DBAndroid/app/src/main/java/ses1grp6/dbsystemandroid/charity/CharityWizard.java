@@ -40,18 +40,23 @@ public class CharityWizard extends AppCompatActivity implements AdapterView.OnIt
 
     public void onPostClick(View view) {
         JSONObject jsonObject = new JSONObject();
+        JSONObject jsonObjectIndustry = new JSONObject();
         String charwizTitle = ((EditText) findViewById(R.id.charwizTitle)).getText().toString();
         String charwizDescription = ((EditText) findViewById(R.id.charwizDescription)).getText().toString();
         //String charwizDateTime = ((EditText) findViewById(R.id.charwizDateTime)).getText().toString();
         String charwizLocation = ((EditText) findViewById(R.id.charwizLocation)).getText().toString();
         //String charwizIndustry = ((EditText) findViewById(R.id.charwizIndustry)).getText().toString();
-        int charwizIndustry = indices.get(((Spinner) findViewById(R.id.charwizSpinner)).getSelectedItemPosition());
+        int charwizIndustryID = indices.get(((Spinner) findViewById(R.id.charwizSpinner)).getSelectedItemPosition());
+        String charwizIndustryName = industries.get(((Spinner) findViewById(R.id.charwizSpinner)).getSelectedItemPosition());
         try {
+            jsonObjectIndustry.put("industryID", charwizIndustryID);
+            jsonObjectIndustry.put("industryName", charwizIndustryName);
+
             jsonObject.put("charity", UserData.getInstance().getId());
             jsonObject.put("listingTitle", charwizTitle);
             jsonObject.put("listingDescription", charwizDescription);
             jsonObject.put("location", charwizLocation);
-            jsonObject.put("industry", charwizIndustry);
+            jsonObject.put("industry", jsonObjectIndustry);
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
