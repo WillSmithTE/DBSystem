@@ -19,20 +19,6 @@
             android:text="Title" />
 
         <TextView
-            android:id="@+id/charityHistoryTime"
-            style="@style/cardStyle.subTitle.right"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="29 May 2019" />
-
-        <TextView
-            android:id="@+id/charityHistoryAddress"
-            style="@style/cardStyle.subTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="At 72 Happy Street, Happy city" />
-
-        <TextView
             android:id="@+id/charityHistoryIndustry"
             style="@style/cardStyle.subTitle"
             android:layout_width="match_parent"

@@ -33,9 +33,9 @@ public class Donor implements Parcelable {
     public Donor(JSONObject jsonObject) throws JSONException {
         this.name = jsonObject.getString(NAME);
         this.email = jsonObject.getString(EMAIL);
-        this.contactNumber = jsonObject.getString(CONTACT_NUMBER);
+        if (jsonObject.has(CONTACT_NUMBER)) this.contactNumber = jsonObject.getString(CONTACT_NUMBER);
         this.id = jsonObject.getInt(ID);
-        setCreatedAt(jsonObject.getString(CREATED_AT));
+        if (jsonObject.has(CREATED_AT)) setCreatedAt(jsonObject.getString(CREATED_AT));
     }
 
     public boolean hasName() {
@@ -123,11 +123,11 @@ public class Donor implements Parcelable {
         this.email = in.readString();
         this.contactNumber = in.readString();
         this.id = in.readInt();
-        long tmpTimestamp = in.readLong();
-        this.createdAt = tmpTimestamp == -1 ? null : new Date(tmpTimestamp);
+        long tmpCreatedAt = in.readLong();
+        this.createdAt = tmpCreatedAt == -1 ? null : new Date(tmpCreatedAt);
     }
 
-    public static final Parcelable.Creator<Donor> CREATOR = new Parcelable.Creator<Donor>() {
+    public static final Creator<Donor> CREATOR = new Creator<Donor>() {
         @Override
         public Donor createFromParcel(Parcel source) {
             return new Donor(source);

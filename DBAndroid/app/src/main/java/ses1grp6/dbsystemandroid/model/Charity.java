@@ -30,12 +30,12 @@ public class Charity implements Parcelable {
         this.email = email;
     }
 
-    public Charity(JSONObject obj) throws JSONException {
-        this.id = obj.getInt(ID);
-        this.name = obj.getString(NAME);
-        this.email = obj.getString(EMAIL);
-        this.contactNumber = obj.getString(CONTACT_NUMBER);
-        setTimestamp(obj.getString(CREATED_AT));
+    public Charity(JSONObject jsonObject) throws JSONException {
+        this.id = jsonObject.getInt(ID);
+        this.name = jsonObject.getString(NAME);
+        this.email = jsonObject.getString(EMAIL);
+        if (jsonObject.has(CONTACT_NUMBER)) this.contactNumber = jsonObject.getString(CONTACT_NUMBER);
+        if (jsonObject.has(CREATED_AT)) setTimestamp(jsonObject.getString(CREATED_AT));
     }
 
     public void putToIntent(Intent intent) {
