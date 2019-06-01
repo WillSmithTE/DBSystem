@@ -26,6 +26,7 @@ import ses1grp6.dbsystemandroid.common.ListingActivity;
 import ses1grp6.dbsystemandroid.model.Application;
 import ses1grp6.dbsystemandroid.model.Listing;
 import ses1grp6.dbsystemandroid.util.SimpleRecyclerAdaptor;
+import ses1grp6.dbsystemandroid.util.TxStyler;
 import ses1grp6.dbsystemandroid.util.UserData;
 import ses1grp6.dbsystemandroid.network.DBSystemNetwork;
 import ses1grp6.dbsystemandroid.network.RequestResponse;
@@ -98,7 +99,8 @@ public class DonorHistoryFragment extends Fragment implements SimpleRecyclerAdap
     @Override
     public void onBindViewHolder(@NonNull HistoryHolder viewHolder, int i) {
         Application hist = history.get(i);
-        viewHolder.title.setText(getString(R.string.prefix_application_title) + " \"" + hist.getListing().getListingTitle() + "\"");
+        TxStyler titleStyler = new TxStyler(getResources().getColor(R.color.colorLinkable));
+        titleStyler.prefix(viewHolder.title, getString(R.string.prefix_application_title), hist.getListing().getListingTitle());
         viewHolder.charityName.setText(getString(R.string.prefix_by_name) + " " + hist.getCharity().getName());
         String descip = hist.getCoverLetter().substring(0, Math.min(hist.getCoverLetter().length(), 90));
         viewHolder.description.setText(descip + ".....");

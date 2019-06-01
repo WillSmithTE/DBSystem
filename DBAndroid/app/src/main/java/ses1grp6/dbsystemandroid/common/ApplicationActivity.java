@@ -1,21 +1,37 @@
 package ses1grp6.dbsystemandroid.common;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import ses1grp6.dbsystemandroid.R;
 import ses1grp6.dbsystemandroid.model.Application;
+import ses1grp6.dbsystemandroid.model.Listing;
 import ses1grp6.dbsystemandroid.util.FragBundler;
+import ses1grp6.dbsystemandroid.util.TxStyler;
 
 public class ApplicationActivity extends AppCompatActivity {
 
+    private TxStyler styler = TxStyler.getInstance();
     private TextView titleText;
     private TextView coverLetterText;
-    private TextView contactNumberText;
-    private TextView timestampText;
+    private TextView createdAtText;
+    private TextView charityByText;
+    private TextView industryText;
+    private LinearLayout applicationLayout;
+    private LinearLayout listingLayout;
+    private Application application;
+    private Listing listing;
+    private Intent intent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,36 +40,47 @@ public class ApplicationActivity extends AppCompatActivity {
 
         titleText = findViewById(R.id.appliTitle);
         coverLetterText = findViewById(R.id.appliCoverLetter);
-        contactNumberText = findViewById(R.id.appliContactNumber);
-        timestampText = findViewById(R.id.appliTimestamp);
+        createdAtText = findViewById(R.id.appliCreatedAt);
+        charityByText = findViewById(R.id.appliBy);
+        industryText = findViewById(R.id.appliIndustry);
+        applicationLayout = findViewById(R.id.appliLayout);
+        listingLayout = findViewById(R.id.listingLayout);
 
-        Intent intent = getIntent();
-        setupTextViews(intent);
-        createDynamicFragment(intent);
+        intent = getIntent();
+        application = Application.getFromIntent(intent);
+        listing = application.getListing();
+        setupTextViews();
+        createDynamicFragment();
     }
 
-    private void setupTextViews(Intent intent) {
-        Application application = Application.getFromIntent(intent);
-        titleText.setText(getString(R.string.prefix_application_title) + "\"" + application.getCharity().getName() + "\"");
+    public void onViewListingClicked(View view) {
+        Intent intent = new Intent(this, ListingActivity.class);
+        listing.putToIntent(intent);
+        startActivity(intent);
+    }
+
+    private void setupTextViews() {
+        TxStyler titleStyler = new TxStyler(getResources().getColor(R.color.colorLinkable));
+        titleStyler.prefix(titleText, getString(R.string.prefix_application_title), listing.getListingTitle());
+        styler.prefix(charityByText, getString(R.string.prefix_by_name), application.getCharity().getName());
         coverLetterText.setText(application.getCoverLetter());
-        if (application.hasCreatedAt()) timestampText.setText(application.getFormattedCreatedAt()); else timestampText.setVisibility(View.INVISIBLE);
-        checkAndSetText(contactNumberText, application.hasContactNumber(), application.getContactNumber());
+
+        if (application.hasCreatedAt())
+            styler.prefix(createdAtText, getString(R.string.prefix_created_at), application.getFormattedCreatedAt());
+        else
+            applicationLayout.removeView(createdAtText);
+        
+        if (listing.hasIndustry())
+            styler.prefix(industryText, getString(R.string.prefix_industry), listing.getIndustry().getIndustryName());
+        else
+            listingLayout.removeView(createdAtText);
     }
 
-    private void createDynamicFragment(Intent intent) {
+    private void createDynamicFragment() {
         FragBundler fragBundler = new FragBundler(intent);
 
         if (fragBundler.hasFragment()) {
             fragBundler.replaceWithFragment(getSupportFragmentManager(), R.id.appliFragContainer);
-        }
-    }
-
-    private void checkAndSetText(TextView view, boolean check, String text) {
-
-        if (check) {
-            view.setText(text);
-        } else {
-            view.setVisibility(View.INVISIBLE);
         }
     }
 }

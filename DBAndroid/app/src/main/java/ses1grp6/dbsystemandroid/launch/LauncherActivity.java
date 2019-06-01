@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import ses1grp6.dbsystemandroid.DashboardActivity;
 import ses1grp6.dbsystemandroid.R;
+import ses1grp6.dbsystemandroid.util.TxStyler;
 import ses1grp6.dbsystemandroid.util.UserData;
 import ses1grp6.dbsystemandroid.util.UserType;
 
@@ -19,6 +20,7 @@ public class LauncherActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launcher);
+        TxStyler.initialise(getApplicationContext());
         UserData.initialise(getApplicationContext());
         UserData userData = UserData.getInstance();
 

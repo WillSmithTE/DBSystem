@@ -13,41 +13,88 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/appliTitle"
-            style="@style/subTitle.small"
+        <LinearLayout
+            android:id="@+id/appliLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text='For "HappyCharity"'
-            android:textSize="20sp" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/appliCoverLetter"
-            style="@style/body"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never " />
+            <TextView
+                style="@style/title.medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/your_application" />
 
-        <TextView
-            android:id="@+id/appliTimestamp"
-            style="@style/date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Created At DATE" />
+            <View style="@style/divider" />
 
-        <TextView
-            android:id="@+id/appliContactNumber"
-            style="@style/subTitle.small"
+            <TextView
+                android:id="@+id/appliCreatedAt"
+                style="@style/subTitle.small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Created At DATE" />
+
+            <FrameLayout
+                style="@style/boxedBody"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/appliCoverLetter"
+                    style="@style/body"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never " />
+            </FrameLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/appliListLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Contact : 045293402" />
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:orientation="vertical">
+
+            <View style="@style/divider" />
+
+            <TextView
+                android:id="@+id/appliTitle"
+                style="@style/title.small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text='For "HappyCharity"' />
+
+            <TextView
+                android:id="@+id/appliBy"
+                style="@style/subTitle.small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="By WhoKnows" />
+
+            <TextView
+                android:id="@+id/appliIndustry"
+                style="@style/subTitle.small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Under Science and Technology" />
+
+            <Button
+                android:id="@+id/appliViewListingButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="onViewListingClicked"
+                android:text="Click Here to View Listing" />
+        </LinearLayout>
 
         <FrameLayout
             android:id="@+id/appliFragContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginTop="30dp">
 
         </FrameLayout>
+
     </LinearLayout>
 
 </ScrollView>
