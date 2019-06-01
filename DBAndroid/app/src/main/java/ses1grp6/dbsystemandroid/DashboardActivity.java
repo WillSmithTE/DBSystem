@@ -1,5 +1,6 @@
 package ses1grp6.dbsystemandroid;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -19,6 +20,7 @@ import ses1grp6.dbsystemandroid.charity.ListingCharityFragment;
 import ses1grp6.dbsystemandroid.donor.DonorHistoryFragment;
 import ses1grp6.dbsystemandroid.donor.DonorProfileFragment;
 import ses1grp6.dbsystemandroid.donor.ListingFragment;
+import ses1grp6.dbsystemandroid.launch.LoginActivity;
 import ses1grp6.dbsystemandroid.util.UserData;
 import ses1grp6.dbsystemandroid.util.UserType;
 
@@ -81,6 +83,13 @@ public class DashboardActivity extends AppCompatActivity {
           getSupportActionBar().setTitle(title);
     }
 
+    private void logOut() {
+        UserData.getInstance().clearStoredUserData();
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
     private class DonorNavigationMenu implements NavigationView.OnNavigationItemSelectedListener {
 
         @Override
@@ -96,6 +105,9 @@ public class DashboardActivity extends AppCompatActivity {
                     break;
                 case R.id.donorNavHistory:
                     swapContainerFor(new DonorHistoryFragment(), "Donor History");
+                    break;
+                case R.id.donorLogOut:
+                    logOut();
                     break;
 
             }
@@ -120,6 +132,9 @@ public class DashboardActivity extends AppCompatActivity {
 
                 case R.id.charityNavProfile:
                     swapContainerFor(new CharityProfileFragment(), CHARITY_DASHBOARD_NAME);
+                    break;
+                case R.id.charityLogOut:
+                    logOut();
                     break;
             }
             drawer.closeDrawer(Gravity.START);
