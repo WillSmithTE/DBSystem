@@ -25,6 +25,7 @@
     <string name="booking_request">Booking Request</string>
     <string name="post">Post</string>
     <string name="you_can_describe_what_you_need_exactly_here">You can describe what you need exactly here!</string>
+    <string name="applicant_accept_confirmation">Are you sure you would like to accept this applicant?</string>
     <string name="title">Title</string>
     <string name="description">Description</string>
     <string name="location">Location</string>
