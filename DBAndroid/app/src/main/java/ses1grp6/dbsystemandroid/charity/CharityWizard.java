@@ -32,10 +32,14 @@ public class CharityWizard extends AppCompatActivity implements AdapterView.OnIt
     Spinner spinner;
     ArrayList<String> industries;
     ArrayList<Integer> indices;
-    TextView mTv;
-    Button mBtn;
+    TextView sTv;
+    Button sBtn;
     Calendar c;
     DatePickerDialog dpd;
+    TextView eTv;
+    Button eBtn;
+    Calendar ce;
+    DatePickerDialog edpd;
 
 
     @Override
@@ -44,9 +48,11 @@ public class CharityWizard extends AppCompatActivity implements AdapterView.OnIt
         spinner = (Spinner) findViewById(R.id.charwizSpinner);
         setupSpinner();
         setContentView(R.layout.activity_charity_wizard);
-        mTv = (TextView) findViewById(R.id.dateshow);
-        mBtn = (Button) findViewById(R.id.charwizstartDate);
-        mBtn.setOnClickListener(new View.OnClickListener() {
+
+
+        sTv = (TextView) findViewById(R.id.dateshow);
+        sBtn = (Button) findViewById(R.id.charwizstartDate);
+        sBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 c = Calendar.getInstance();
@@ -57,7 +63,7 @@ public class CharityWizard extends AppCompatActivity implements AdapterView.OnIt
                 dpd = new DatePickerDialog(CharityWizard.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int mYear, int mMonth, int mDay) {
-                        mTv.setText(mDay + "/" + (mMonth+1) + "/" + mYear);
+                        sBtn.setText(mDay + "/" + (mMonth+1) + "/" + mYear);
                     }
                 }, day, month, year);
             dpd.show();
