@@ -1,6 +1,7 @@
 package ses1grp6.dbsystemandroid.donor;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,6 +9,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -34,12 +38,23 @@ public class ListingFragment extends Fragment implements ListingAdapter.ItemClic
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.context = getContext();
         rootView = inflater.inflate(R.layout.fragment_listing_list, container, false);
+
+        SearchView searchButton = (SearchView) rootView.findViewById(R.id.searchListing);
+        searchButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                arrayBuild();
+            }
+        });
+
         arrayBuild();
         return rootView;
     }
 
     private void arrayBuild(){
-        DBSystemNetwork.sendGetRequest("listing/", new DBSystemNetwork.OnRequestComplete() {
+        DBSystemNetwork.sendGetRequest("listing/search/" + ((SearchView)rootView.findViewById(R.id.searchListing)).getQuery(), new DBSystemNetwork.OnRequestComplete() {
             @Override
             public void onRequestCompleted(RequestResponse response) {
                 if (response.isConnectionSuccessful()) {
@@ -52,7 +67,7 @@ public class ListingFragment extends Fragment implements ListingAdapter.ItemClic
                             listingCharities.add(new Listing(obj));
                         }
                         buildRecyclerView(listingCharities);
-                    } catch (JSONException | ParseException e) {
+                    } catch (JSONException e) {
                         System.out.println(e);
                     }
 

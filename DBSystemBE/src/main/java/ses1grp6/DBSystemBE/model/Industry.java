@@ -22,6 +22,10 @@ public class Industry {
         this.industryName = industryName;
     }
 
+    public Industry(Long industryID) {
+        this.industryID = industryID;
+    }
+
     public Long getIndustryID() {
         return this.industryID;
     }
