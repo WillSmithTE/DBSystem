@@ -58,7 +58,7 @@ public class ListingCharityFragment extends Fragment implements ListingCharities
     }
 
     private void arrayBuild(){
-        DBSystemNetwork.sendGetRequest("listing/charity/" + UserData.getInstance().getId(), new DBSystemNetwork.OnRequestComplete() {
+        DBSystemNetwork.sendGetRequest(getActivity(), "listing/charity/" + UserData.getInstance().getId(), new DBSystemNetwork.OnRequestComplete() {
             @Override
             public void onRequestCompleted(RequestResponse response) {
                 if (response.isConnectionSuccessful()) {

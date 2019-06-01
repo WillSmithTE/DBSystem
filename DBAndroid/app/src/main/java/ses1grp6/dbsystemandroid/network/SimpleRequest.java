@@ -19,13 +19,13 @@ import ses1grp6.dbsystemandroid.util.UserData;
 
 public class SimpleRequest extends AsyncTask<Void, Void, RequestResponse> {
 
-    private final WeakReference<DBSystemNetwork.OnRequestComplete> callback;
+    private DBSystemNetwork.OnRequestComplete callback;
     private final String requestMapping;
     private final JSONObject jsonObject;
     private final MethodType method;
 
     public SimpleRequest(MethodType method, String requestMapping, JSONObject jsonObject, DBSystemNetwork.OnRequestComplete callback) {
-        this.callback = new WeakReference<>(callback);
+        this.callback = callback;
         this.requestMapping = requestMapping;
         this.jsonObject = jsonObject;
         this.method = method;
@@ -39,15 +39,18 @@ public class SimpleRequest extends AsyncTask<Void, Void, RequestResponse> {
     @Override
     protected void onPostExecute(RequestResponse response) {
 
-        // If the activity still exist, then call the callback.
-        if (callback.get() != null) {
-            callback.get().onRequestCompleted(response);
+        if (callback != null) {
+            callback.onRequestCompleted(response);
         }
+    }
+
+    public void clearCallbackReference() {
+        this.callback = null;
     }
 
     private RequestResponse sendRequest() {
         // If the activity has been destroyed/closed, then don't bother downloading something, just ignore it.
-        if (callback.get() == null) {
+        if (callback == null) {
             // What it returns doesn't actually matter, the callback won't be called when activity is destroyed.
             return new RequestResponse("Simple Request Callback should not have been called");
         }

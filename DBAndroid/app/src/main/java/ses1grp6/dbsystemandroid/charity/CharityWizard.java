@@ -56,7 +56,7 @@ public class CharityWizard extends AppCompatActivity implements AdapterView.OnIt
             throw new RuntimeException(e);
         }
 
-        DBSystemNetwork.sendPostRequest("listing/new/", jsonObject, new DBSystemNetwork.OnRequestComplete() {
+        DBSystemNetwork.sendPostRequest(this, "listing/new/", jsonObject, new DBSystemNetwork.OnRequestComplete() {
             @Override
             public void onRequestCompleted(RequestResponse response) {
                 if (response.hasStatusSuccessful()) {
@@ -77,7 +77,7 @@ public class CharityWizard extends AppCompatActivity implements AdapterView.OnIt
     }
 
     public void setupSpinner(){
-        DBSystemNetwork.sendGetRequest("/listing/industries", new DBSystemNetwork.OnRequestComplete() {
+        DBSystemNetwork.sendGetRequest(this, "/listing/industries", new DBSystemNetwork.OnRequestComplete() {
             @Override
             public void onRequestCompleted(RequestResponse response) {
                 if (response.isConnectionSuccessful()) {

@@ -68,7 +68,7 @@ public class DonorHistoryFragment extends Fragment implements SimpleRecyclerAdap
 
     private void fetchDonorHistory() {
         UserData userData = UserData.getInstance();
-        DBSystemNetwork.sendGetRequest("/donor/history/" + userData.getId(), new DBSystemNetwork.OnRequestComplete() {
+        DBSystemNetwork.sendGetRequest(getActivity(), "/donor/history/" + userData.getId(), new DBSystemNetwork.OnRequestComplete() {
             @Override
             public void onRequestCompleted(RequestResponse response) {
 

@@ -82,7 +82,7 @@ public class EditListingFragment extends Fragment {
     }
 
     private void rejectApplicant(final ApplicantCardFragment frag, Application application) {
-        DBSystemNetwork.sendGetRequest("application/reject/" + application.getId(), new DBSystemNetwork.OnRequestComplete() {
+        DBSystemNetwork.sendGetRequest(getActivity(), "application/reject/" + application.getId(), new DBSystemNetwork.OnRequestComplete() {
             @Override
             public void onRequestCompleted(RequestResponse response) {
 
@@ -97,7 +97,7 @@ public class EditListingFragment extends Fragment {
     }
 
     private void acceptApplicant(final ApplicantCardFragment frag, Application application) {
-        DBSystemNetwork.sendGetRequest("application/accept/" + application.getId(), new DBSystemNetwork.OnRequestComplete() {
+        DBSystemNetwork.sendGetRequest(getActivity(), "application/" + application.getId(), new DBSystemNetwork.OnRequestComplete() {
             @Override
             public void onRequestCompleted(RequestResponse response) {
 
@@ -120,7 +120,7 @@ public class EditListingFragment extends Fragment {
 
     private void fetchApplicants() {
         System.out.println("\"listing/applications/\" + listing.getId(): " + "listing/applications/" + listing.getId());
-        DBSystemNetwork.sendGetRequest("listing/applications/" + listing.getId(), new DBSystemNetwork.OnRequestComplete() {
+        DBSystemNetwork.sendGetRequest(getActivity(), "listing/applications/" + listing.getId(), new DBSystemNetwork.OnRequestComplete() {
             @Override
             public void onRequestCompleted(RequestResponse response) {
 
