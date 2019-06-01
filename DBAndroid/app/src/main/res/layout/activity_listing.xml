@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/listingScrollView"
     style="@style/baseView.spaced"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -16,10 +17,12 @@
 
         <TextView
             android:id="@+id/listingTitle"
-            style="@style/title"
+            style="@style/title.medium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView" />
+
+        <View style="@style/divider" />
 
         <TextView
             android:id="@+id/listingOwner"
@@ -43,26 +46,37 @@
             android:text="Under Science" />
 
         <TextView
-            android:id="@+id/listingDescription"
-            style="@style/body"
+            android:id="@+id/listingCreatedAt"
+            style="@style/subTitle.small"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="The end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never" />
+            android:text="Created at DATE" />
+
+        <TextView
+            android:id="@+id/listingLocation"
+            style="@style/subTitle.small"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="At Someplace" />
+
+        <TextView
+            android:id="@+id/listingContactNumber"
+            style="@style/subTitle.small"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Contact Number : 04538923489" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:id="@+id/listingEventDateBox"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_gravity="center"
+            android:layout_margin="20dp"
             android:background="@drawable/simple_box"
             android:orientation="vertical"
-            android:padding="10dp">
-
-            <TextView
-                android:id="@+id/listingCreatedAt"
-                style="@style/date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Created at DATE" />
+            android:padding="30dp"
+            android:paddingStart="80dp"
+            android:paddingEnd="80dp">
 
             <TextView
                 android:id="@+id/listingStartDate"
@@ -88,19 +102,18 @@
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/listingLocation"
-            style="@style/subTitle.small"
+        <FrameLayout
+            style="@style/boxedBody"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="At Someplace" />
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/listingContactNumber"
-            style="@style/subTitle.small"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Contact Number : 04538923489" />
+            <TextView
+                android:id="@+id/listingDescription"
+                style="@style/body"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="The end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never" />
+        </FrameLayout>
 
         <FrameLayout
             android:id="@+id/listingFragContainer"

@@ -31,7 +31,7 @@ public class Application implements Parcelable {
     private String contactNumber;
     private Date createdAt;
     private Industry industry;
-    private boolean accepted;
+    private int accepted;
 
     public Application(int id, Donor donor, Charity charity) {
         this.id = id;
@@ -45,7 +45,7 @@ public class Application implements Parcelable {
         this.charity = new Charity(jsonObject.getJSONObject(CHARITY));
         this.listing = new Listing(jsonObject.getJSONObject(LISTING));
         this.coverLetter = jsonObject.getString(COVER_LETTER);
-        this.accepted = jsonObject.getString(ACCEPTED).equals("1");
+        this.accepted = jsonObject.getInt(ACCEPTED);
         if (checkNull(jsonObject, CONTACT_NUMBER)) this.contactNumber = jsonObject.getString(CONTACT_NUMBER);
         if (checkNull(jsonObject, CREATED_AT)) setCreatedAt(jsonObject.getString(CREATED_AT));
         if (checkNull(jsonObject, INDUSTRY)) this.industry = new Industry(jsonObject.getJSONObject(INDUSTRY));
@@ -68,7 +68,15 @@ public class Application implements Parcelable {
     }
 
     public boolean isAccepted() {
-        return accepted;
+        return accepted == 1;
+    }
+
+    public boolean isRejected() {
+        return accepted == 2;
+    }
+
+    public boolean isPending() {
+        return accepted == 0;
     }
 
     public boolean hasCoverLetter() {
@@ -95,7 +103,7 @@ public class Application implements Parcelable {
         this.charity = charity;
     }
 
-    public void setAccepted(boolean accepted) {
+    public void setAccepted(int accepted) {
         this.accepted = accepted;
     }
 
@@ -180,7 +188,7 @@ public class Application implements Parcelable {
         dest.writeString(this.contactNumber);
         dest.writeLong(this.createdAt != null ? this.createdAt.getTime() : -1);
         dest.writeParcelable(this.industry, flags);
-        dest.writeByte(this.accepted ? (byte) 1 : (byte) 0);
+        dest.writeInt(this.accepted);
     }
 
     protected Application(Parcel in) {
@@ -193,7 +201,7 @@ public class Application implements Parcelable {
         long tmpCreatedAt = in.readLong();
         this.createdAt = tmpCreatedAt == -1 ? null : new Date(tmpCreatedAt);
         this.industry = in.readParcelable(Industry.class.getClassLoader());
-        this.accepted = in.readByte() != 0;
+        this.accepted = in.readInt();
     }
 
     public static final Creator<Application> CREATOR = new Creator<Application>() {

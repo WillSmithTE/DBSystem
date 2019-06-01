@@ -31,6 +31,28 @@
         <item name="android:fontFamily">@font/droid_sans_bold</item>
         <item name="android:textSize">40sp</item>
         <item name="android:padding">3dp</item>
+        <item name="android:layout_marginTop">5dp</item>
+    </style>
+
+    <style name="title.medium">
+        <item name="android:textSize">30sp</item>
+    </style>
+
+    <style name="title.small">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="boxedBody" parent="baseView">
+        <item name="android:padding">12dp</item>
+        <item name="android:background">@color/colorSlightBackground</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_marginBottom">20dp</item>
+    </style>
+    
+    <style name="divider" parent="AppTheme">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">4dp</item>
+        <item name="android:background">@color/colorPrimaryDark</item>
     </style>
 
     <style name="baseView.spaced">
@@ -42,6 +64,7 @@
         <item name="android:fontFamily">@font/droid_sans</item>
         <item name="android:textSize">16sp</item>
         <item name="android:padding">2dp</item>
+        <item name="android:layout_marginTop">5dp</item>
     </style>
 
     <style name="subTitle.small">
@@ -50,7 +73,7 @@
     </style>
 
     <style name="date" parent="AppTheme">
-        <item name="android:textColor">@color/colorThinBlack</item>
+        <item name="android:textColor">@color/colorDated</item>
         <item name="android:fontFamily">@font/secular_one</item>
         <item name="android:textSize">9sp</item>
         <item name="android:padding">2dp</item>

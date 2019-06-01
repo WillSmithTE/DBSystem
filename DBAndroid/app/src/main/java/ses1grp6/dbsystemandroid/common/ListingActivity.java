@@ -3,7 +3,13 @@ package ses1grp6.dbsystemandroid.common;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import ses1grp6.dbsystemandroid.R;
@@ -21,6 +27,9 @@ public class ListingActivity extends AppCompatActivity {
     private TextView endDateText;
     private TextView locationText;
     private TextView createdAtText;
+    private TextView contactText;
+    private LinearLayout eventDateBox;
+    private LinearLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +45,9 @@ public class ListingActivity extends AppCompatActivity {
         endDateText = findViewById(R.id.listingEndDate);
         locationText = findViewById(R.id.listingLocation);
         listingOwner = findViewById(R.id.listingOwner);
+        eventDateBox = findViewById(R.id.listingEventDateBox);
+        layout = findViewById(R.id.listingLayout);
+        contactText = findViewById(R.id.listingContactNumber);
 
         Intent intent = getIntent();
         setupTextViews(intent);
@@ -45,15 +57,41 @@ public class ListingActivity extends AppCompatActivity {
     private void setupTextViews(Intent intent) {
         Listing listing = Listing.getFromIntent(intent);
 
+        SpannableString industryStr = new SpannableString(getString(R.string.prefix_location) + " " + listing.getLocation());
+        industryStr.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorPrimaryDark)),
+                0, getString(R.string.prefix_location).length() + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
         titleText.setText(listing.getListingTitle());
-        listingOwner.setText(getString(R.string.prefix_by_name) + listing.getCharity().getName());
+        setStyledText(listingOwner, getString(R.string.prefix_by_name), listing.getCharity().getName());
         descriptionText.setText(listing.getListingDescription());
-        createdAtText.setText(listing.getFormattedCreatedAt());
-        if (listing.hasEventStartDate()) startDateText.setText(listing.getFormattedStartDate()); else startDateText.setVisibility(View.INVISIBLE);
-        if (listing.hasEventEndDate()) endDateText.setText(listing.getFormattedEndDate()); else endDateText.setVisibility(View.INVISIBLE);
-        if (listing.hasExpiresAt()) expiryText.setText(listing.getFormattedExpiresAt()); else expiryText.setVisibility(View.INVISIBLE);
-        checkAndSetText(industryText, listing.hasIndustry(), getString(R.string.prefix_industry) + listing.getIndustry());
-        checkAndSetText(locationText, listing.hasLocation(), getString(R.string.prefix_location) + listing.getLocation());
+        setStyledText(createdAtText, getString(R.string.prefix_created_at), listing.getFormattedCreatedAt());
+
+        if (listing.hasEventStartDate() && listing.hasEventEndDate()) {
+            startDateText.setText(listing.getFormattedStartDate());
+            endDateText.setText(listing.getFormattedEndDate());
+        } else {
+            layout.removeView(eventDateBox);
+        }
+
+        if (listing.hasExpiresAt())
+            expiryText.setText(listing.getFormattedExpiresAt());
+        else
+            layout.removeView(expiryText);
+
+        if (listing.hasIndustry())
+            setStyledText(industryText, getString(R.string.prefix_industry), listing.getIndustry().getIndustryName());
+        else
+            layout.removeView(industryText);
+
+        if (listing.hasLocation())
+            setStyledText(locationText, getString(R.string.prefix_location), listing.getLocation());
+        else
+            layout.removeView(locationText);
+
+        if (listing.hasContactNumber())
+            setStyledText(contactText, getString(R.string.prefix_location), listing.getContactNumber());
+        else
+            layout.removeView(contactText);
     }
 
     private void createDynamicFragment(Intent intent) {
@@ -64,12 +102,11 @@ public class ListingActivity extends AppCompatActivity {
         }
     }
 
-    private void checkAndSetText(TextView view, boolean check, String text) {
-
-        if (check) {
-            view.setText(text);
-        } else {
-            view.setVisibility(View.INVISIBLE);
-        }
+    private void setStyledText(TextView text, String prefix, String s) {
+        String fullStr = prefix + " " + s;
+        SpannableString span = new SpannableString(fullStr);
+        span.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorPrimaryDark)),
+                prefix.length(), fullStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        text.setText(span);
     }
 }
