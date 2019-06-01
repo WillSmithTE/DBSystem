@@ -32,11 +32,7 @@ public class donorWizard extends AppCompatActivity {
         setContentView(R.layout.activity_donor_wizard);
         intent = getIntent();
         listing = Listing.getFromIntent(intent);
-
-
-
     }
-
 
 
     public void onApplyClick(View view){
@@ -47,31 +43,12 @@ public class donorWizard extends AppCompatActivity {
         int donor_id = UserData.getInstance().getId();
         int listing_id = listing.getId();
         request(coverLetter, contactNumber, donor_id, listing_id);
-
     }
 
 
     public void request(String coverLetter, String contactNumber, int donor_id, int listing_id){
-//        JSONObject jsonObject = new JSONObject();
-//        JSONObject jsonObjectIndustry = new JSONObject();
-//        String charwizTitle = ((EditText) findViewById(R.id.charwizTitle)).getText().toString();
-//        String charwizDescription = ((EditText) findViewById(R.id.charwizDescription)).getText().toString();
-//        //String charwizDateTime = ((EditText) findViewById(R.id.charwizDateTime)).getText().toString();
-//        String charwizLocation = ((EditText) findViewById(R.id.charwizLocation)).getText().toString();
-//        //String charwizIndustry = ((EditText) findViewById(R.id.charwizIndustry)).getText().toString();
-//        int charwizIndustryID = indices.get(((Spinner) findViewById(R.id.charwizSpinner)).getSelectedItemPosition());
-//        String charwizIndustryName = industries.get(((Spinner) findViewById(R.id.charwizSpinner)).getSelectedItemPosition());
         JSONObject jsonObject = new JSONObject();
         try {
-//            jsonObjectIndustry.put("industryID", charwizIndustryID);
-//            jsonObjectIndustry.put("industryName", charwizIndustryName);
-//
-//            jsonObject.put("charity", UserData.getInstance().getId());
-//            jsonObject.put("listingTitle", charwizTitle);
-//            jsonObject.put("listingDescription", charwizDescription);
-//            jsonObject.put("location", charwizLocation);
-//            jsonObject.put("industry", jsonObjectIndustry);
-
             jsonObject.put("coverLetter", coverLetter);
             jsonObject.put("contactNumber", contactNumber);
             jsonObject.put("donor", donor_id);
