@@ -30,7 +30,24 @@ public class ApplicationController {
             Optional<Application> maybeApplication = applicationRepository.findById(id);
             if (maybeApplication.isPresent()) {
                 Application application = maybeApplication.get();
-                application.setAccepted(1);
+                application.accept();
+                return Response.success(applicationRepository.save(application));
+            } else {
+                return Response.fail("Application of id " + id + " not found.");
+            }
+        } catch (Exception e) {
+            return Response.fail("Failed to accept application of id " + id + ": " + e.getMessage());
+        }
+    }
+
+    @Transactional
+    @RequestMapping(value = "reject/{id}", method = RequestMethod.GET)
+    public Response rejectApplication(@PathVariable("id") Integer id) {
+        try {
+            Optional<Application> maybeApplication = applicationRepository.findById(id);
+            if (maybeApplication.isPresent()) {
+                Application application = maybeApplication.get();
+                application.reject();
                 return Response.success(applicationRepository.save(application));
             } else {
                 return Response.fail("Application of id " + id + " not found.");

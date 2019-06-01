@@ -164,5 +164,14 @@ public class Application {
     public Application timestamp(java.util.Date timestamp) {
         this.timestamp = timestamp;
         return this;
-    }   
+    }
+
+    public void reject() {
+        this.setAccepted(2);
+    }
+
+    public void accept() {
+        this.setAccepted(1);
+    }
+
 }
