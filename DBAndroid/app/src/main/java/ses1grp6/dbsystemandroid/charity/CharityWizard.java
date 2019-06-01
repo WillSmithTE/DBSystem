@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -27,40 +28,42 @@ import ses1grp6.dbsystemandroid.util.UserData;
 import ses1grp6.dbsystemandroid.util.simpleResult.ResultData;
 import ses1grp6.dbsystemandroid.util.simpleResult.SimpleResultActivity;
 
-public class CharityWizard extends AppCompatActivity implements AdapterView.OnItemSelectedListener, DatePickerDialog.OnDateSetListener {
+public class CharityWizard extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     Spinner spinner;
     ArrayList<String> industries;
     ArrayList<Integer> indices;
-    private TextView dateText;
+    TextView mTv;
+    Button mBtn;
+    Calendar c;
+    DatePickerDialog dpd;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         spinner = (Spinner) findViewById(R.id.charwizSpinner);
         setupSpinner();
-
         setContentView(R.layout.activity_charity_wizard);
-
-        dateText = findViewById(R.id.dateshow);
-        findViewById(R.id.charwizstartDate).setOnClickListener(new View.OnClickListener() {
+        mTv = (TextView) findViewById(R.id.dateshow);
+        mBtn = (Button) findViewById(R.id.charwizstartDate);
+        mBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                c = Calendar.getInstance();
+                int day = c.get(Calendar.DAY_OF_MONTH);
+                int month = c.get(Calendar.MONTH);
+                int year = c.get(Calendar.YEAR);
 
+                dpd = new DatePickerDialog(CharityWizard.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int mYear, int mMonth, int mDay) {
+                        mTv.setText(mDay + "/" + (mMonth+1) + "/" + mYear);
+                    }
+                }, day, month, year);
+            dpd.show();
             }
         });
-    }
 
-    private void showDatePickerDialog() {
-        DatePickerDialog datePickerDialog = new DatePickerDialog(
-                this,
-                this,
-                Calendar.getInstance().get(Calendar.YEAR),
-                Calendar.getInstance().get(Calendar.MONTH),
-                Calendar.getInstance().get(Calendar.DATE)
-
-        );
-        datePickerDialog.show();
     }
 
     public void onPostClick(View view) {
@@ -106,7 +109,7 @@ public class CharityWizard extends AppCompatActivity implements AdapterView.OnIt
 
     }
 
-    public void setupSpinner(){
+    public void setupSpinner() {
         DBSystemNetwork.sendGetRequest("/listing/industries", new DBSystemNetwork.OnRequestComplete() {
             @Override
             public void onRequestCompleted(RequestResponse response) {
@@ -123,7 +126,7 @@ public class CharityWizard extends AppCompatActivity implements AdapterView.OnIt
                         }
 
                         ArrayAdapter<String> adapter = new ArrayAdapter<String>(CharityWizard.this,
-                                android.R.layout.simple_spinner_item,industries);
+                                android.R.layout.simple_spinner_item, industries);
                         spinner = (Spinner) findViewById(R.id.charwizSpinner);
                         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         spinner.setAdapter(adapter);
@@ -148,10 +151,5 @@ public class CharityWizard extends AppCompatActivity implements AdapterView.OnIt
 
     }
 
-    @Override
-    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        String date = "day/month/year: " + dayOfMonth + "/" + month + "/" + year;
-        dateText.setText(date);
-    }
 }
 
