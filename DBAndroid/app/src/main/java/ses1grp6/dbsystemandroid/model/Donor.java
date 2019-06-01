@@ -11,7 +11,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Donor implements Parcelable {
+public class Donor extends User implements Parcelable {
 
     private static final String INTENT_NAME = "donorModel";
     private static final String NAME = "name";
@@ -42,18 +42,22 @@ public class Donor implements Parcelable {
         return jsonObject.has(key) && !jsonObject.getString(key).equals("null") && !jsonObject.getString(key).equals("") && !jsonObject.isNull(key);
     }
 
+    @Override
     public boolean hasName() {
         return name != null;
     }
 
+    @Override
     public boolean hasContactNumber() {
         return contactNumber != null;
     }
 
-    public boolean hasTimestamp() {
+    @Override
+    public boolean hasCreatedAt() {
         return createdAt != null;
     }
 
+    @Override
     public void putToIntent(Intent intent) {
         intent.putExtra(INTENT_NAME, this);
     }
@@ -62,18 +66,26 @@ public class Donor implements Parcelable {
         return intent.getParcelableExtra(INTENT_NAME);
     }
 
+    public static boolean hasInIntent(Intent intent) {
+        return intent.hasExtra(INTENT_NAME);
+    }
+
+    @Override
     public void setName(String name) {
         this.name = name;
     }
 
+    @Override
     public void setContactNumber(String contactNumber) {
         this.contactNumber = contactNumber;
     }
 
+    @Override
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
+    @Override
     public void setCreatedAt(String s) {
 
         try {
@@ -84,26 +96,32 @@ public class Donor implements Parcelable {
         }
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public String getEmail() {
         return email;
     }
 
+    @Override
     public String getContactNumber() {
         return contactNumber;
     }
 
+    @Override
     public int getId() {
         return id;
     }
 
+    @Override
     public Date getCreatedAt() {
         return createdAt;
     }
 
+    @Override
     public String getFormattedCreatedAt() {
         return new SimpleDateFormat("dd MM yyyy").format(createdAt);
     }

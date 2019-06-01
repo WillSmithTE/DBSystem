@@ -13,7 +13,7 @@ public abstract class User {
 
     public abstract boolean hasContactNumber();
 
-    public abstract boolean hasTimestamp();
+    public abstract boolean hasCreatedAt();
 
     public abstract void setName(String name);
 

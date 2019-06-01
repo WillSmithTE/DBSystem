@@ -15,10 +15,9 @@ import android.view.Gravity;
 import android.view.MenuItem;
 
 import ses1grp6.dbsystemandroid.charity.CharityHistoryFragment;
-import ses1grp6.dbsystemandroid.charity.CharityProfileFragment;
 import ses1grp6.dbsystemandroid.charity.ListingCharityFragment;
 import ses1grp6.dbsystemandroid.donor.DonorHistoryFragment;
-import ses1grp6.dbsystemandroid.donor.DonorProfileFragment;
+import ses1grp6.dbsystemandroid.donor.ProfileFragment;
 import ses1grp6.dbsystemandroid.donor.ListingFragment;
 import ses1grp6.dbsystemandroid.launch.LoginActivity;
 import ses1grp6.dbsystemandroid.util.UserData;
@@ -101,7 +100,7 @@ public class DashboardActivity extends AppCompatActivity {
                     swapContainerFor(new ListingFragment(), DONOR_DASHBOARD_NAME);
                     break;
                 case R.id.donorNavProfile:
-                    swapContainerFor(new DonorProfileFragment(), "Donor Profile");
+                    swapContainerFor(new ProfileFragment(), "Donor Profile");
                     break;
                 case R.id.donorNavHistory:
                     swapContainerFor(new DonorHistoryFragment(), "Donor History");
@@ -131,7 +130,7 @@ public class DashboardActivity extends AppCompatActivity {
                     break;
 
                 case R.id.charityNavProfile:
-                    swapContainerFor(new CharityProfileFragment(), CHARITY_DASHBOARD_NAME);
+                    swapContainerFor(new ProfileFragment(), CHARITY_DASHBOARD_NAME);
                     break;
                 case R.id.charityLogOut:
                     logOut();

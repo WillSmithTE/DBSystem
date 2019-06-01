@@ -63,6 +63,10 @@ public class Application implements Parcelable {
         return intent.getParcelableExtra(INTENT_NAME);
     }
 
+    public static boolean hasInIntent(Intent intent) {
+        return intent.hasExtra(INTENT_NAME);
+    }
+
     public boolean hasListing() {
         return listing != null;
     }
