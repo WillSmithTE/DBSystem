@@ -1,19 +1,23 @@
 package ses1grp6.dbsystemandroid.charity;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import ses1grp6.dbsystemandroid.R;
 import ses1grp6.dbsystemandroid.model.Listing;
@@ -23,10 +27,11 @@ import ses1grp6.dbsystemandroid.util.UserData;
 import ses1grp6.dbsystemandroid.util.simpleResult.ResultData;
 import ses1grp6.dbsystemandroid.util.simpleResult.SimpleResultActivity;
 
-public class CharityWizard extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public class CharityWizard extends AppCompatActivity implements AdapterView.OnItemSelectedListener, DatePickerDialog.OnDateSetListener {
     Spinner spinner;
     ArrayList<String> industries;
     ArrayList<Integer> indices;
+    private TextView dateText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +41,26 @@ public class CharityWizard extends AppCompatActivity implements AdapterView.OnIt
         setupSpinner();
 
         setContentView(R.layout.activity_charity_wizard);
+
+        dateText = findViewById(R.id.dateshow);
+        findViewById(R.id.charwizstartDate).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+    }
+
+    private void showDatePickerDialog() {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                this,
+                this,
+                Calendar.getInstance().get(Calendar.YEAR),
+                Calendar.getInstance().get(Calendar.MONTH),
+                Calendar.getInstance().get(Calendar.DATE)
+
+        );
+        datePickerDialog.show();
     }
 
     public void onPostClick(View view) {
@@ -123,5 +148,10 @@ public class CharityWizard extends AppCompatActivity implements AdapterView.OnIt
 
     }
 
-
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        String date = "day/month/year: " + dayOfMonth + "/" + month + "/" + year;
+        dateText.setText(date);
+    }
 }
+
