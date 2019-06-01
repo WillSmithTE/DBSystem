@@ -20,7 +20,7 @@ public class Application implements Parcelable {
     private static final String CONTACT_NUMBER = "contactNumber";
     private static final String INDUSTRY = "industry";
     private static final String CREATED_AT = "createdAt";
-    private static final String ID = "id";
+    private static final String ID = "applicationID";
     public static final String ACCEPTED = "accepted";
     private int id;
     private Donor donor;
