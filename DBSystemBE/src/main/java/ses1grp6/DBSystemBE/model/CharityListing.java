@@ -16,6 +16,10 @@ public class CharityListing {
     @JoinColumn(name = "charity_id")
     private Charity charity;
 
+    @ManyToOne
+    @JoinColumn(name = "industry_id")
+    private Industry industry;
+
     @Column(name = "listing_title")
     private String listingTitle;
 
