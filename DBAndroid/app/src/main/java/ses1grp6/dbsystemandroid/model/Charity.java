@@ -138,7 +138,7 @@ public class Charity extends User implements Parcelable {
 
     @Override
     public String getFormattedCreatedAt() {
-        return new SimpleDateFormat("dd MM yyyy").format(createdAt);
+        return new SimpleDateFormat("dd MMM yyyy").format(createdAt);
     }
 
     @Override

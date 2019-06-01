@@ -174,7 +174,7 @@ public class Application implements Parcelable {
     }
 
     public String getFormattedCreatedAt() {
-        return new SimpleDateFormat("dd MM yyyy").format(createdAt);
+        return new SimpleDateFormat("dd MMM yyyy").format(createdAt);
     }
 
     @Override

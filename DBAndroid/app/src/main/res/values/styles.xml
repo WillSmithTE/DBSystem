@@ -62,14 +62,14 @@
     <style name="subTitle" parent="AppTheme">
         <item name="android:textColor">@color/colorSubTitle</item>
         <item name="android:fontFamily">@font/droid_sans</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">14sp</item>
         <item name="android:padding">2dp</item>
         <item name="android:layout_marginTop">5dp</item>
     </style>
 
     <style name="subTitle.small">
         <item name="android:fontFamily">@font/droid_sans_bold</item>
-        <item name="android:textSize">11dp</item>
+        <item name="android:textSize">12sp</item>
     </style>
 
     <style name="date" parent="AppTheme">
@@ -109,7 +109,7 @@
     <style name="cardStyle.subTitle">
         <item name="android:textColor">@color/colorSubTitle</item>
         <item name="android:fontFamily">@font/droid_sans</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">11sp</item>
         <item name="android:textStyle">italic</item>
         <item name="android:layout_marginTop">1dp</item>
         <item name="android:layout_marginBottom">1dp</item>

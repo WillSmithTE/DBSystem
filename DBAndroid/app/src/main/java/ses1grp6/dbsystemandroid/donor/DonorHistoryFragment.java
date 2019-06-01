@@ -104,7 +104,11 @@ public class DonorHistoryFragment extends Fragment implements SimpleRecyclerAdap
         viewHolder.charityName.setText(getString(R.string.prefix_by_name) + " " + hist.getCharity().getName());
         String descip = hist.getCoverLetter().substring(0, Math.min(hist.getCoverLetter().length(), 90));
         viewHolder.description.setText(descip + ".....");
-        viewHolder.industry.setText(getString(R.string.prefix_industry) + " " + hist.getIndustry());
+
+        if (hist.hasIndustry())
+            viewHolder.industry.setText(getString(R.string.prefix_industry) + " " + hist.getIndustry().getIndustryName());
+        else
+            viewHolder.industry.setText("");
     }
 
     public static class HistoryHolder extends RecyclerView.ViewHolder {

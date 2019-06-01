@@ -2,6 +2,7 @@ package ses1grp6.dbsystemandroid.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
@@ -50,7 +51,12 @@ public class UserData {
         }
     }
 
-    public void fetchUser(final FragmentActivity activity, final OnUserRecievedListener listener) {
+    /**
+     * Tries to fetch user profile and caches is.
+     * @param activity a running activity
+     * @param listener callback when user profile fetched. Can be left to null if a callback is not desired.
+     */
+    public void fetchUser(final FragmentActivity activity, @Nullable final OnUserRecievedListener listener) {
         String requestMapping = userType == UserType.CHARITY ? "charity/" : "donor/";
 
         if (user != null) {
@@ -66,10 +72,10 @@ public class UserData {
                     try {
                         if (userType == UserType.CHARITY) {
                             user = new Charity(body);
-                            listener.onUserReceived(user);
+                            if (listener != null) listener.onUserReceived(user);
                         } else {
                             user = new Donor(body);
-                            listener.onUserReceived(user);
+                            if (listener != null) listener.onUserReceived(user);
                         }
                     } catch (JSONException e) {
                         Toast.makeText(activity.getApplicationContext(), "Unable to read user profile from server", Toast.LENGTH_LONG).show();

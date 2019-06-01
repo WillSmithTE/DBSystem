@@ -103,7 +103,7 @@ public class CharityHistoryFragment extends Fragment implements SimpleRecyclerAd
         viewHolder.title.setText(hist.getListingTitle());
         String descip = hist.getListingDescription().substring(0, Math.min(hist.getListingDescription().length(), 90));
         viewHolder.description.setText(descip + ".....");
-        viewHolder.industry.setText(getString(R.string.prefix_industry) + hist.getIndustry());
+        viewHolder.industry.setText(getString(R.string.prefix_industry) + " " + hist.getIndustry());
     }
 
     public static class HistoryHolder extends RecyclerView.ViewHolder {
