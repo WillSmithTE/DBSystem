@@ -8,7 +8,7 @@ import org.json.JSONObject;
 
 public class Industry implements Parcelable {
 
-    private static final String ID = "industryId";
+    private static final String ID = "industryID";
     private static final String INDUSTRY_NAME = "industryName";
     private int id;
     private String industryName;
