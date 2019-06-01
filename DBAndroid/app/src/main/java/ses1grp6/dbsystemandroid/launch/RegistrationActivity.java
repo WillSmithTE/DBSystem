@@ -97,6 +97,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private void showRegistrationResult() {
         Intent intent = new Intent(this, SimpleResultActivity.class);
         ResultData resultData = new ResultData(getString(R.string.registration_success_title), getString(R.string.registration_success_subtext));
+        resultData.setBackActivity(LoginActivity.class, "Back To Login");
         resultData.putToIntent(intent);
         startActivity(intent);
     }
