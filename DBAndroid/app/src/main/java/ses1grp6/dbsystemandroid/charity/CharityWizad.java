@@ -16,7 +16,6 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.time.Year;
 import java.util.Calendar;
 
 import ses1grp6.dbsystemandroid.R;
@@ -25,7 +24,7 @@ import ses1grp6.dbsystemandroid.network.RequestResponse;
 import ses1grp6.dbsystemandroid.util.simpleResult.ResultData;
 import ses1grp6.dbsystemandroid.util.simpleResult.SimpleResultActivity;
 
-public class charityWizard extends AppCompatActivity implements AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener, DatePickerDialog.OnDateSetListener {
+public class CharityWizad extends AppCompatActivity implements AdapterView.OnItemSelectedListener, AdapterView.OnItemClickListener, DatePickerDialog.OnDateSetListener {
 
     private TextView dateText;
 
@@ -83,11 +82,11 @@ public class charityWizard extends AppCompatActivity implements AdapterView.OnIt
             public void onRequestCompleted(RequestResponse response) {
                 if (response.hasStatusSuccessful()) {
 
-                    Intent intent = new Intent(charityWizard.this, SimpleResultActivity.class);
+                    Intent intent = new Intent(CharityWizad.this, SimpleResultActivity.class);
                     new ResultData("Listing Added", "");
                     startActivity(intent);
                 } else {
-                    Toast.makeText(charityWizard.this, response.getErrorMessage(),
+                    Toast.makeText(CharityWizad.this, response.getErrorMessage(),
                             Toast.LENGTH_LONG).show();
                 }
             }

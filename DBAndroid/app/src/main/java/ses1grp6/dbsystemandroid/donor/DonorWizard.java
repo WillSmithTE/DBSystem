@@ -10,7 +10,7 @@ import org.json.JSONObject;
 
 import ses1grp6.dbsystemandroid.R;
 
-public class donorWizard extends AppCompatActivity {
+public class DonorWizard extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
