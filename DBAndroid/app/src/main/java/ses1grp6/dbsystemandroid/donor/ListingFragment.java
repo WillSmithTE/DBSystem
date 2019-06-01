@@ -95,28 +95,13 @@ public class ListingFragment extends Fragment implements ListingAdapter.ItemClic
 
     @Override
     public void onItemClick(View view, int id, Listing listing) {
-
         String s = "Id " + id + " has been clicked";
         System.out.println(s + listing.getListingTitle());
 
         Intent intent = new Intent(getContext(), ListingActivity.class);
         FragBundler fragBundler = new FragBundler(intent);
-        fragBundler.putToIntent(EditListingFragment.class);
+        fragBundler.putToIntent(ApplyListingFragment.class);
         listing.putToIntent(intent);
         startActivity(intent);
-
-
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-

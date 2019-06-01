@@ -81,8 +81,3 @@ public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.DonorLis
 
     }
 }
-
-
-
-
-
