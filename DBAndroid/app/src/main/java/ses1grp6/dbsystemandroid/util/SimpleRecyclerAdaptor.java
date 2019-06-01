@@ -75,7 +75,7 @@ public class SimpleRecyclerAdaptor<A extends RecyclerView.ViewHolder, T> extends
      * A callback object that will be called when data needs to be binded to the viewholder.
      * @param <A> something that {@link RecyclerView.ViewHolder}
      */
-    public interface Binder<A> {
+    public interface Binder<A extends RecyclerView.ViewHolder> {
 
         void onBindViewHolder(@NonNull A viewHolder, int i);
     }

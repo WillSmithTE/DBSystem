@@ -37,6 +37,7 @@ import java.util.function.Supplier;
 public class AuthController {
 
     private final static String REGISTER_PATH = "/register";
+    private final static String URL_PATH = "https://dbsystem.herokuapp.com";
     public final static byte[] key = "3237866954478902".getBytes(Charset.defaultCharset());
     public final static byte[] iv = "5315253035103953".getBytes(Charset.defaultCharset());
 
@@ -130,7 +131,7 @@ public class AuthController {
                     InternetAddress.parse(emailAddress)
             );
             message.setSubject("Email Confirmation Donor App");
-            message.setText("Click the link to confirm your email.\n" + "http://192.168.0.2:8080/auth/confirm/" + userId);
+            message.setText("Click the link to confirm your email.\n" + URL_PATH + "/auth/confirm/" + userId);
 
             Transport.send(message);
 

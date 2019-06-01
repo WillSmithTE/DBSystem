@@ -12,6 +12,10 @@
     <string name="phone_number">Phone Number</string>
     <string name="open_nav_drawer">Open Navigation Drawer</string>
     <string name="close_nav_drawer">Close Navigation Drawer</string>
+    <string name="see_location">See Location</string>
+    <string name="apply">Apply</string>
+    <string name="call">Call</string>
+    <string name="applicants">Applicants</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

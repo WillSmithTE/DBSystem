@@ -20,7 +20,8 @@ public class Application implements Parcelable {
     private static final String CONTACT_NUMBER = "contactNumber";
     private static final String INDUSTRY = "industry";
     private static final String CREATED_AT = "createdAt";
-    private static final String ID = "id";
+    private static final String ID = "applicationID";
+    public static final String ACCEPTED = "accepted";
     private int id;
     private Donor donor;
     private Charity charity;
@@ -28,6 +29,7 @@ public class Application implements Parcelable {
     private String contactNumber;
     private Date createdAt;
     private String industry;
+    private boolean accepted;
 
     public Application(int id, Donor donor, Charity charity) {
         this.id = id;
@@ -35,13 +37,14 @@ public class Application implements Parcelable {
         this.charity = charity;
     }
 
-    public Application(JSONObject jsonObject) throws ParseException, JSONException {
+    public Application(JSONObject jsonObject) throws JSONException {
         this.id = jsonObject.getInt(ID);
         this.donor = new Donor(jsonObject.getJSONObject(DONOR));
         this.charity = new Charity(jsonObject.getJSONObject(CHARITY));
         this.coverLetter = jsonObject.getString(COVER_LETTER);
+        this.accepted = jsonObject.getString(ACCEPTED).equals("1");
         if (checkNull(jsonObject, CONTACT_NUMBER)) this.contactNumber = jsonObject.getString(CONTACT_NUMBER);
-        if (checkNull(jsonObject, CREATED_AT)) setTimestamp(jsonObject.getString(CREATED_AT));
+        if (checkNull(jsonObject, CREATED_AT)) setCreatedAt(jsonObject.getString(CREATED_AT));
         if (checkNull(jsonObject, INDUSTRY)) this.industry = jsonObject.getString(INDUSTRY);
     }
 
@@ -49,13 +52,16 @@ public class Application implements Parcelable {
         return jsonObject.has(key) && !jsonObject.getString(key).equals("null");
     }
 
-
     public void putToIntent(Intent intent) {
         intent.putExtra(INTENT_NAME, this);
     }
 
     public static Application getFromIntent(Intent intent) {
         return intent.getParcelableExtra(INTENT_NAME);
+    }
+
+    public boolean isAccepted() {
+        return accepted;
     }
 
     public boolean hasCoverLetter() {
@@ -66,7 +72,7 @@ public class Application implements Parcelable {
         return contactNumber != null;
     }
 
-    public boolean hasTimestamp() {
+    public boolean hasCreatedAt() {
         return createdAt != null;
     }
 
@@ -82,6 +88,10 @@ public class Application implements Parcelable {
         this.charity = charity;
     }
 
+    public void setAccepted(boolean accepted) {
+        this.accepted = accepted;
+    }
+
     public void setCoverLetter(String coverLetter) {
         this.coverLetter = coverLetter;
     }
@@ -94,8 +104,14 @@ public class Application implements Parcelable {
         this.createdAt = createdAt;
     }
 
-    public void setTimestamp(String timestampString) throws ParseException {
-        this.createdAt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(timestampString);;
+    public void setCreatedAt(String s) {
+
+        try {
+            this.createdAt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(s);
+        } catch (ParseException e) {
+            System.err.println("Could not read date from \"" + s + "\" Setting Null for CreatedAt!!!");
+            this.createdAt = null;
+        }
     }
 
     public void setIndustry(String industry) {

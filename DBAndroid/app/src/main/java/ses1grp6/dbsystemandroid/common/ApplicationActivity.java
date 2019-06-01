@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import ses1grp6.dbsystemandroid.R;
 import ses1grp6.dbsystemandroid.model.Application;
+import ses1grp6.dbsystemandroid.util.FragBundler;
 
 public class ApplicationActivity extends AppCompatActivity {
 
@@ -27,12 +28,24 @@ public class ApplicationActivity extends AppCompatActivity {
         timestampText = findViewById(R.id.appliTimestamp);
 
         Intent intent = getIntent();
-        Application application = Application.getFromIntent(intent);
+        setupTextViews(intent);
+        createDynamicFragment(intent);
+    }
 
+    private void setupTextViews(Intent intent) {
+        Application application = Application.getFromIntent(intent);
         titleText.setText(getString(R.string.prefix_application_title) + "\"" + application.getCharity().getName() + "\"");
         coverLetterText.setText(application.getCoverLetter());
-        checkAndSetText(timestampText, application.hasTimestamp(), getString(R.string.prefix_created_at) + application.getFormattedCreatedAt());
+        if (application.hasCreatedAt()) timestampText.setText(application.getFormattedCreatedAt()); else timestampText.setVisibility(View.INVISIBLE);
         checkAndSetText(contactNumberText, application.hasContactNumber(), application.getContactNumber());
+    }
+
+    private void createDynamicFragment(Intent intent) {
+        FragBundler fragBundler = new FragBundler(intent);
+
+        if (fragBundler.hasFragment()) {
+            fragBundler.replaceWithFragment(getSupportFragmentManager(), R.id.appliFragContainer);
+        }
     }
 
     private void checkAndSetText(TextView view, boolean check, String text) {

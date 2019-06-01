@@ -41,7 +41,7 @@ public class ListingCharitiesAdapter extends RecyclerView.Adapter<ListingChariti
 
     @Override
     public void onBindViewHolder(@NonNull final DonorListViewHolder donorListViewHolder, int i) {
-        Listing donor = donors.get(i);
+        final Listing donor = donors.get(i);
 
         String listingTitle = donor.getListingTitle();
         String listingDesc = donor.getListingDescription();
@@ -55,7 +55,7 @@ public class ListingCharitiesAdapter extends RecyclerView.Adapter<ListingChariti
         donorListViewHolder.itemView.setOnClickListener (new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (itemClickListener != null) itemClickListener.onItemClick(view, id);
+                if (itemClickListener != null) itemClickListener.onItemClick(view, id, donor);
             }
         });
     }
@@ -75,6 +75,6 @@ public class ListingCharitiesAdapter extends RecyclerView.Adapter<ListingChariti
     }
 
     public interface ItemClickListener {
-        void onItemClick(View view, int id);
+        void onItemClick(View view, int id, Listing listing);
     }
 }
