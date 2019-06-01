@@ -31,11 +31,15 @@ public class Donor implements Parcelable {
     }
 
     public Donor(JSONObject jsonObject) throws JSONException {
+        this.id = jsonObject.getInt(ID);
         this.name = jsonObject.getString(NAME);
         this.email = jsonObject.getString(EMAIL);
-        if (jsonObject.has(CONTACT_NUMBER)) this.contactNumber = jsonObject.getString(CONTACT_NUMBER);
-        this.id = jsonObject.getInt(ID);
-        if (jsonObject.has(CREATED_AT)) setCreatedAt(jsonObject.getString(CREATED_AT));
+        if (checkNull(jsonObject, CONTACT_NUMBER)) this.contactNumber = jsonObject.getString(CONTACT_NUMBER);
+        if (checkNull(jsonObject, CREATED_AT)) setCreatedAt(jsonObject.getString(CREATED_AT));
+    }
+
+    public boolean checkNull(JSONObject jsonObject, String key) throws JSONException{
+        return jsonObject.has(key) && !jsonObject.getString(key).equals("null") && !jsonObject.getString(key).equals("") && !jsonObject.isNull(key);
     }
 
     public boolean hasName() {

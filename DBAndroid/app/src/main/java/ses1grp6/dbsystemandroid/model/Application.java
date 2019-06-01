@@ -52,7 +52,7 @@ public class Application implements Parcelable {
     }
 
     public boolean checkNull(JSONObject jsonObject, String key) throws JSONException{
-        return jsonObject.has(key) && !jsonObject.getString(key).equals("null");
+        return jsonObject.has(key) && !jsonObject.getString(key).equals("null") && !jsonObject.getString(key).equals("") && !jsonObject.isNull(key);
     }
 
     public void putToIntent(Intent intent) {
@@ -61,6 +61,10 @@ public class Application implements Parcelable {
 
     public static Application getFromIntent(Intent intent) {
         return intent.getParcelableExtra(INTENT_NAME);
+    }
+
+    public boolean hasListing() {
+        return listing != null;
     }
 
     public boolean isAccepted() {
