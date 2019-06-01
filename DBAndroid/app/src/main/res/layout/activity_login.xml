@@ -61,8 +61,7 @@
         style="@style/subTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="68dp"
         android:text="@string/password"
         app:layout_constraintStart_toStartOf="@+id/loginText"
         app:layout_constraintTop_toBottomOf="@+id/usernameText" />

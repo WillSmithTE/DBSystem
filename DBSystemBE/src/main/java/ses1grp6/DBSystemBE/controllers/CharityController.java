@@ -1,16 +1,12 @@
 package ses1grp6.DBSystemBE.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.TransactionSystemException;
+import org.springframework.web.bind.annotation.*;
 import ses1grp6.DBSystemBE.model.Charity;
-import ses1grp6.DBSystemBE.model.CharityUser;
 import ses1grp6.DBSystemBE.model.Response;
 import ses1grp6.DBSystemBE.repositories.CharityListingRepository;
 import ses1grp6.DBSystemBE.repositories.CharityRepository;
-import ses1grp6.DBSystemBE.repositories.CharityUserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import javax.websocket.server.PathParam;
 
 @RestController
 @RequestMapping("/charity")

@@ -1,17 +1,17 @@
-package ses1grp6.dbsystemandroid.charity;
+package ses1grp6.dbsystemandroid.donor;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -24,32 +24,28 @@ import ses1grp6.dbsystemandroid.R;
 import ses1grp6.dbsystemandroid.model.Listing;
 import ses1grp6.dbsystemandroid.network.DBSystemNetwork;
 import ses1grp6.dbsystemandroid.network.RequestResponse;
-import ses1grp6.dbsystemandroid.util.FragBundler;
-import ses1grp6.dbsystemandroid.util.UserData;
-import ses1grp6.dbsystemandroid.common.ListingActivity;
 
-public class ListingCharityFragment extends Fragment implements ListingCharitiesAdapter.ItemClickListener {
+public class ListingFragment extends Fragment implements ListingAdapter.ItemClickListener {
     Context context;
     View rootView;
-    ListingCharitiesAdapter adapter;
+    ListingAdapter adapter;
     ArrayList<Listing> listingCharities;
 
-    public ListingCharityFragment()  {
+    public ListingFragment()  {
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.context = getContext();
-        rootView = inflater.inflate(R.layout.fragment_listing_charities_list, container, false);
+        rootView = inflater.inflate(R.layout.fragment_listing_list, container, false);
 
-        Button button = (Button) rootView.findViewById(R.id.button_create_listing);
-        button.setOnClickListener(new View.OnClickListener()
+        SearchView searchButton = (SearchView) rootView.findViewById(R.id.searchListing);
+        searchButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                Intent intent = new Intent(context, CharityWizard.class);
-                startActivity(intent);
+                arrayBuild();
             }
         });
 
@@ -58,15 +54,15 @@ public class ListingCharityFragment extends Fragment implements ListingCharities
     }
 
     private void arrayBuild(){
-        DBSystemNetwork.sendGetRequest("listing/charity/" + UserData.getInstance().getId(), new DBSystemNetwork.OnRequestComplete() {
+        DBSystemNetwork.sendGetRequest("listing/search/" + ((SearchView)rootView.findViewById(R.id.searchListing)).getQuery(), new DBSystemNetwork.OnRequestComplete() {
             @Override
             public void onRequestCompleted(RequestResponse response) {
                 if (response.isConnectionSuccessful()) {
-
                     try {
                         listingCharities = new ArrayList<>();
-                        System.out.println("REACHED oncreateivew listingcharities" + response.data);
-                        for (int i = 0; i < response.getJsonObject().getJSONArray("body").length(); i++) {
+                        int max = response.getJsonObject().getJSONArray("body").length();
+                        if (max > 20) max = 20;
+                        for (int i = 0; i < max; i++) {
                             JSONObject obj = response.getJsonObject().getJSONArray("body").getJSONObject(i);
                             listingCharities.add(new Listing(obj));
                         }
@@ -89,20 +85,26 @@ public class ListingCharityFragment extends Fragment implements ListingCharities
         LinearLayoutManager manager = new LinearLayoutManager(context);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(manager);
-        adapter = new ListingCharitiesAdapter(listingCharities);
+        adapter = new ListingAdapter(listingCharities);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
     }
 
     @Override
-    public void onItemClick(View view, int id, Listing listing) {
+    public void onItemClick(View view, int id) {
         String s = "Id " + id + " has been clicked";
-        System.out.println(s + listing.getListingTitle());
-
-        Intent intent = new Intent(getContext(), ListingActivity.class);
-        FragBundler fragBundler = new FragBundler(intent);
-        fragBundler.putToIntent(EditListingFragment.class);
-        listing.putToIntent(intent);
-        startActivity(intent);
+//        Toast.makeText(context, s,
+//                Toast.LENGTH_LONG).show();
+//        System.out.println(s);
+//
+//        Intent intent = new Intent(getActivity(), ProfileActivity.class);
+//        ListingCharity donor = listingCharities.get(0);
+//        for (ListingCharity d : donors){
+//            if (d.getId() == id) {
+//                donor = d;
+//            }
+//        }
+//        intent.putExtra("donor", donor);
+//        startActivity(intent);
     }
 }

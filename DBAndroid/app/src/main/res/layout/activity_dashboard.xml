@@ -8,7 +8,7 @@
     tools:context=".DashboardActivity">
 
     <LinearLayout
-        style="@style/baseBackground"
+        style="@style/baseView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">

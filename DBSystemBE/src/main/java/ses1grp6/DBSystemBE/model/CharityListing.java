@@ -33,15 +33,29 @@ public class CharityListing {
     @Basic
     @Column(name="created_at", updatable=false)
     @Temporal(TemporalType.TIMESTAMP)
-    private java.util.Date timestamp;
+    private java.util.Date createdAt;
+
+    @Basic
+    @Column(name="expires_at", updatable=false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private java.util.Date expiresAt;
+
+    @Basic
+    @Column(name="event_start_date", updatable=false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private java.util.Date eventStartDate;
+
+    @Basic
+    @Column(name="event_end_date", updatable=false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private java.util.Date eventEndDate;
 
     @PrePersist
     public void prePersist() {
-        if (this.timestamp == null) {
-            this.timestamp = new Date();
+        if (this.createdAt == null) {
+            this.createdAt = new Date();
         }
     }
-
 
     public CharityListing() {
     }
@@ -50,14 +64,17 @@ public class CharityListing {
         this.id = id;
     }
 
-    public CharityListing(Integer id, Charity charity, Industry industry, String listingTitle, String listingDescription, String location, java.util.Date timestamp) {
+    public CharityListing(Integer id, Charity charity, Industry industry, String listingTitle, String listingDescription, String location, java.util.Date createdAt, java.util.Date expiresAt, java.util.Date eventStartDate, java.util.Date eventEndDate) {
         this.id = id;
         this.charity = charity;
         this.industry = industry;
         this.listingTitle = listingTitle;
         this.listingDescription = listingDescription;
         this.location = location;
-        this.timestamp = timestamp;
+        this.createdAt = createdAt;
+        this.expiresAt = expiresAt;
+        this.eventStartDate = eventStartDate;
+        this.eventEndDate = eventEndDate;
     }
 
     public Integer getId() {
@@ -108,16 +125,40 @@ public class CharityListing {
         this.location = location;
     }
 
-    public java.util.Date getTimestamp() {
-        return this.timestamp;
+    public java.util.Date getCreatedAt() {
+        return this.createdAt;
     }
 
-    public void setTimestamp(java.util.Date timestamp) {
-        this.timestamp = timestamp;
+    public void setCreatedAt(java.util.Date createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public CharityListing charityListingID(Integer charityListingID) {
-        this.id = charityListingID;
+    public java.util.Date getExpiresAt() {
+        return this.expiresAt;
+    }
+
+    public void setExpiresAt(java.util.Date expiresAt) {
+        this.expiresAt = expiresAt;
+    }
+
+    public java.util.Date getEventStartDate() {
+        return this.eventStartDate;
+    }
+
+    public void setEventStartDate(java.util.Date eventStartDate) {
+        this.eventStartDate = eventStartDate;
+    }
+
+    public java.util.Date getEventEndDate() {
+        return this.eventEndDate;
+    }
+
+    public void setEventEndDate(java.util.Date eventEndDate) {
+        this.eventEndDate = eventEndDate;
+    }
+
+    public CharityListing id(Integer id) {
+        this.id = id;
         return this;
     }
 
@@ -146,8 +187,23 @@ public class CharityListing {
         return this;
     }
 
-    public CharityListing timestamp(java.util.Date timestamp) {
-        this.timestamp = timestamp;
+    public CharityListing createdAt(java.util.Date createdAt) {
+        this.createdAt = createdAt;
+        return this;
+    }
+
+    public CharityListing expiresAt(java.util.Date expiresAt) {
+        this.expiresAt = expiresAt;
+        return this;
+    }
+
+    public CharityListing eventStartDate(java.util.Date eventStartDate) {
+        this.eventStartDate = eventStartDate;
+        return this;
+    }
+
+    public CharityListing eventEndDate(java.util.Date eventEndDate) {
+        this.eventEndDate = eventEndDate;
         return this;
     }
 }

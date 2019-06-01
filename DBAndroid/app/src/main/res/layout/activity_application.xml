@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/baseView.spaced"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".common.ApplicationActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/appliTitle"
+            style="@style/subTitle.small"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text='For "HappyCharity"'
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/appliCoverLetter"
+            style="@style/body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never the end is never " />
+
+        <TextView
+            android:id="@+id/appliTimestamp"
+            style="@style/date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Created At DATE" />
+
+        <TextView
+            android:id="@+id/appliContactNumber"
+            style="@style/subTitle.small"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Contact : 045293402" />
+
+        <FrameLayout
+            android:id="@+id/appliFragContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </FrameLayout>
+    </LinearLayout>
+
+</ScrollView>

@@ -1,13 +1,7 @@
 package ses1grp6.DBSystemBE.model;
+
+import javax.persistence.*;
 import java.util.Objects;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Column;
-import javax.persistence.Table;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
 @Entity
 public class Industry {
@@ -26,6 +20,10 @@ public class Industry {
     public Industry(Long industryID, String industryName) {
         this.industryID = industryID;
         this.industryName = industryName;
+    }
+
+    public Industry(Long industryID) {
+        this.industryID = industryID;
     }
 
     public Long getIndustryID() {

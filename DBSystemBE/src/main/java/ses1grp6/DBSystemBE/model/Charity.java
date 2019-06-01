@@ -1,8 +1,7 @@
 package ses1grp6.DBSystemBE.model;
 
-import java.util.Date;
 import javax.persistence.*;
-import java.util.Objects;
+import java.util.Date;
 /**
  * Created by Will Smith on 4/4/19.
  */
@@ -16,15 +15,15 @@ public class Charity extends User{
     @Basic
     @Column(name="created_at", updatable=false)
     @Temporal(TemporalType.TIMESTAMP)
-    private java.util.Date timestamp;
+    private java.util.Date createdAt;
     
     @org.hibernate.annotations.Type( type = "text" )
     private String charity_description;
     
     @PrePersist
     public void prePersist() {
-        if (this.timestamp == null) {
-            this.timestamp = new Date();
+        if (this.createdAt == null) {
+            this.createdAt = new Date();
         }
     }
 
@@ -40,9 +39,9 @@ public class Charity extends User{
     }
 
 
-    public Charity(int charitySize, java.util.Date timestamp, String charity_description) {
+    public Charity(int charitySize, java.util.Date createdAt, String charity_description) {
         this.charitySize = charitySize;
-        this.timestamp = timestamp;
+        this.createdAt = createdAt;
         this.charity_description = charity_description;
     }
 
@@ -54,12 +53,12 @@ public class Charity extends User{
         this.charitySize = charitySize;
     }
 
-    public java.util.Date getTimestamp() {
-        return this.timestamp;
+    public java.util.Date getCreatedAt() {
+        return this.createdAt;
     }
 
-    public void setTimestamp(java.util.Date timestamp) {
-        this.timestamp = timestamp;
+    public void setCreatedAt(java.util.Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     public String getCharity_description() {
@@ -70,12 +69,28 @@ public class Charity extends User{
         this.charity_description = charity_description;
     }
 
+    public Charity charitySize(int charitySize) {
+        this.charitySize = charitySize;
+        return this;
+    }
+
+    public Charity createdAt(java.util.Date createdAt) {
+        this.createdAt = createdAt;
+        return this;
+    }
+
+    public Charity charity_description(String charity_description) {
+        this.charity_description = charity_description;
+        return this;
+    }
+
     @Override
     public String toString() {
-        return "Charity{" +
-                "charitySize=" + charitySize +
-                ", timestamp=" + timestamp +
-                "} " + super.toString();
+        return "{" +
+            " charitySize='" + getCharitySize() + "'" +
+            ", createdAt='" + getCreatedAt() + "'" +
+            ", charity_description='" + getCharity_description() + "'" +
+            "}";
     }
 
     @Override
@@ -86,13 +101,13 @@ public class Charity extends User{
         Charity charity = (Charity) o;
 
         if (charitySize != charity.charitySize) return false;
-        return timestamp != null ? timestamp.equals(charity.timestamp) : charity.timestamp == null;
+        return createdAt != null ? createdAt.equals(charity.createdAt) : charity.createdAt == null;
     }
 
     @Override
     public int hashCode() {
         int result = charitySize;
-        result = 31 * result + (timestamp != null ? timestamp.hashCode() : 0);
+        result = 31 * result + (createdAt != null ? createdAt.hashCode() : 0);
         return result;
     }
 }

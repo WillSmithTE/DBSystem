@@ -1,4 +1,4 @@
-package ses1grp6.dbsystemandroid.charity;
+package ses1grp6.dbsystemandroid.donor;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import ses1grp6.dbsystemandroid.R;
 import ses1grp6.dbsystemandroid.model.Listing;
 
-public class ListingCharitiesAdapter extends RecyclerView.Adapter<ListingCharitiesAdapter.DonorListViewHolder> {
+public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.DonorListViewHolder> {
     ArrayList<Listing> donors;
     private ItemClickListener itemClickListener;
 
@@ -28,7 +28,7 @@ public class ListingCharitiesAdapter extends RecyclerView.Adapter<ListingChariti
         }
     }
 
-    public ListingCharitiesAdapter(ArrayList<Listing> donors){
+    public ListingAdapter(ArrayList<Listing> donors){
         this.donors = donors;
     }
 
@@ -41,7 +41,7 @@ public class ListingCharitiesAdapter extends RecyclerView.Adapter<ListingChariti
 
     @Override
     public void onBindViewHolder(@NonNull final DonorListViewHolder donorListViewHolder, int i) {
-        final Listing donor = donors.get(i);
+        Listing donor = donors.get(i);
 
         String listingTitle = donor.getListingTitle();
         String listingDesc = donor.getListingDescription();
@@ -55,7 +55,7 @@ public class ListingCharitiesAdapter extends RecyclerView.Adapter<ListingChariti
         donorListViewHolder.itemView.setOnClickListener (new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (itemClickListener != null) itemClickListener.onItemClick(view, id, donor);
+                if (itemClickListener != null) itemClickListener.onItemClick(view, id);
             }
         });
     }
@@ -75,6 +75,6 @@ public class ListingCharitiesAdapter extends RecyclerView.Adapter<ListingChariti
     }
 
     public interface ItemClickListener {
-        void onItemClick(View view, int id, Listing listing);
+        void onItemClick(View view, int id);
     }
 }

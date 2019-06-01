@@ -21,7 +21,7 @@
         <item name="android:background">@color/colorAuthBackground</item>
     </style>
 
-    <style name="baseBackground" parent="AppTheme">
+    <style name="baseView" parent="AppTheme">
         <item name="android:background">@color/colorBackground</item>
     </style>
 
@@ -30,18 +30,37 @@
         <item name="android:textColor">@color/colorTitle</item>
         <item name="android:fontFamily">@font/droid_sans_bold</item>
         <item name="android:textSize">40sp</item>
+        <item name="android:padding">3dp</item>
+    </style>
+
+    <style name="baseView.spaced">
+        <item name="android:padding">15dp</item>
     </style>
 
     <style name="subTitle" parent="AppTheme">
         <item name="android:textColor">@color/colorSubTitle</item>
         <item name="android:fontFamily">@font/droid_sans</item>
         <item name="android:textSize">16sp</item>
+        <item name="android:padding">2dp</item>
+    </style>
+
+    <style name="subTitle.small">
+        <item name="android:fontFamily">@font/droid_sans_bold</item>
+        <item name="android:textSize">11dp</item>
+    </style>
+
+    <style name="date" parent="AppTheme">
+        <item name="android:textColor">@color/colorThinBlack</item>
+        <item name="android:fontFamily">@font/secular_one</item>
+        <item name="android:textSize">9sp</item>
+        <item name="android:padding">2dp</item>
     </style>
 
     <style name="body" parent="AppTheme">
         <item name="android:textColor">@color/colorThinBlack</item>
         <item name="android:fontFamily">@font/droid_sans</item>
         <item name="android:textSize">14sp</item>
+        <item name="android:padding">2dp</item>
     </style>
 
     <style name="cardStyle" parent="AppTheme">
@@ -95,7 +114,7 @@
         <item name="android:queryHint">Search...</item>
         <item name="android:iconifiedByDefault">false</item>
         <item name="android:layout_margin">10dp</item>
-        <item name="android:background">@drawable/search_rectangle</item>
+        <item name="android:background">@drawable/simple_box</item>
     </style>
 
 </resources>

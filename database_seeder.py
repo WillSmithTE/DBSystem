@@ -11,32 +11,32 @@ c = connection.cursor()
 
 fake = Faker()
 
-locations_csv = r'C:\Users\patri\Desktop\locations_SS1A.csv'
+locations_csv = r'locations_SS1A.csv'
 df_locations = pd.read_csv(locations_csv)
 
 def seedDonor():
-	for i in range(500):
+	for i in range(5):
 		try:
 			insert_sql = (
 				"""INSERT INTO `donor` (name, contact_number, email, email_confirmed, password) 
 				VALUES (%s,%s,%s,%s,%s);"""
 			)
 		   
-			data = (fake.name(), str(fake.phone_number()), (fake.last_name_male() + "@test.com.au"), 1, "A*^&$GD!&IHD")
+			data = (fake.name(), str(fake.phone_number()), (fake.last_name_male() + "@test.com.au"), 1, "password")
 			c.execute(insert_sql, data)
 		except Exception as e:
 			print(e)
 		connection.commit()
 
 def seedCharity():
-	for i in range(500):
+	for i in range(5):
 		try:
 			insert_sql = (
 				"""INSERT INTO `charity` (name, charity_description, contact_number, email, email_confirmed, charity_size, password) 
 				VALUES (%s,%s,%s,%s,%s,%s,%s);"""
 			)
 
-			data = (fake.company(), fake.catch_phrase(), str(fake.phone_number()), (fake.last_name_female() + "@test.com.au"), int(1), int(randint(1,10000)), "A*^&$GD!&IHD")
+			data = (fake.company(), fake.catch_phrase(), str(fake.phone_number()), (fake.last_name_female() + "@test.com.au"), int(1), int(randint(1,10000)), "password")
 			c.execute(insert_sql, data)
 		except Exception as e:
 			print(e)
@@ -44,7 +44,12 @@ def seedCharity():
 
 def seedCharityListing():
 	
-	locations = df_locations['locations']
+	locations= ['Lake Heights NSW 2502',
+				'Berkeley NSW 2506',
+				'Wongawilli NSW 2530',
+				'Port Kembla NSW 2505',
+				'Bowral NSW 2576'
+			   ]
 	for location in locations:
 		try:
 			insert_sql = (
@@ -55,7 +60,7 @@ def seedCharityListing():
 			listing_description_list = fake.paragraphs(nb=3, ext_word_list=None)
 			listing_description = ''.join(listing_description_list)
 		   
-			data = (fake.job(), listing_description, location, int(randint(3643,3670)), int(randint(1,16)))
+			data = (fake.job(), listing_description, location, int(randint(6144,6148)), int(randint(1,16)))
 			c.execute(insert_sql, data)
 		except Exception as e:
 			print(e)
