@@ -21,9 +21,12 @@ import java.text.ParseException;
 import java.util.ArrayList;
 
 import ses1grp6.dbsystemandroid.R;
+import ses1grp6.dbsystemandroid.charity.EditListingFragment;
+import ses1grp6.dbsystemandroid.common.ListingActivity;
 import ses1grp6.dbsystemandroid.model.Listing;
 import ses1grp6.dbsystemandroid.network.DBSystemNetwork;
 import ses1grp6.dbsystemandroid.network.RequestResponse;
+import ses1grp6.dbsystemandroid.util.FragBundler;
 
 public class ListingFragment extends Fragment implements ListingAdapter.ItemClickListener {
     Context context;
@@ -54,7 +57,7 @@ public class ListingFragment extends Fragment implements ListingAdapter.ItemClic
     }
 
     private void arrayBuild(){
-        DBSystemNetwork.sendGetRequest("listing/search/" + ((SearchView)rootView.findViewById(R.id.searchListing)).getQuery(), new DBSystemNetwork.OnRequestComplete() {
+        DBSystemNetwork.sendGetRequest(getActivity(), "listing/search/" + ((SearchView)rootView.findViewById(R.id.searchListing)).getQuery(), new DBSystemNetwork.OnRequestComplete() {
             @Override
             public void onRequestCompleted(RequestResponse response) {
                 if (response.isConnectionSuccessful()) {
@@ -91,20 +94,29 @@ public class ListingFragment extends Fragment implements ListingAdapter.ItemClic
     }
 
     @Override
-    public void onItemClick(View view, int id) {
+    public void onItemClick(View view, int id, Listing listing) {
+
         String s = "Id " + id + " has been clicked";
-//        Toast.makeText(context, s,
-//                Toast.LENGTH_LONG).show();
-//        System.out.println(s);
-//
-//        Intent intent = new Intent(getActivity(), ProfileActivity.class);
-//        ListingCharity donor = listingCharities.get(0);
-//        for (ListingCharity d : donors){
-//            if (d.getId() == id) {
-//                donor = d;
-//            }
-//        }
-//        intent.putExtra("donor", donor);
-//        startActivity(intent);
+        System.out.println(s + listing.getListingTitle());
+
+        Intent intent = new Intent(getContext(), ListingActivity.class);
+        FragBundler fragBundler = new FragBundler(intent);
+        fragBundler.putToIntent(EditListingFragment.class);
+        listing.putToIntent(intent);
+        startActivity(intent);
+
+
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+

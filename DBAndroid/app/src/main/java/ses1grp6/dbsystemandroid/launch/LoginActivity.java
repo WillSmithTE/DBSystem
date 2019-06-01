@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
 
         }
 
-        DBSystemNetwork.sendPostRequest("auth/login/", postParams, new DBSystemNetwork.OnRequestComplete() {
+        DBSystemNetwork.sendPostRequest(this, "auth/login/", postParams, new DBSystemNetwork.OnRequestComplete() {
             @Override
             public void onRequestCompleted(RequestResponse response) {
 
