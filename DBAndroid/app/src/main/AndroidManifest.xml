@@ -15,7 +15,7 @@
 
 
 
-        <activity android:name=".donor.DonorWizard" />
+        <activity android:name=".donor.donorWizard" />
         <activity android:name=".common.ApplicationActivity"></activity>
         <activity android:name=".common.ListingActivity" />
         <activity android:name=".charity.CharityWizard"></activity>
