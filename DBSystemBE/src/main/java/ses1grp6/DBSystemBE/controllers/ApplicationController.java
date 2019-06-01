@@ -25,7 +25,7 @@ public class ApplicationController {
 
     @Transactional
     @RequestMapping(value = "accept/{id}", method = RequestMethod.GET)
-    public Response acceptApplication(@PathVariable("id") Integer id) {
+    public Response acceptApplication(@PathVariable("id") Long id) {
         try {
             Optional<Application> maybeApplication = applicationRepository.findById(id);
             if (maybeApplication.isPresent()) {
@@ -42,7 +42,7 @@ public class ApplicationController {
 
     @Transactional
     @RequestMapping(value = "reject/{id}", method = RequestMethod.GET)
-    public Response rejectApplication(@PathVariable("id") Integer id) {
+    public Response rejectApplication(@PathVariable("id") Long id) {
         try {
             Optional<Application> maybeApplication = applicationRepository.findById(id);
             if (maybeApplication.isPresent()) {

@@ -7,7 +7,7 @@ import ses1grp6.DBSystemBE.model.Application;
  * Created by Will Smith on 4/4/19.
  */
 
-public interface ApplicationRepository extends CrudRepository<Application, Integer> {
+public interface ApplicationRepository extends CrudRepository<Application, Long> {
     
   Iterable<Application> findByDonorId(int donorId);
 
