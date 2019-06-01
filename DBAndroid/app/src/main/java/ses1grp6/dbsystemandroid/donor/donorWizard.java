@@ -18,5 +18,11 @@ public class donorWizard extends AppCompatActivity {
         setContentView(R.layout.activity_donor_wizard);
     }
 
+    public void onPostClick(View view) {
+        JSONObject jsonObject = new JSONObject();
+        String donorwizTitle = (((EditText) findViewById(R.id.charwizTitle)).getText().toString());
+        //String donorDateandtime = (((EditText) findViewById(R.id.charwizDateTime)).getText().toString());
+        String donorLocation = (((EditText) findViewById(R.id.charwizLocation)).getText().toString());
+    }
 
 }
