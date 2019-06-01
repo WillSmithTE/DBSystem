@@ -49,9 +49,12 @@ public class CharityWizard extends AppCompatActivity implements AdapterView.OnIt
         setupSpinner();
         setContentView(R.layout.activity_charity_wizard);
 
+        eTv = (TextView) findViewById(R.id.charwizEndDate);
+        eBtn = (Button) findViewById(R.id.edateButton);
 
         sTv = (TextView) findViewById(R.id.dateshow);
         sBtn = (Button) findViewById(R.id.charwizstartDate);
+
         sBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,6 +73,23 @@ public class CharityWizard extends AppCompatActivity implements AdapterView.OnIt
             }
         });
 
+       eBtn.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               ce = Calendar.getInstance();
+               int day = ce.get(Calendar.DAY_OF_MONTH);
+               int month = ce.get(Calendar.MONTH);
+               int year = ce.get(Calendar.YEAR);
+
+               edpd = new DatePickerDialog(CharityWizard.this, new DatePickerDialog.OnDateSetListener() {
+                   @Override
+                   public void onDateSet(DatePicker view, int mYear, int mMonth, int mDay) {
+                        eTv.setText(mDay + "/" + (mMonth+1) + "/" + mYear);
+                   }
+               }, day, month, year);
+               edpd.show();
+           }
+       });
     }
 
     public void onPostClick(View view) {
