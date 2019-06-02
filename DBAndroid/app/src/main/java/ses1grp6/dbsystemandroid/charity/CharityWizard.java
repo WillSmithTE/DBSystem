@@ -17,6 +17,7 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -140,6 +141,10 @@ public class CharityWizard extends AppCompatActivity implements AdapterView.OnIt
                 descripInput.getText().equals("");
     }
 
+    private String formattedDate(Date date) {
+        return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(date);
+    }
+
     public void onPostClick(View view) {
         if (checkEmpty()) return;
         JSONObject jsonObject = new JSONObject();
@@ -161,9 +166,10 @@ public class CharityWizard extends AppCompatActivity implements AdapterView.OnIt
             jsonObject.put("industry", jsonObjectIndustry);
 
             if (startDate != null && endDate != null) {
-                jsonObject.put("eventStartDate", startDate.toString());
-                jsonObject.put("eventEndDate", endDate.toString());
+                jsonObject.put("eventStartDate", formattedDate(startDate));
+                jsonObject.put("eventEndDate", formattedDate(endDate));
             }
+            jsonObject.put("expiresAt", formattedDate(expiryDate));
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
