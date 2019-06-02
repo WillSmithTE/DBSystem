@@ -21,6 +21,7 @@ public class ApplicationActivity extends AppCompatActivity {
     private TextView createdAtText;
     private TextView charityByText;
     private TextView industryText;
+    private TextView contactText;
     private LinearLayout applicationLayout;
     private LinearLayout listingLayout;
     private Application application;
@@ -40,6 +41,7 @@ public class ApplicationActivity extends AppCompatActivity {
         industryText = findViewById(R.id.appliIndustry);
         applicationLayout = findViewById(R.id.appliLayout);
         listingLayout = findViewById(R.id.listingLayout);
+        contactText = findViewById(R.id.appliContact);
 
         intent = getIntent();
         application = Application.getFromIntent(intent);
@@ -64,6 +66,11 @@ public class ApplicationActivity extends AppCompatActivity {
             styler.prefix(createdAtText, getString(R.string.prefix_created_at), application.getFormattedCreatedAt());
         else
             applicationLayout.removeView(createdAtText);
+
+        if (application.hasContactNumber())
+            styler.prefix(contactText, getString(R.string.prefix_contact_number), application.getContactNumber());
+        else
+            applicationLayout.removeView(contactText);
         
         if (listing.hasIndustry())
             styler.prefix(industryText, getString(R.string.prefix_industry), listing.getIndustry().getIndustryName());

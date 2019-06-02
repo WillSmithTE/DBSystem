@@ -36,6 +36,13 @@
                 android:layout_height="wrap_content"
                 android:text="Created At DATE" />
 
+            <TextView
+                android:id="@+id/appliContact"
+                style="@style/subTitle.small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Contact : NUMBER" />
+
             <FrameLayout
                 style="@style/boxedBody"
                 android:layout_width="match_parent"
