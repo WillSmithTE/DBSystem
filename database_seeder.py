@@ -16,7 +16,7 @@ df_locations = pd.read_csv(locations_csv)
 
 def seedDonor():
 	emails = ['@gmail.com', '@yahoo.com', '@hotmail.com', '@student.uts.edu.au']
-	for i in range(1000):
+	for i in range(100):
 		for email in emails:
 			try:
 				insert_sql = (
@@ -32,7 +32,7 @@ def seedDonor():
 
 def seedCharity():
 	emails = ['@gmail.com', '@yahoo.com', '@hotmail.com', '@student.uts.edu.au']
-	for i in range(1000):
+	for i in range(100):
 		for email in emails:
 			try:
 				insert_sql = (
@@ -54,18 +54,18 @@ def seedCharityListing():
 				'Port Kembla NSW 2505',
 				'Bowral NSW 2576'
 			   ]
-	for i in range(1000):
+	for i in range(100):
 		for location in locations:
 			try:
 				insert_sql = (
-					"""INSERT INTO `charity_listing` (listing_title, listing_description, location, charity_id, industry_id) 
-					VALUES (%s,%s,%s,%s,%s);"""
+					"""INSERT INTO `charity_listing` (listing_title, listing_description, location, charity_id, industry_id, event_start_date, event_end_date, expires_at) 
+					VALUES (%s,%s,%s,%s,%s,%s,%s,%s);"""
 				)
 
 				listing_description_list = fake.paragraphs(nb=2, ext_word_list=None)
 				listing_description = ''.join(listing_description_list)
 			
-				data = (fake.job(), listing_description, location, int(randint(6144,6148)), int(randint(1,16)))
+				data = (fake.job(), listing_description, location, int(randint(1,99)), int(randint(1,16)),"2019-06-02 12:00:00", "2019-06-02 14:00:00", "2019-06-30 00:00:00")
 				c.execute(insert_sql, data)
 			except Exception as e:
 				print(e)
@@ -73,15 +73,15 @@ def seedCharityListing():
 
 
 def seedApplication():
-	for i in range(1000):	
+	for i in range(100):	
 		try:
 			insert_sql = (
-				"""INSERT INTO `application` (donor_id, charity_listing_id, charity_id, cover_letter, contact_number,industry_id) 
-				VALUES (%s,%s,%s,%s,%s,%s);"""
+				"""INSERT INTO `application` (donor_id, charity_listing_id, charity_id, cover_letter, contact_number) 
+				VALUES (%s,%s,%s,%s,%s);"""
 			)
 			cv = "Please hire me for this role. my name is " + str(fake.name() +", and I think I am a suitable candidate for this charity service. Looking forward to hearing back from you.")
 		
-			data = (int(randint(7517,7550)), int(randint(12863,12990)), int(randint(6144,6160)), cv, str(fake.phone_number()), int(randint(1,16)))
+			data = (int(randint(1,99)), int(randint(1,99)), int(randint(1,99)), cv, str(fake.phone_number()))
 			c.execute(insert_sql, data)
 		except Exception as e:
 			print(e)
@@ -89,9 +89,9 @@ def seedApplication():
 
 
 def main():
-	# seedDonor()
-	# seedCharity()
-	# seedCharityListing()
-	# seedApplication()
+	seedDonor()
+	seedCharity()
+	seedCharityListing()
+	seedApplication()
 
 main()
