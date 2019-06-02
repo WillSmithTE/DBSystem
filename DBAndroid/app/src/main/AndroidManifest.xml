@@ -13,17 +13,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-<<<<<<< HEAD
         android:usesCleartextTraffic="true"
         android:fullBackupContent="@xml/backup_descriptor"
         tools:ignore="GoogleAppIndexingWarning">
-=======
-        android:usesCleartextTraffic="true">
-
-
 
         <activity android:name=".donor.donorWizard" />
->>>>>>> master
         <activity android:name=".common.ApplicationActivity"></activity>
         <activity android:name=".common.ListingActivity" />
         <activity android:name=".charity.CharityWizard"></activity>
