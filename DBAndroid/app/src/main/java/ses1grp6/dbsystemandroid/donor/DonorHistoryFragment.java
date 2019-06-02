@@ -63,27 +63,44 @@ public class DonorHistoryFragment extends Fragment implements SimpleRecyclerAdap
         searchView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                List<Application> newHistory = new ArrayList<>();
+                search();
+            }
+        });
 
-                if (searchView.getQuery().toString().equals("")) {
-                    history.clear();
-                    history.addAll(allHistory);
-                } else {
-                    for (Application application : allHistory) {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                search();
+                return false;
+            }
 
-                        if (application.search(searchView.getQuery().toString().toLowerCase())) {
-                            newHistory.add(application);
-                        }
-                    }
-                    history.clear();
-                    history.addAll(newHistory);
-                }
-                adapter.notifyDataSetChanged();
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
             }
         });
 
         buildRecyclerView(rootView);
         return rootView;
+    }
+
+    private void search() {
+        List<Application> newHistory = new ArrayList<>();
+
+        if (searchView.getQuery().toString().equals("")) {
+            history.clear();
+            history.addAll(allHistory);
+        } else {
+            for (Application application : allHistory) {
+
+                if (application.search(searchView.getQuery().toString().toLowerCase())) {
+                    newHistory.add(application);
+                }
+            }
+            history.clear();
+            history.addAll(newHistory);
+        }
+        adapter.notifyDataSetChanged();
     }
 
     private void buildRecyclerView(View rootView) {

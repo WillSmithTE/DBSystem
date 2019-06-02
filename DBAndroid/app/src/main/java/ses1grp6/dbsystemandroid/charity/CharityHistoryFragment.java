@@ -53,27 +53,44 @@ public class CharityHistoryFragment extends Fragment implements SimpleRecyclerAd
         searchView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                List<Listing> newHistory = new ArrayList<>();
+                search();
+            }
+        });
 
-                if (searchView.getQuery().toString().equals("")) {
-                    history.clear();
-                    history.addAll(fullHistory);
-                } else {
-                    for (Listing listing : fullHistory) {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                search();
+                return false;
+            }
 
-                        if (listing.search(searchView.getQuery().toString().toLowerCase())) {
-                            newHistory.add(listing);
-                        }
-                    }
-                    history.clear();
-                    history.addAll(newHistory);
-                }
-                adapter.notifyDataSetChanged();
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
             }
         });
 
         buildRecyclerView(rootView);
         return rootView;
+    }
+
+    private void search() {
+        List<Listing> newHistory = new ArrayList<>();
+
+        if (searchView.getQuery().toString().equals("")) {
+            history.clear();
+            history.addAll(fullHistory);
+        } else {
+            for (Listing listing : fullHistory) {
+
+                if (listing.search(searchView.getQuery().toString().toLowerCase())) {
+                    newHistory.add(listing);
+                }
+            }
+            history.clear();
+            history.addAll(newHistory);
+        }
+        adapter.notifyDataSetChanged();
     }
 
     private void buildRecyclerView(View rootView) {

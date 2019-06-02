@@ -53,6 +53,19 @@ public class ListingFragment extends Fragment implements ListingAdapter.ItemClic
             }
         });
 
+        searchButton.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                arrayBuild();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
+
         arrayBuild();
         return rootView;
     }

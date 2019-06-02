@@ -51,23 +51,20 @@ public class ListingCharityFragment extends Fragment implements ListingCharities
         searchView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                search();
+            }
+        });
 
-                if (searchView.getQuery().toString().equals("")) {
-                    listingCharities.clear();
-                    listingCharities.addAll(fullList);
-                } else {
-                    List<Listing> newList = new ArrayList<>();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                search();
+                return false;
+            }
 
-                    for (Listing listing : fullList) {
-
-                        if (listing.search(searchView.getQuery().toString().toLowerCase())) {
-                            newList.add(listing);
-                        }
-                    }
-                    listingCharities.clear();
-                    listingCharities.addAll(newList);
-                }
-                adapter.notifyDataSetChanged();
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
             }
         });
 
@@ -85,6 +82,25 @@ public class ListingCharityFragment extends Fragment implements ListingCharities
 
         arrayBuild();
         return rootView;
+    }
+
+    private void search() {
+        if (searchView.getQuery().toString().equals("")) {
+            listingCharities.clear();
+            listingCharities.addAll(fullList);
+        } else {
+            List<Listing> newList = new ArrayList<>();
+
+            for (Listing listing : fullList) {
+
+                if (listing.search(searchView.getQuery().toString().toLowerCase())) {
+                    newList.add(listing);
+                }
+            }
+            listingCharities.clear();
+            listingCharities.addAll(newList);
+        }
+        adapter.notifyDataSetChanged();
     }
 
     private void arrayBuild(){
