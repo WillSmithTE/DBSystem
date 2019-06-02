@@ -3,6 +3,7 @@ package ses1grp6.dbsystemandroid.charity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -99,8 +100,8 @@ public class CharityWizard extends AppCompatActivity implements AdapterView.OnIt
         String charwizTitle = ((EditText) findViewById(R.id.charwizTitle)).getText().toString();
         String charwizDescription = ((EditText) findViewById(R.id.charwizDescription)).getText().toString();
         //String charwizDateTime = ((EditText) findViewById(R.id.charwizDateTime)).getText().toString();
-        String charwizLocation = ((EditText) findViewById(R.id.charwizLocation)).getText().toString();
-        //String charwizIndustry = ((EditText) findViewById(R.id.charwizIndustry)).getText().toString();
+        String charwizLocation = ((TextInputLayout) findViewById(R.id.charwizLocation)).getEditText().getText().toString();
+
         int charwizIndustryID = indices.get(((Spinner) findViewById(R.id.charwizSpinner)).getSelectedItemPosition());
         String charwizIndustryName = industries.get(((Spinner) findViewById(R.id.charwizSpinner)).getSelectedItemPosition());
         try {

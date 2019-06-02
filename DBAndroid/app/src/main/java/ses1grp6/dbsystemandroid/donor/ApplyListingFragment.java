@@ -76,7 +76,9 @@ public class ApplyListingFragment extends Fragment {
         seeLocationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(getActivity(), MapActivity.class);
+                intent.putExtra("location", listing.getLocation());
+                startActivity(intent);
             }
         });
     }
