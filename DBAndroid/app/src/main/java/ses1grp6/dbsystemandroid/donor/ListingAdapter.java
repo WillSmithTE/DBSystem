@@ -10,6 +10,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import ses1grp6.dbsystemandroid.R;
+import ses1grp6.dbsystemandroid.model.Application;
 import ses1grp6.dbsystemandroid.model.Listing;
 
 public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.DonorListViewHolder> {
@@ -42,7 +43,7 @@ public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.DonorLis
 
     @Override
     public void onBindViewHolder(@NonNull final DonorListViewHolder donorListViewHolder, int i) {
-        Listing listing = donors.get(i);
+        final Listing donor = donors.get(i);
 
         String listingTitle = listing.getListingTitle();
         String listingDesc = listing.getListingDescription();
@@ -58,7 +59,7 @@ public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.DonorLis
         donorListViewHolder.itemView.setOnClickListener (new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (itemClickListener != null) itemClickListener.onItemClick(view, id);
+                if (itemClickListener != null) itemClickListener.onItemClick(view, id, donor);
             }
         });
     }
@@ -78,6 +79,8 @@ public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.DonorLis
     }
 
     public interface ItemClickListener {
-        void onItemClick(View view, int id);
+
+        void onItemClick(View view, int id, Listing listing);
+
     }
 }

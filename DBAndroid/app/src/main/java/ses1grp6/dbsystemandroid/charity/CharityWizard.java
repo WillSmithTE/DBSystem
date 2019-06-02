@@ -15,6 +15,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import ses1grp6.dbsystemandroid.DashboardActivity;
 import ses1grp6.dbsystemandroid.R;
 import ses1grp6.dbsystemandroid.model.Listing;
 import ses1grp6.dbsystemandroid.network.DBSystemNetwork;
@@ -68,6 +69,7 @@ public class CharityWizard extends AppCompatActivity implements AdapterView.OnIt
 
                     Intent intent = new Intent(CharityWizard.this, SimpleResultActivity.class);
                     ResultData resultData = new ResultData("Listing Added", "");
+                    resultData.setBackActivity(DashboardActivity.class, "Go back to Dashboard");
                     resultData.putToIntent(intent);
                     startActivity(intent);
                 } else {
