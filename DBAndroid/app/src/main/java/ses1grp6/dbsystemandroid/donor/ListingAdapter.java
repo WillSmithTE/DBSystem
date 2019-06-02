@@ -43,7 +43,7 @@ public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.DonorLis
 
     @Override
     public void onBindViewHolder(@NonNull final DonorListViewHolder donorListViewHolder, int i) {
-        final Listing donor = donors.get(i);
+        final Listing listing = donors.get(i);
 
         String listingTitle = listing.getListingTitle();
         String listingDesc = listing.getListingDescription();
@@ -59,7 +59,7 @@ public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.DonorLis
         donorListViewHolder.itemView.setOnClickListener (new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (itemClickListener != null) itemClickListener.onItemClick(view, id, donor);
+                if (itemClickListener != null) itemClickListener.onItemClick(view, id, listing);
             }
         });
     }
