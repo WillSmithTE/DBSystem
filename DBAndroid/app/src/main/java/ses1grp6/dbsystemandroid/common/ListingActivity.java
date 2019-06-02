@@ -74,7 +74,7 @@ public class ListingActivity extends AppCompatActivity {
         }
 
         if (listing.hasExpiresAt())
-            expiryText.setText(listing.getFormattedExpiresAt());
+            setStyledText(expiryText, getString(R.string.prefix_expiry), listing.getFormattedExpiresAt());
         else
             layout.removeView(expiryText);
 

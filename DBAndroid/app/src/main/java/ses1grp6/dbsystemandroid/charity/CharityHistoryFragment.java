@@ -74,6 +74,7 @@ public class CharityHistoryFragment extends Fragment implements SimpleRecyclerAd
             public void onRequestCompleted(RequestResponse response) {
 
                 if (response.hasStatusSuccessful()) {
+                    Date currentDate = new Date();
                     JSONArray dataArray = response.getBodyJsonArray();
 
                     for (int i = 0; i < dataArray.length(); i++) {
@@ -86,7 +87,9 @@ public class CharityHistoryFragment extends Fragment implements SimpleRecyclerAd
                             System.err.println("Found corrupted charity history data!");
                             continue;
                         }
-                        history.add(historyData);
+
+                        if (!historyData.hasExpiresAt() || historyData.getExpiresAt().before(currentDate))
+                            history.add(historyData);
                     }
                     adapter.notifyDataSetChanged();
                     System.out.println("Charity History Data Set Updated");
