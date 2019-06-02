@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/authBackground"
@@ -7,174 +7,182 @@
     android:layout_height="match_parent"
     tools:context=".launch.RegistrationActivity">
 
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/confirmPasswordText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:text="@string/confirmPassword"
+        app:layout_constraintStart_toStartOf="@+id/usernameText"
+        app:layout_constraintTop_toBottomOf="@+id/passwordText" />
 
-        <EditText
-            android:id="@+id/passwordInput"
-            style="@style/subTitle.small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPassword"
-            tools:layout_editor_absoluteX="60dp"
-            tools:layout_editor_absoluteY="437dp" />
+    <EditText
+        android:id="@+id/confirmPasswordInput"
+        style="@style/Widget.AppCompat.AutoCompleteTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPassword"
+        app:layout_constraintStart_toStartOf="@+id/confirmPasswordText"
+        app:layout_constraintTop_toBottomOf="@+id/confirmPasswordText" />
 
-        <EditText
-            android:id="@+id/firstNameInput"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            tools:layout_editor_absoluteX="60dp"
-            tools:layout_editor_absoluteY="127dp" />
+    <TextView
+        android:id="@+id/signUpText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="sans-serif-black"
+        android:text="@string/signup"
+        android:textColor="#000000"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.201"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.03" />
+
+    <TextView
+        android:id="@+id/usernameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:fontFamily="sans-serif"
+        android:text="@string/email"
+        app:layout_constraintStart_toStartOf="@+id/phoneNumberText"
+        app:layout_constraintTop_toBottomOf="@+id/phoneNumberText" />
+
+    <EditText
+        android:id="@+id/emailInput"
+        style="@style/Widget.AppCompat.AutoCompleteTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="@+id/usernameText"
+        app:layout_constraintTop_toBottomOf="@+id/usernameText" />
+
+    <EditText
+        android:id="@+id/passwordInput"
+        style="@style/Widget.AppCompat.AutoCompleteTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPassword"
+        app:layout_constraintStart_toStartOf="@+id/passwordText"
+        app:layout_constraintTop_toBottomOf="@+id/passwordText" />
+
+    <TextView
+        android:id="@+id/passwordText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:text="@string/password"
+        app:layout_constraintStart_toStartOf="@+id/usernameText"
+        app:layout_constraintTop_toBottomOf="@+id/usernameText" />
+
+    <Button
+        android:id="@+id/signUpButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:onClick="onSignUpClicked"
+        android:text="@string/signup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.424"
+        app:layout_constraintStart_toEndOf="@+id/accountTypeRG"
+        app:layout_constraintTop_toTopOf="@+id/accountTypeRG" />
+
+    <TextView
+        android:id="@+id/firstNameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/first_name"
+        app:layout_constraintStart_toStartOf="@+id/signUpText"
+        app:layout_constraintTop_toBottomOf="@+id/signUpText" />
+
+    <EditText
+        android:id="@+id/firstNameInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="@+id/firstNameText"
+        app:layout_constraintTop_toBottomOf="@+id/firstNameText" />
+
+    <TextView
+        android:id="@+id/lastNameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:text="@string/last_name"
+        app:layout_constraintStart_toStartOf="@+id/firstNameText"
+        app:layout_constraintTop_toBottomOf="@+id/firstNameText" />
+
+    <EditText
+        android:id="@+id/lastNameInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintStart_toStartOf="@+id/lastNameText"
+        app:layout_constraintTop_toBottomOf="@+id/lastNameText" />
+
+    <TextView
+        android:id="@+id/phoneNumberText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:text="@string/phone_number"
+        app:layout_constraintStart_toStartOf="@+id/lastNameText"
+        app:layout_constraintTop_toBottomOf="@+id/lastNameText" />
+
+    <EditText
+        android:id="@+id/phoneNumberInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="phone"
+        app:layout_constraintStart_toStartOf="@+id/phoneNumberText"
+        app:layout_constraintTop_toBottomOf="@+id/phoneNumberText" />
+
+    <RadioGroup
+        android:id="@+id/accountTypeRG"
+        android:layout_width="212dp"
+        android:layout_height="86dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="@+id/confirmPasswordInput"
+        app:layout_constraintTop_toBottomOf="@+id/confirmPasswordInput">
 
         <TextView
-            android:id="@+id/phoneNumberText"
-            style="@style/subTitle.small"
+            android:id="@+id/textView"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/phone_number"
-            tools:layout_editor_absoluteX="60dp"
-            tools:layout_editor_absoluteY="259dp" />
+            android:layout_height="3dp"
+            android:layout_weight="1"
+            android:text="Account Type" />
 
-        <EditText
-            android:id="@+id/phoneNumberInput"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="phone"
-            tools:layout_editor_absoluteX="60dp"
-            tools:layout_editor_absoluteY="279dp" />
+        <RadioButton
+            android:id="@+id/radioButton1"
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:layout_weight="1"
+            android:text="Donor" />
 
-        <RadioGroup
-            android:id="@+id/accountTypeRG"
-            android:layout_width="212dp"
-            android:layout_height="86dp"
-            tools:layout_editor_absoluteX="60dp"
-            tools:layout_editor_absoluteY="561dp">
+        <RadioButton
+            android:id="@+id/radioButton2"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:layout_weight="1"
+            android:text="Charity" />
 
-            <TextView
-                android:id="@+id/textView"
-                style="@style/subTitle.small"
-                android:layout_width="wrap_content"
-                android:layout_height="3dp"
-                android:layout_weight="1"
-                android:text="Account Type" />
+    </RadioGroup>
 
-            <RadioButton
-                android:id="@+id/radioButton1"
-                style="@style/subTitle.small"
-                android:layout_width="match_parent"
-                android:layout_height="8dp"
-                android:layout_weight="1"
-                android:text="Donor" />
-
-            <RadioButton
-                android:id="@+id/radioButton2"
-                style="@style/subTitle.small"
-                android:layout_width="match_parent"
-                android:layout_height="4dp"
-                android:layout_weight="1"
-                android:text="Charity" />
-
-        </RadioGroup>
-
-        <TextView
-            android:id="@+id/passwordText"
-            style="@style/subTitle.small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/password"
-            tools:layout_editor_absoluteX="60dp"
-            tools:layout_editor_absoluteY="411dp" />
-
-        <EditText
-            android:id="@+id/lastNameInput"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            tools:layout_editor_absoluteX="60dp"
-            tools:layout_editor_absoluteY="203dp" />
-
-        <TextView
-            android:id="@+id/firstNameText"
-            style="@style/subTitle.small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/first_name"
-            tools:layout_editor_absoluteX="60dp"
-            tools:layout_editor_absoluteY="107dp" />
-
-        <Button
-            android:id="@+id/signUpButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="onSignUpClicked"
-            android:text="@string/signup"
-            tools:layout_editor_absoluteX="295dp"
-            tools:layout_editor_absoluteY="577dp" />
-
-        <TextView
-            android:id="@+id/lastNameText"
-            style="@style/subTitle.small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/last_name"
-            tools:layout_editor_absoluteX="60dp"
-            tools:layout_editor_absoluteY="183dp" />
-
-        <TextView
-            android:id="@+id/confirmPasswordText"
-            style="@style/subTitle.small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/confirmPassword"
-            tools:layout_editor_absoluteX="60dp"
-            tools:layout_editor_absoluteY="488dp" />
-
-        <EditText
-            android:id="@+id/confirmPasswordInput"
-            style="@style/Widget.AppCompat.AutoCompleteTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPassword"
-            tools:layout_editor_absoluteX="60dp"
-            tools:layout_editor_absoluteY="508dp" />
-
-        <TextView
-            android:id="@+id/usernameText"
-            style="@style/subTitle.small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/email"
-            tools:layout_editor_absoluteX="60dp"
-            tools:layout_editor_absoluteY="335dp" />
-
-        <TextView
-            android:id="@+id/signUpText"
-            style="@style/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/signup"
-            android:textSize="36sp"
-            android:textStyle="bold"
-            tools:layout_editor_absoluteX="60dp"
-            tools:layout_editor_absoluteY="28dp" />
-
-        <EditText
-            android:id="@+id/emailInput"
-            style="@style/subTitle.small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textEmailAddress"
-            android:visibility="visible"
-            tools:layout_editor_absoluteX="60dp"
-            tools:layout_editor_absoluteY="360dp" />
-    </android.support.constraint.ConstraintLayout>
-
-</ScrollView>
+</android.support.constraint.ConstraintLayout>

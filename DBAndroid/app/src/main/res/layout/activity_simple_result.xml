@@ -9,7 +9,6 @@
 
     <TextView
         android:id="@+id/resultTitle"
-        style="@style/title"
         android:layout_width="348dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -31,7 +30,6 @@
 
     <TextView
         android:id="@+id/resultBody"
-        style="@style/subTitle"
         android:layout_width="257dp"
         android:layout_height="84dp"
         android:layout_marginTop="24dp"

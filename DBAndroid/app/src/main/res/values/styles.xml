@@ -75,7 +75,7 @@
     <style name="date" parent="AppTheme">
         <item name="android:textColor">@color/colorDated</item>
         <item name="android:fontFamily">@font/secular_one</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">9sp</item>
         <item name="android:padding">2dp</item>
     </style>
 

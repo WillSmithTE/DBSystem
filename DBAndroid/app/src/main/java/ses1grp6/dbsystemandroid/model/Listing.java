@@ -24,7 +24,7 @@ public class Listing implements Parcelable {
     private static final String CHARITY = "charity";
     private static final String EVENT_START_DATE = "eventStartDate";
     private static final String EVENT_END_DATE = "eventEndDate";
-    private static final String EXPIRES_AT = "expiresAt";
+    private static final String EXPIRES_AT = "expires_at";
     private int id;
     private Charity charity;
     private String listingTitle;
@@ -151,7 +151,7 @@ public class Listing implements Parcelable {
     }
 
     public void setExpiresAt(String s) {
-        this.expiresAt = getDateFromString(s);
+        this.eventEndDate = getDateFromString(s);
     }
 
     public void setEventStartDate(Date eventStartDate) {
@@ -218,24 +218,20 @@ public class Listing implements Parcelable {
         return new SimpleDateFormat("dd MMM yyyy").format(date);
     }
 
-    private String formatDatetime(Date date) {
-        return new SimpleDateFormat("dd MMM yyyy [ hh:mm a]").format(date);
-    }
-
     public String getFormattedCreatedAt() {
         return formatDate(createdAt);
     }
 
     public String getFormattedStartDate() {
-        return formatDatetime(eventStartDate);
+        return formatDate(eventStartDate);
     }
 
     public String getFormattedExpiresAt() {
-        return formatDatetime(expiresAt);
+        return formatDate(expiresAt);
     }
 
     public String getFormattedEndDate() {
-        return formatDatetime(eventEndDate);
+        return formatDate(eventEndDate);
     }
 
     @Override
@@ -252,10 +248,7 @@ public class Listing implements Parcelable {
         dest.writeString(this.listingDescription);
         dest.writeString(this.location);
         dest.writeLong(this.createdAt != null ? this.createdAt.getTime() : -1);
-        dest.writeLong(this.eventStartDate != null ? this.eventStartDate.getTime() : -1);
-        dest.writeLong(this.eventEndDate != null ? this.eventEndDate.getTime() : -1);
         dest.writeParcelable(this.industry, flags);
-        dest.writeLong(this.expiresAt != null ? this.expiresAt.getTime() : -1);
     }
 
     protected Listing(Parcel in) {
@@ -265,18 +258,12 @@ public class Listing implements Parcelable {
         this.contactNumber = in.readString();
         this.listingDescription = in.readString();
         this.location = in.readString();
-        long tmpCreatedAt = in.readLong();
-        this.createdAt = tmpCreatedAt == -1 ? null : new Date(tmpCreatedAt);
-        long tmpEventStartDate = in.readLong();
-        this.eventStartDate = tmpEventStartDate == -1 ? null : new Date(tmpEventStartDate);
-        long tmpEventEndDate = in.readLong();
-        this.eventEndDate = tmpEventEndDate == -1 ? null : new Date(tmpEventEndDate);
+        long tmpTimestamp = in.readLong();
+        this.createdAt = tmpTimestamp == -1 ? null : new Date(tmpTimestamp);
         this.industry = in.readParcelable(Industry.class.getClassLoader());
-        long tmpExpiresAt = in.readLong();
-        this.expiresAt = tmpExpiresAt == -1 ? null : new Date(tmpExpiresAt);
     }
 
-    public static final Creator<Listing> CREATOR = new Creator<Listing>() {
+    public static final Parcelable.Creator<Listing> CREATOR = new Parcelable.Creator<Listing>() {
         @Override
         public Listing createFromParcel(Parcel source) {
             return new Listing(source);
