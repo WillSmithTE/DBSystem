@@ -83,6 +83,10 @@ public class Application implements Parcelable {
         return accepted == 0;
     }
 
+    public int getAccepted() {
+        return accepted;
+    }
+
     public boolean hasCoverLetter() {
         return coverLetter != null;
     }

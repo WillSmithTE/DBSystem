@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -132,7 +133,19 @@ public class DashboardActivity extends AppCompatActivity {
                     swapContainerFor(id, new ProfileFragment(), "Donor Profile");
                     break;
                 case R.id.donorNavHistory:
-                    swapContainerFor(id, new DonorHistoryFragment(), "Donor History");
+                    DonorHistoryFragment fragHistory = new DonorHistoryFragment();
+                    HashSet<Integer> filterHistory = new HashSet<>();
+                    filterHistory.add(1);
+                    filterHistory.add(2);
+                    fragHistory.setFilter(filterHistory);
+                    swapContainerFor(id, fragHistory, "Donor History");
+                    break;
+                case R.id.donorNavPending:
+                    DonorHistoryFragment fragPending = new DonorHistoryFragment();
+                    HashSet<Integer> filterPending = new HashSet<>();
+                    filterPending.add(0);
+                    fragPending.setFilter(filterPending);
+                    swapContainerFor(id, fragPending, "Pending Applications");
                     break;
                 case R.id.donorLogOut:
                     logOut();

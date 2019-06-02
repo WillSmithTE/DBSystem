@@ -18,6 +18,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import ses1grp6.dbsystemandroid.R;
@@ -36,13 +37,20 @@ import ses1grp6.dbsystemandroid.network.RequestResponse;
  */
 public class DonorHistoryFragment extends Fragment implements SimpleRecyclerAdaptor.Binder<DonorHistoryFragment.HistoryHolder> {
 
-    List<Application> history = new ArrayList<>();
-    SimpleRecyclerAdaptor<HistoryHolder, Application> adapter;
+    private List<Application> history = new ArrayList<>();
+    private SimpleRecyclerAdaptor<HistoryHolder, Application> adapter;
+    private HashSet<Integer> filter;
 
     public DonorHistoryFragment() {
         // Required empty public constructor
     }
 
+    /**
+     * @param filter The filter for accepted flag.
+     */
+    public void setFilter(HashSet<Integer> filter) {
+        this.filter = filter;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -83,7 +91,9 @@ public class DonorHistoryFragment extends Fragment implements SimpleRecyclerAdap
                         try {
                             JSONObject jsonObject = dataArray.getJSONObject(i);
                             Application application = new Application(jsonObject);
-                            history.add(application);
+
+                            if (filter.contains(application.getAccepted()))
+                                history.add(application);
                         } catch (JSONException e) {
                             System.err.println("Found corrupted donor history data!");
                         }
