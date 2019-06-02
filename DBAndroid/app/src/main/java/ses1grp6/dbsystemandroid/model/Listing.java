@@ -46,10 +46,10 @@ public class Listing implements Parcelable {
     public Listing(JSONObject jsonObject) throws JSONException {
         this.listingTitle = jsonObject.getString(LISTING_TITLE);
         this.listingDescription = jsonObject.getString(LISTING_DESCRIPTION);
-        this.location = jsonObject.getString(LOCATION);
         setCreatedAt(jsonObject.getString(CREATED_AT));
         this.id = jsonObject.getInt(ID);
         this.charity = new Charity(jsonObject.getJSONObject(CHARITY));
+        if (checkNull(jsonObject, LOCATION)) this.location = jsonObject.getString(LOCATION);
         if (checkNull(jsonObject, CONTACT_NUMBER)) this.contactNumber = jsonObject.getString(CONTACT_NUMBER);
         if (checkNull(jsonObject, INDUSTRY)) this.industry = new Industry(jsonObject.getJSONObject(INDUSTRY));
         if (checkNull(jsonObject, EVENT_START_DATE)) setEventStartDate(jsonObject.getString(EVENT_START_DATE));
@@ -102,6 +102,10 @@ public class Listing implements Parcelable {
 
     public static Listing getFromIntent(Intent intent) {
         return intent.getParcelableExtra(INTENT_NAME);
+    }
+
+    public static boolean hasInIntent(Intent intent) {
+        return intent.hasExtra(INTENT_NAME);
     }
 
     public void setListingTitle(String listingTitle) {
@@ -211,7 +215,7 @@ public class Listing implements Parcelable {
     }
 
     private String formatDate(Date date) {
-        return new SimpleDateFormat("dd MM yyyy").format(date);
+        return new SimpleDateFormat("dd MMM yyyy").format(date);
     }
 
     public String getFormattedCreatedAt() {

@@ -88,7 +88,7 @@
         android:layout_marginTop="272dp"
         android:onClick="onForgotPasswordClicked"
         android:text="@string/querylostpassword"
-        android:textColor="@color/linkable"
+        android:textColor="@color/colorLinkable"
         app:layout_constraintStart_toStartOf="@+id/loginText"
         app:layout_constraintTop_toBottomOf="@+id/loginText" />
 
@@ -100,7 +100,7 @@
         android:layout_marginTop="16dp"
         android:onClick="onSignUp"
         android:text="@string/signuphere"
-        android:textColor="@color/linkable"
+        android:textColor="@color/colorLinkable"
         app:layout_constraintStart_toStartOf="@+id/forgotPasswordLink"
         app:layout_constraintTop_toBottomOf="@+id/forgotPasswordLink" />
 

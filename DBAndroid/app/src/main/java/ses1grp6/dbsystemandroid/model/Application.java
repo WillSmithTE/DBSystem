@@ -21,15 +21,17 @@ public class Application implements Parcelable {
     private static final String INDUSTRY = "industry";
     private static final String CREATED_AT = "createdAt";
     private static final String ID = "applicationID";
+    private static final String LISTING = "charityListing";
     public static final String ACCEPTED = "accepted";
     private int id;
     private Donor donor;
     private Charity charity;
+    private Listing listing;
     private String coverLetter;
     private String contactNumber;
     private Date createdAt;
     private Industry industry;
-    private boolean accepted;
+    private int accepted;
 
     public Application(int id, Donor donor, Charity charity) {
         this.id = id;
@@ -41,15 +43,16 @@ public class Application implements Parcelable {
         this.id = jsonObject.getInt(ID);
         this.donor = new Donor(jsonObject.getJSONObject(DONOR));
         this.charity = new Charity(jsonObject.getJSONObject(CHARITY));
+        this.listing = new Listing(jsonObject.getJSONObject(LISTING));
         this.coverLetter = jsonObject.getString(COVER_LETTER);
-        this.accepted = jsonObject.getString(ACCEPTED).equals("1");
+        this.accepted = jsonObject.getInt(ACCEPTED);
         if (checkNull(jsonObject, CONTACT_NUMBER)) this.contactNumber = jsonObject.getString(CONTACT_NUMBER);
         if (checkNull(jsonObject, CREATED_AT)) setCreatedAt(jsonObject.getString(CREATED_AT));
         if (checkNull(jsonObject, INDUSTRY)) this.industry = new Industry(jsonObject.getJSONObject(INDUSTRY));
     }
 
     public boolean checkNull(JSONObject jsonObject, String key) throws JSONException{
-        return jsonObject.has(key) && !jsonObject.getString(key).equals("null");
+        return jsonObject.has(key) && !jsonObject.getString(key).equals("null") && !jsonObject.getString(key).equals("") && !jsonObject.isNull(key);
     }
 
     public void putToIntent(Intent intent) {
@@ -60,8 +63,24 @@ public class Application implements Parcelable {
         return intent.getParcelableExtra(INTENT_NAME);
     }
 
+    public static boolean hasInIntent(Intent intent) {
+        return intent.hasExtra(INTENT_NAME);
+    }
+
+    public boolean hasListing() {
+        return listing != null;
+    }
+
     public boolean isAccepted() {
-        return accepted;
+        return accepted == 1;
+    }
+
+    public boolean isRejected() {
+        return accepted == 2;
+    }
+
+    public boolean isPending() {
+        return accepted == 0;
     }
 
     public boolean hasCoverLetter() {
@@ -88,8 +107,12 @@ public class Application implements Parcelable {
         this.charity = charity;
     }
 
-    public void setAccepted(boolean accepted) {
+    public void setAccepted(int accepted) {
         this.accepted = accepted;
+    }
+
+    public void setListing(Listing listing) {
+        this.listing = listing;
     }
 
     public void setCoverLetter(String coverLetter) {
@@ -130,6 +153,10 @@ public class Application implements Parcelable {
         return id;
     }
 
+    public Listing getListing() {
+        return listing;
+    }
+
     public String getCoverLetter() {
         return coverLetter;
     }
@@ -147,7 +174,7 @@ public class Application implements Parcelable {
     }
 
     public String getFormattedCreatedAt() {
-        return new SimpleDateFormat("dd MM yyyy").format(createdAt);
+        return new SimpleDateFormat("dd MMM yyyy").format(createdAt);
     }
 
     @Override
@@ -160,24 +187,28 @@ public class Application implements Parcelable {
         dest.writeInt(this.id);
         dest.writeParcelable(this.donor, flags);
         dest.writeParcelable(this.charity, flags);
+        dest.writeParcelable(this.listing, flags);
         dest.writeString(this.coverLetter);
         dest.writeString(this.contactNumber);
         dest.writeLong(this.createdAt != null ? this.createdAt.getTime() : -1);
         dest.writeParcelable(this.industry, flags);
+        dest.writeInt(this.accepted);
     }
 
     protected Application(Parcel in) {
         this.id = in.readInt();
-        this.donor = (Donor) in.readSerializable();
+        this.donor = in.readParcelable(Donor.class.getClassLoader());
         this.charity = in.readParcelable(Charity.class.getClassLoader());
+        this.listing = in.readParcelable(Listing.class.getClassLoader());
         this.coverLetter = in.readString();
         this.contactNumber = in.readString();
-        long tmpTimestamp = in.readLong();
-        this.createdAt = tmpTimestamp == -1 ? null : new Date(tmpTimestamp);
+        long tmpCreatedAt = in.readLong();
+        this.createdAt = tmpCreatedAt == -1 ? null : new Date(tmpCreatedAt);
         this.industry = in.readParcelable(Industry.class.getClassLoader());
+        this.accepted = in.readInt();
     }
 
-    public static final Parcelable.Creator<Application> CREATOR = new Parcelable.Creator<Application>() {
+    public static final Creator<Application> CREATOR = new Creator<Application>() {
         @Override
         public Application createFromParcel(Parcel source) {
             return new Application(source);

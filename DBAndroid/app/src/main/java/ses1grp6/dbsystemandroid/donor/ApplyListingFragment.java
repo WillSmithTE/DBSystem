@@ -2,6 +2,7 @@ package ses1grp6.dbsystemandroid.donor;
 
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -21,7 +22,7 @@ public class ApplyListingFragment extends Fragment {
     private Button applyButton;
     private Button callButton;
     private Button seeLocationButton;
-    Listing listing;
+    private Listing listing;
     Intent intent;
 
     public ApplyListingFragment() {
@@ -40,6 +41,8 @@ public class ApplyListingFragment extends Fragment {
         callButton = view.findViewById(R.id.listingCallButton);
         seeLocationButton = view.findViewById(R.id.listingSeeLocation);
         applyButton = view.findViewById(R.id.listingApplyButton);
+        Intent intent = getActivity().getIntent();
+        listing = Listing.getFromIntent(intent);
         setApplyListener();
         setCallListener();
         setSeeLocationListener();
@@ -63,8 +66,8 @@ public class ApplyListingFragment extends Fragment {
         callButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
+                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + listing.getContactNumber()));
+                startActivity(intent);
             }
         });
     }
