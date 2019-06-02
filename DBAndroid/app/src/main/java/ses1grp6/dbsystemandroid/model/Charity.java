@@ -41,6 +41,10 @@ public class Charity extends User implements Parcelable {
         if (checkNull(jsonObject, CREATED_AT)) setCreatedAt(jsonObject.getString(CREATED_AT));
     }
 
+    public boolean search(String s) {
+        return name.toLowerCase().contains(s) || charityDescription.toLowerCase().contains(s);
+    }
+
     public boolean checkNull(JSONObject jsonObject, String key) throws JSONException{
         return jsonObject.has(key) && !jsonObject.getString(key).equals("null") && !jsonObject.getString(key).equals("") && !jsonObject.isNull(key);
     }

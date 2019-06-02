@@ -1,7 +1,9 @@
 package ses1grp6.dbsystemandroid.donor;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -34,6 +36,21 @@ public class DonorWizard extends AppCompatActivity {
 
 
     public void onApplyClick(View view){
+
+        new AlertDialog.Builder(this)
+                .setTitle("Apply Listing")
+                .setMessage(getString(R.string.apply_confirmation))
+                .setNegativeButton(android.R.string.no, null)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        apply();
+                    }
+                })
+                .show();
+    }
+
+    private void apply() {
         TextInputLayout coverLetterET = (TextInputLayout) findViewById(R.id.coverLetter);
         EditText contactNumberET = (EditText) findViewById(R.id.contactNumber);
         String coverLetter = coverLetterET.getEditText().getText().toString();
@@ -48,7 +65,7 @@ public class DonorWizard extends AppCompatActivity {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("coverLetter", coverLetter);
-            jsonObject.put("contactNumber", contactNumber);
+            if (!contactNumber.equals("")) jsonObject.put("contactNumber", contactNumber);
             jsonObject.put("donor", donor_id);
             jsonObject.put("charityListing", listing_id);
             jsonObject.put("charity", listing.getCharity().getId());

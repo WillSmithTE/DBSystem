@@ -3,6 +3,7 @@ package ses1grp6.dbsystemandroid.charity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -19,6 +21,8 @@ import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import ses1grp6.dbsystemandroid.R;
 import ses1grp6.dbsystemandroid.model.Listing;
@@ -33,6 +37,8 @@ public class ListingCharityFragment extends Fragment implements ListingCharities
     View rootView;
     ListingCharitiesAdapter adapter;
     ArrayList<Listing> listingCharities;
+    List<Listing> fullList;
+    SearchView searchView;
 
     public ListingCharityFragment()  {
     }
@@ -41,8 +47,29 @@ public class ListingCharityFragment extends Fragment implements ListingCharities
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.context = getContext();
         rootView = inflater.inflate(R.layout.fragment_listing_charities_list, container, false);
+        searchView = rootView.findViewById(R.id.searchCharityListing);
+        searchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                search();
+            }
+        });
 
-        Button button = (Button) rootView.findViewById(R.id.button_create_listing);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                search();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
+
+
+        FloatingActionButton button = (FloatingActionButton) rootView.findViewById(R.id.button_create_listing);
         button.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -57,18 +84,44 @@ public class ListingCharityFragment extends Fragment implements ListingCharities
         return rootView;
     }
 
+    private void search() {
+        if (searchView.getQuery().toString().equals("")) {
+            listingCharities.clear();
+            listingCharities.addAll(fullList);
+        } else {
+            List<Listing> newList = new ArrayList<>();
+
+            for (Listing listing : fullList) {
+
+                if (listing.search(searchView.getQuery().toString().toLowerCase())) {
+                    newList.add(listing);
+                }
+            }
+            listingCharities.clear();
+            listingCharities.addAll(newList);
+        }
+        adapter.notifyDataSetChanged();
+    }
+
     private void arrayBuild(){
         DBSystemNetwork.sendGetRequest(getActivity(), "listing/charity/" + UserData.getInstance().getId(), new DBSystemNetwork.OnRequestComplete() {
             @Override
             public void onRequestCompleted(RequestResponse response) {
                 if (response.isConnectionSuccessful()) {
+                    Date currentDate = new Date();
 
                     try {
                         listingCharities = new ArrayList<>();
+                        fullList = new ArrayList<>();
                         System.out.println("REACHED oncreateivew listingcharities" + response.data);
                         for (int i = 0; i < response.getJsonObject().getJSONArray("body").length(); i++) {
                             JSONObject obj = response.getJsonObject().getJSONArray("body").getJSONObject(i);
-                            listingCharities.add(new Listing(obj));
+                            Listing listing = new Listing(obj);
+
+                            if (listing.hasExpiresAt() && currentDate.before(listing.getExpiresAt())) {
+                                listingCharities.add(listing);
+                                fullList.add(listing);
+                            }
                         }
                         buildRecyclerView(listingCharities);
                     } catch (JSONException e) {

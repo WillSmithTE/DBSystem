@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,8 +35,10 @@ import ses1grp6.dbsystemandroid.network.RequestResponse;
 
 public class CharityHistoryFragment extends Fragment implements SimpleRecyclerAdaptor.Binder<CharityHistoryFragment.HistoryHolder> {
 
+    List<Listing> fullHistory = new ArrayList<>();
     List<Listing> history = new ArrayList<>();
     SimpleRecyclerAdaptor<HistoryHolder, Listing> adapter;
+    SearchView searchView;
 
     public CharityHistoryFragment() {
         // Required empty public constructor
@@ -46,8 +49,48 @@ public class CharityHistoryFragment extends Fragment implements SimpleRecyclerAd
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_history, container, false);
+        searchView = rootView.findViewById(R.id.searchHistory);
+        searchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                search();
+            }
+        });
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                search();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
+
         buildRecyclerView(rootView);
         return rootView;
+    }
+
+    private void search() {
+        List<Listing> newHistory = new ArrayList<>();
+
+        if (searchView.getQuery().toString().equals("")) {
+            history.clear();
+            history.addAll(fullHistory);
+        } else {
+            for (Listing listing : fullHistory) {
+
+                if (listing.search(searchView.getQuery().toString().toLowerCase())) {
+                    newHistory.add(listing);
+                }
+            }
+            history.clear();
+            history.addAll(newHistory);
+        }
+        adapter.notifyDataSetChanged();
     }
 
     private void buildRecyclerView(View rootView) {
@@ -88,8 +131,10 @@ public class CharityHistoryFragment extends Fragment implements SimpleRecyclerAd
                             continue;
                         }
 
-                        if (!historyData.hasExpiresAt() || historyData.getExpiresAt().before(currentDate))
+                        if (!historyData.hasExpiresAt() || historyData.getExpiresAt().before(currentDate)) {
+                            fullHistory.add(historyData);
                             history.add(historyData);
+                        }
                     }
                     adapter.notifyDataSetChanged();
                     System.out.println("Charity History Data Set Updated");

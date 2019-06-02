@@ -9,7 +9,7 @@
     <SearchView
         android:id="@+id/searchHistory"
         style="@style/searchBarStyle"
-        android:queryHint="Search Your History..." />
+        android:queryHint="Search..." />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/historyRecyclerView"
