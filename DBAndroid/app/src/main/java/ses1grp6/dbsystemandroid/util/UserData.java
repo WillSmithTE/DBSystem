@@ -60,7 +60,8 @@ public class UserData {
         String requestMapping = userType == UserType.CHARITY ? "charity/" : "donor/";
 
         if (user != null) {
-            listener.onUserReceived(user);
+            if (listener != null) listener.onUserReceived(user);
+            return;
         }
 
         DBSystemNetwork.sendGetRequest(activity, requestMapping + UserData.getInstance().getId(), new DBSystemNetwork.OnRequestComplete() {
