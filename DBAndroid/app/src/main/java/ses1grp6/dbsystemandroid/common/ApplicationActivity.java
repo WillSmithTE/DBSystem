@@ -1,14 +1,9 @@
 package ses1grp6.dbsystemandroid.common;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.ForegroundColorSpan;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -38,7 +33,7 @@ public class ApplicationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_application);
 
-        titleText = findViewById(R.id.appliTitle);
+        titleText = findViewById(R.id.appliListingTitle);
         coverLetterText = findViewById(R.id.appliCoverLetter);
         createdAtText = findViewById(R.id.appliCreatedAt);
         charityByText = findViewById(R.id.appliBy);

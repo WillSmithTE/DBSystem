@@ -1,5 +1,6 @@
 package ses1grp6.dbsystemandroid.charity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import ses1grp6.dbsystemandroid.R;
@@ -33,6 +35,7 @@ public class EditListingFragment extends Fragment {
 
     private View view;
     private Listing listing;
+    private List<Fragment> cards = new LinkedList<>();
 
     public EditListingFragment() {
     }
@@ -42,6 +45,11 @@ public class EditListingFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Intent intent = getActivity().getIntent();
         listing = Listing.getFromIntent(intent);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         fetchApplicants();
     }
 
@@ -58,78 +66,21 @@ public class EditListingFragment extends Fragment {
 
         for (int i = 0; i < applications.size(); i++) {
             ApplicantCardFragment fragApplicant = new ApplicantCardFragment();
-            fragApplicant.setupCard(applications.get(i), i, new ApplicantCardFragment.OnApplicantClicked() {
-                @Override
-                public void onClick(View view, final ApplicantCardFragment frag, final int index, boolean accepted) {
-
-                    if (accepted) {
-                        new AlertDialog.Builder(getContext())
-                                .setTitle("Accept Applicant")
-                                .setMessage(getString(R.string.applicant_accept_confirmation))
-                                .setNegativeButton(android.R.string.no, null)
-                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        acceptApplicant(frag, applications.get(index));
-                                    }
-                                })
-                                .show();
-                    } else {
-                        new AlertDialog.Builder(getContext())
-                                .setTitle("Reject Applicant")
-                                .setMessage(getString(R.string.applicant_reject_confirmation))
-                                .setNegativeButton(android.R.string.no, null)
-                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        rejectApplicant(frag, applications.get(index));
-                                    }
-                                })
-                                .show();
-                    }
-                }
-            });
+            fragApplicant.setupCard(applications.get(i));
+            cards.add(fragApplicant);
             fragTransaction.add(R.id.listingLayout, fragApplicant);
         }
         fragTransaction.commit();
     }
 
-    private void rejectApplicant(final ApplicantCardFragment frag, Application application) {
-        DBSystemNetwork.sendGetRequest(getActivity(), "application/reject/" + application.getId(), new DBSystemNetwork.OnRequestComplete() {
-            @Override
-            public void onRequestCompleted(RequestResponse response) {
-
-                if (!response.hasStatusSuccessful()) {
-                    Toast.makeText(getContext(), "Unable tell server to reject application", Toast.LENGTH_LONG).show();
-                    System.err.println(response.getErrorMessage());
-                } else {
-                    Toast.makeText(getContext(), "Applicant Rejected", Toast.LENGTH_SHORT).show();
-                    removeApplicant(frag);
-                }
-            }
-        });
-    }
-
-    private void acceptApplicant(final ApplicantCardFragment frag, Application application) {
-        DBSystemNetwork.sendGetRequest(getActivity(), "application/accept/" + application.getId(), new DBSystemNetwork.OnRequestComplete() {
-            @Override
-            public void onRequestCompleted(RequestResponse response) {
-
-                if (!response.hasStatusSuccessful()) {
-                    Toast.makeText(getContext(), "Unable tell server to accept application", Toast.LENGTH_LONG).show();
-                    System.err.println(response.getErrorMessage());
-                } else {
-                    Toast.makeText(getContext(), "Applicant Successfully Accepted!", Toast.LENGTH_SHORT).show();
-                    removeApplicant(frag);
-                }
-            }
-        });
-    }
-
-    private void removeApplicant(Fragment frag) {
+    private void clearApplicants() {
         FragmentManager fragManager = getFragmentManager();
         FragmentTransaction fragTransaction = fragManager.beginTransaction();
-        fragTransaction.remove(frag);
+
+        for (Fragment f : cards) {
+            fragTransaction.remove(f);
+        }
+        cards.clear();
         fragTransaction.commit();
     }
 
@@ -141,6 +92,7 @@ public class EditListingFragment extends Fragment {
                 if (response.hasStatusSuccessful()) {
 
                     try {
+                        clearApplicants();
                         JSONArray jsonDonors = response.getBodyJsonArray();
                         List<Application> applications = new ArrayList<>(jsonDonors.length());
 

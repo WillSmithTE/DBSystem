@@ -9,6 +9,7 @@
     tools:context=".common.ApplicationActivity">
 
     <LinearLayout
+        android:id="@+id/appliMainLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -20,6 +21,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/appliTitle"
                 style="@style/title.medium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -59,7 +61,7 @@
             <View style="@style/divider" />
 
             <TextView
-                android:id="@+id/appliTitle"
+                android:id="@+id/appliListingTitle"
                 style="@style/title.small"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
