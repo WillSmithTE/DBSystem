@@ -1,6 +1,7 @@
 package ses1grp6.dbsystemandroid.charity;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -79,12 +81,19 @@ public class CharityWizard extends AppCompatActivity implements AdapterView.OnIt
 
                 dpd = new DatePickerDialog(CharityWizard.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
-                    public void onDateSet(DatePicker view, int mYear, int mMonth, int mDay) {
-                        startDateText.setText(mDay + "/" + (mMonth+1) + "/" + mYear);
-                        startDate = new GregorianCalendar(mYear, mMonth, mDay).getTime();
+                    public void onDateSet(DatePicker view, final int mYear, final int mMonth, final int mDay) {
+
+                        launchTimePicker(new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker timePicker, int i, int i1) {
+                                startDate = new GregorianCalendar(mYear, mMonth, mDay, i, i1).getTime();
+                                startDateText.setText(mDay + "/" + (mMonth+1) + "/" + mYear +
+                                        " [ " + String.format("%02d",i) + ":" + String.format("%02d",i1) + " ]");
+                            }
+                        });
                     }
                 }, year, month, day);
-            dpd.show();
+                dpd.show();
             }
         });
 
@@ -98,14 +107,27 @@ public class CharityWizard extends AppCompatActivity implements AdapterView.OnIt
 
                edpd = new DatePickerDialog(CharityWizard.this, new DatePickerDialog.OnDateSetListener() {
                    @Override
-                   public void onDateSet(DatePicker view, int mYear, int mMonth, int mDay) {
-                        endDateText.setText(mDay + "/" + (mMonth+1) + "/" + mYear);
-                        endDate = new GregorianCalendar(mYear, mMonth, mDay).getTime();
+                   public void onDateSet(DatePicker view, final int mYear, final int mMonth, final int mDay) {
+                       launchTimePicker(new TimePickerDialog.OnTimeSetListener() {
+                           @Override
+                           public void onTimeSet(TimePicker timePicker, int i, int i1) {
+                               endDate = new GregorianCalendar(mYear, mMonth, mDay, i, i1).getTime();
+                               endDateText.setText(mDay + "/" + (mMonth+1) + "/" + mYear +
+                                       " [ " + String.format("%02d",i) + ":" + String.format("%02d",i1) + " ]");
+                           }
+                       });
                    }
                }, year, month, day);
                edpd.show();
            }
        });
+    }
+
+    private void launchTimePicker(TimePickerDialog.OnTimeSetListener listener) {
+        Date currentDate = new Date();
+        int hour = Integer.parseInt(new SimpleDateFormat("HH").format(currentDate));
+        int minute = Integer.parseInt(new SimpleDateFormat("mm").format(currentDate));
+        new TimePickerDialog(this, listener, hour, minute, true).show();
     }
 
     private void setupExpiryDate() {
@@ -114,7 +136,9 @@ public class CharityWizard extends AppCompatActivity implements AdapterView.OnIt
         int month = c.get(Calendar.MONTH);
         int year = c.get(Calendar.YEAR);
         expiryDate = new GregorianCalendar(year, month, day + 1).getTime();
-        expiryText.setText((day + 1) + "/" + month + "/" + year);
+        String hour = new SimpleDateFormat("HH").format(expiryDate);
+        String minute = new SimpleDateFormat("mm").format(expiryDate);
+        expiryText.setText((day + 1) + "/" + month + "/" + year + " [ " + hour + ":" + minute + " ]");
 
         expiryDateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,9 +150,15 @@ public class CharityWizard extends AppCompatActivity implements AdapterView.OnIt
 
                 edpd = new DatePickerDialog(CharityWizard.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
-                    public void onDateSet(DatePicker view, int mYear, int mMonth, int mDay) {
-                        expiryText.setText(mDay + "/" + (mMonth+1) + "/" + mYear);
-                        expiryDate = new GregorianCalendar(mYear, mMonth, mDay).getTime();
+                    public void onDateSet(DatePicker view, final int mYear, final int mMonth, final int mDay) {
+                        launchTimePicker(new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePicker timePicker, int i, int i1) {
+                                expiryDate = new GregorianCalendar(mYear, mMonth, mDay, i, i1).getTime();
+                                expiryText.setText(mDay + "/" + (mMonth+1) + "/" + mYear +
+                                        " [ " + String.format("%02d",i) + ":" + String.format("%02d",i1) + " ]");
+                            }
+                        });
                     }
                 }, year, month, day);
                 edpd.show();
@@ -137,8 +167,8 @@ public class CharityWizard extends AppCompatActivity implements AdapterView.OnIt
     }
 
     private boolean checkEmpty() {
-        return titleInput.getText().equals("") &&
-                descripInput.getText().equals("");
+        return titleInput.getText().toString().equals("") ||
+                descripInput.getText().toString().equals("");
     }
 
     private String formattedDate(Date date) {
@@ -146,7 +176,10 @@ public class CharityWizard extends AppCompatActivity implements AdapterView.OnIt
     }
 
     public void onPostClick(View view) {
-        if (checkEmpty()) return;
+        if (checkEmpty()) {
+            Toast.makeText(this, "Please fill in the required fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
         JSONObject jsonObject = new JSONObject();
         JSONObject jsonObjectIndustry = new JSONObject();
         String charwizTitle = (titleInput).getText().toString();

@@ -3,6 +3,7 @@ package ses1grp6.dbsystemandroid.charity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -42,7 +43,7 @@ public class ListingCharityFragment extends Fragment implements ListingCharities
         this.context = getContext();
         rootView = inflater.inflate(R.layout.fragment_listing_charities_list, container, false);
 
-        Button button = (Button) rootView.findViewById(R.id.button_create_listing);
+        FloatingActionButton button = (FloatingActionButton) rootView.findViewById(R.id.button_create_listing);
         button.setOnClickListener(new View.OnClickListener()
         {
             @Override
