@@ -11,17 +11,19 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Charity implements Parcelable {
+public class Charity extends User implements Parcelable {
 
     private static final String ID = "id";
     private static final String NAME = "name";
     private static final String EMAIL = "email";
     private static final String CONTACT_NUMBER = "contactNumber";
     private static final String CREATED_AT = "createdAt";
+    private static final String CHARITY_DESCRIPTION = "charity_description";
     private int id;
     private String name;
     private String email;
     private String contactNumber;
+    private String charityDescription;
     private Date createdAt;
     private static final String INTENT_NAME = "charityModel";
 
@@ -30,14 +32,20 @@ public class Charity implements Parcelable {
         this.email = email;
     }
 
-    public Charity(JSONObject obj) throws JSONException {
-        this.id = obj.getInt(ID);
-        this.name = obj.getString(NAME);
-        this.email = obj.getString(EMAIL);
-        this.contactNumber = obj.getString(CONTACT_NUMBER);
-        setTimestamp(obj.getString(CREATED_AT));
+    public Charity(JSONObject jsonObject) throws JSONException {
+        this.id = jsonObject.getInt(ID);
+        this.name = jsonObject.getString(NAME);
+        this.email = jsonObject.getString(EMAIL);
+        if (checkNull(jsonObject, CHARITY_DESCRIPTION)) this.charityDescription = jsonObject.getString(CHARITY_DESCRIPTION);
+        if (checkNull(jsonObject, CONTACT_NUMBER)) this.contactNumber = jsonObject.getString(CONTACT_NUMBER);
+        if (checkNull(jsonObject, CREATED_AT)) setCreatedAt(jsonObject.getString(CREATED_AT));
     }
 
+    public boolean checkNull(JSONObject jsonObject, String key) throws JSONException{
+        return jsonObject.has(key) && !jsonObject.getString(key).equals("null") && !jsonObject.getString(key).equals("") && !jsonObject.isNull(key);
+    }
+
+    @Override
     public void putToIntent(Intent intent) {
         intent.putExtra(INTENT_NAME, this);
     }
@@ -46,31 +54,46 @@ public class Charity implements Parcelable {
         return intent.getParcelableExtra(INTENT_NAME);
     }
 
+    public static boolean hasInIntent(Intent intent) {
+        return intent.hasExtra(INTENT_NAME);
+    }
+
+    public boolean hasCharityDescription() {
+        return charityDescription != null;
+    }
+
+    @Override
     public boolean hasName() {
         return name != null;
     }
 
+    @Override
     public boolean hasContactNumber() {
         return contactNumber != null;
     }
 
-    public boolean hasTimestamp() {
+    @Override
+    public boolean hasCreatedAt() {
         return createdAt != null;
     }
 
+    @Override
     public void setName(String name) {
         this.name = name;
     }
 
+    @Override
     public void setContactNumber(String contactNumber) {
         this.contactNumber = contactNumber;
     }
 
+    @Override
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
-    public void setTimestamp(String s) {
+    @Override
+    public void setCreatedAt(String s) {
 
         try {
             this.createdAt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(s);
@@ -80,28 +103,42 @@ public class Charity implements Parcelable {
         }
     }
 
+    @Override
     public int getId() {
         return id;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public String getEmail() {
         return email;
     }
 
+    @Override
     public String getContactNumber() {
         return contactNumber;
     }
 
+    @Override
     public Date getCreatedAt() {
         return createdAt;
     }
 
+    public String getCharityDescription() {
+        return charityDescription;
+    }
+
+    public void setCharityDescription(String charityDescription) {
+        this.charityDescription = charityDescription;
+    }
+
+    @Override
     public String getFormattedCreatedAt() {
-        return new SimpleDateFormat("dd MM yyyy").format(createdAt);
+        return new SimpleDateFormat("dd MMM yyyy").format(createdAt);
     }
 
     @Override
@@ -115,6 +152,7 @@ public class Charity implements Parcelable {
         dest.writeString(this.name);
         dest.writeString(this.email);
         dest.writeString(this.contactNumber);
+        dest.writeString(this.charityDescription);
         dest.writeLong(this.createdAt != null ? this.createdAt.getTime() : -1);
     }
 
@@ -123,11 +161,12 @@ public class Charity implements Parcelable {
         this.name = in.readString();
         this.email = in.readString();
         this.contactNumber = in.readString();
-        long tmpTimestamp = in.readLong();
-        this.createdAt = tmpTimestamp == -1 ? null : new Date(tmpTimestamp);
+        this.charityDescription = in.readString();
+        long tmpCreatedAt = in.readLong();
+        this.createdAt = tmpCreatedAt == -1 ? null : new Date(tmpCreatedAt);
     }
 
-    public static final Parcelable.Creator<Charity> CREATOR = new Parcelable.Creator<Charity>() {
+    public static final Creator<Charity> CREATOR = new Creator<Charity>() {
         @Override
         public Charity createFromParcel(Parcel source) {
             return new Charity(source);

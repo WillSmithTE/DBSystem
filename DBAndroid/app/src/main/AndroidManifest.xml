@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ses1grp6.dbsystemandroid">
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
 
     <application
         android:allowBackup="true"
@@ -19,8 +20,6 @@
         <activity android:name=".common.ApplicationActivity"></activity>
         <activity android:name=".common.ListingActivity" />
         <activity android:name=".charity.CharityWizard"></activity>
-
-        <activity android:name=".RegistrationResultActivity" />
         <activity android:name=".util.simpleResult.SimpleResultActivity" />
 
         <activity android:name=".donor.ProfileActivity" />
