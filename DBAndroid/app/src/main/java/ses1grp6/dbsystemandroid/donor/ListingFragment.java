@@ -19,6 +19,7 @@ import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import ses1grp6.dbsystemandroid.R;
 import ses1grp6.dbsystemandroid.charity.EditListingFragment;
@@ -62,12 +63,17 @@ public class ListingFragment extends Fragment implements ListingAdapter.ItemClic
             public void onRequestCompleted(RequestResponse response) {
                 if (response.isConnectionSuccessful()) {
                     try {
+                        Date currentDate = new Date();
                         listingCharities = new ArrayList<>();
                         int max = response.getJsonObject().getJSONArray("body").length();
                         if (max > 20) max = 20;
                         for (int i = 0; i < max; i++) {
                             JSONObject obj = response.getJsonObject().getJSONArray("body").getJSONObject(i);
-                            listingCharities.add(new Listing(obj));
+                            Listing listing = new Listing(obj);
+
+                            if (listing.hasExpiresAt() && currentDate.before(listing.getExpiresAt())) {
+                                listingCharities.add(listing);
+                            }
                         }
                         buildRecyclerView(listingCharities);
                     } catch (JSONException e) {

@@ -114,6 +114,8 @@ public class DashboardActivity extends AppCompatActivity {
             getSupportActionBar().setTitle(simBackTitles.get(size - 2));
             simBackMenus.remove(size - 1);
             simBackTitles.remove(size - 1);
+        } else if (simBackMenus.size() == 1) {
+            finish();
         }
         super.onBackPressed();
     }

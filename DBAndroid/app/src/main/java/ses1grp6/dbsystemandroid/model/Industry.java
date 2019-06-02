@@ -23,6 +23,10 @@ public class Industry implements Parcelable {
         this.industryName = jsonObject.getString(INDUSTRY_NAME);
     }
 
+    public boolean search(String s) {
+        return industryName.toLowerCase().contains(s);
+    }
+
     @Override
     public String toString() {
         return getIndustryName();

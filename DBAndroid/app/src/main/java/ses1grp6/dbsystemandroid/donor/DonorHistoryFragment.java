@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,9 +38,11 @@ import ses1grp6.dbsystemandroid.network.RequestResponse;
  */
 public class DonorHistoryFragment extends Fragment implements SimpleRecyclerAdaptor.Binder<DonorHistoryFragment.HistoryHolder> {
 
+    private List<Application> allHistory = new ArrayList<>();
     private List<Application> history = new ArrayList<>();
     private SimpleRecyclerAdaptor<HistoryHolder, Application> adapter;
     private HashSet<Integer> filter;
+    private SearchView searchView;
 
     public DonorHistoryFragment() {
         // Required empty public constructor
@@ -56,6 +59,29 @@ public class DonorHistoryFragment extends Fragment implements SimpleRecyclerAdap
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_history, container, false);
+        searchView = rootView.findViewById(R.id.searchHistory);
+        searchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                List<Application> newHistory = new ArrayList<>();
+
+                if (searchView.getQuery().toString().equals("")) {
+                    history.clear();
+                    history.addAll(allHistory);
+                } else {
+                    for (Application application : allHistory) {
+
+                        if (application.search(searchView.getQuery().toString().toLowerCase())) {
+                            newHistory.add(application);
+                        }
+                    }
+                    history.clear();
+                    history.addAll(newHistory);
+                }
+                adapter.notifyDataSetChanged();
+            }
+        });
+
         buildRecyclerView(rootView);
         return rootView;
     }
@@ -92,8 +118,10 @@ public class DonorHistoryFragment extends Fragment implements SimpleRecyclerAdap
                             JSONObject jsonObject = dataArray.getJSONObject(i);
                             Application application = new Application(jsonObject);
 
-                            if (filter.contains(application.getAccepted()))
+                            if (filter.contains(application.getAccepted())) {
                                 history.add(application);
+                                allHistory.add(application);
+                            }
                         } catch (JSONException e) {
                             System.err.println("Found corrupted donor history data!");
                         }
@@ -114,11 +142,7 @@ public class DonorHistoryFragment extends Fragment implements SimpleRecyclerAdap
         viewHolder.charityName.setText(getString(R.string.prefix_by_name) + " " + hist.getCharity().getName());
         String descip = hist.getCoverLetter().substring(0, Math.min(hist.getCoverLetter().length(), 90));
         viewHolder.description.setText(descip + ".....");
-
-        if (hist.hasIndustry())
-            viewHolder.industry.setText(getString(R.string.prefix_industry) + " " + hist.getIndustry().getIndustryName());
-        else
-            viewHolder.industry.setText("");
+        viewHolder.industry.setText(getString(R.string.prefix_industry) + " " + hist.getListing().getIndustry().getIndustryName());
     }
 
     public static class HistoryHolder extends RecyclerView.ViewHolder {

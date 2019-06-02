@@ -57,6 +57,14 @@ public class Listing implements Parcelable {
         if (checkNull(jsonObject, EXPIRES_AT)) setExpiresAt(jsonObject.getString(EXPIRES_AT));
     }
 
+    public boolean search(String s ) {
+        return listingDescription.toLowerCase().contains(s)
+                || listingTitle.toLowerCase().contains(s)
+                || (industry != null && industry.search(s))
+                || (charity!= null && charity.search(s))
+                || (location != null && location.toLowerCase().contains(s));
+    }
+
     /**
      * Null checks delegated.
      */

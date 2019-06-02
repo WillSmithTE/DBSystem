@@ -30,7 +30,6 @@ public class Application implements Parcelable {
     private String coverLetter;
     private String contactNumber;
     private Date createdAt;
-    private Industry industry;
     private int accepted;
 
     public Application(int id, Donor donor, Charity charity) {
@@ -48,8 +47,15 @@ public class Application implements Parcelable {
         this.accepted = jsonObject.getInt(ACCEPTED);
         if (checkNull(jsonObject, CONTACT_NUMBER)) this.contactNumber = jsonObject.getString(CONTACT_NUMBER);
         if (checkNull(jsonObject, CREATED_AT)) setCreatedAt(jsonObject.getString(CREATED_AT));
-        if (checkNull(jsonObject, INDUSTRY)) this.industry = new Industry(jsonObject.getJSONObject(INDUSTRY));
     }
+
+    public boolean search(String s ) {
+        return coverLetter.toLowerCase().contains(s)
+                || (donor != null && donor.search(s))
+                || (listing != null && listing.search(s))
+                || (charity != null && charity.search(s));
+    }
+
 
     public boolean checkNull(JSONObject jsonObject, String key) throws JSONException{
         return jsonObject.has(key) && !jsonObject.getString(key).equals("null") && !jsonObject.getString(key).equals("") && !jsonObject.isNull(key);
@@ -99,10 +105,6 @@ public class Application implements Parcelable {
         return createdAt != null;
     }
 
-    public boolean hasIndustry() {
-        return industry != null;
-    }
-
     public void setDonor(Donor donor) {
         this.donor = donor;
     }
@@ -141,10 +143,6 @@ public class Application implements Parcelable {
         }
     }
 
-    public void setIndustry(Industry industry) {
-        this.industry = industry;
-    }
-
     public Donor getDonor() {
         return donor;
     }
@@ -169,10 +167,6 @@ public class Application implements Parcelable {
         return contactNumber;
     }
 
-    public Industry getIndustry() {
-        return industry;
-    }
-
     public Date getCreatedAt() {
         return createdAt;
     }
@@ -195,7 +189,6 @@ public class Application implements Parcelable {
         dest.writeString(this.coverLetter);
         dest.writeString(this.contactNumber);
         dest.writeLong(this.createdAt != null ? this.createdAt.getTime() : -1);
-        dest.writeParcelable(this.industry, flags);
         dest.writeInt(this.accepted);
     }
 
@@ -208,7 +201,6 @@ public class Application implements Parcelable {
         this.contactNumber = in.readString();
         long tmpCreatedAt = in.readLong();
         this.createdAt = tmpCreatedAt == -1 ? null : new Date(tmpCreatedAt);
-        this.industry = in.readParcelable(Industry.class.getClassLoader());
         this.accepted = in.readInt();
     }
 
