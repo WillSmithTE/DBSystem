@@ -50,10 +50,6 @@ public class SimpleRecyclerAdaptor<A extends RecyclerView.ViewHolder, T> extends
     public A onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(viewHolderRes, viewGroup, false);
 
-        if (onItemClickListener != null) {
-            view.setOnClickListener(new OnViewHolderClickListener(i));
-        }
-
         try {
             return holderCls.getConstructor(View.class).newInstance(view);
         } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
@@ -63,6 +59,11 @@ public class SimpleRecyclerAdaptor<A extends RecyclerView.ViewHolder, T> extends
 
     @Override
     public void onBindViewHolder(@NonNull A viewHolder, int i) {
+
+        if (onItemClickListener != null) {
+            viewHolder.itemView.setOnClickListener(new OnViewHolderClickListener(i));
+        }
+
         binder.onBindViewHolder(viewHolder, i);
     }
 
