@@ -14,6 +14,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
 
+        <activity android:name=".donor.DonorWizard"/>
         <activity android:name=".common.ApplicationActivity"></activity>
         <activity android:name=".common.ListingActivity" />
         <activity android:name=".charity.CharityWizard"></activity>

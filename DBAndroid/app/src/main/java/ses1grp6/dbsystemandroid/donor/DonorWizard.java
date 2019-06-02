@@ -48,7 +48,7 @@ public class DonorWizard extends AppCompatActivity {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("coverLetter", coverLetter);
-            jsonObject.put("contactNumber", contactNumber);
+            if (!contactNumber.equals("")) jsonObject.put("contactNumber", contactNumber);
             jsonObject.put("donor", donor_id);
             jsonObject.put("charityListing", listing_id);
             jsonObject.put("charity", listing.getCharity().getId());
