@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/baseView.spaced"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".donor.ProfileActivity">
+
+    <TextView
+        android:id="@+id/nameProfileTV"
+        style="@style/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="___________________" />
+
+    <TextView
+        android:id="@+id/emailProfileTV"
+        style="@style/subTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="_______" />
+
+    <TextView
+        android:id="@+id/phoneProfileTV"
+        style="@style/subTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="________" />
+
+    <TextView
+        android:id="@+id/createdAtProfileTV"
+        style="@style/subTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="___________" />
+
+    <FrameLayout
+        android:id="@+id/descripProfileBox"
+        style="@style/boxedBody"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/descripProfileTV"
+            style="@style/body"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </FrameLayout>
+
+</LinearLayout>

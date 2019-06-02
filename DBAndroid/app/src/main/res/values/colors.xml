@@ -12,5 +12,7 @@
     <color name="colorThinBlack">#242424</color>
     <color name="colorTitle">#0E7C20</color>
     <color name="colorSubTitle">#4E9B34</color>
-    <color name="linkable">#23B4A2</color>
+    <color name="colorLinkable">#23B4A2</color>
+    <color name="colorDated">#DDB400</color>
+    <color name="colorSlightBackground">#78DDFFD3</color>
 </resources>

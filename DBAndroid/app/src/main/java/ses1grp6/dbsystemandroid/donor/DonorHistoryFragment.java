@@ -21,9 +21,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ses1grp6.dbsystemandroid.R;
+import ses1grp6.dbsystemandroid.common.ApplicationActivity;
 import ses1grp6.dbsystemandroid.common.ListingActivity;
+import ses1grp6.dbsystemandroid.model.Application;
 import ses1grp6.dbsystemandroid.model.Listing;
 import ses1grp6.dbsystemandroid.util.SimpleRecyclerAdaptor;
+import ses1grp6.dbsystemandroid.util.TxStyler;
 import ses1grp6.dbsystemandroid.util.UserData;
 import ses1grp6.dbsystemandroid.network.DBSystemNetwork;
 import ses1grp6.dbsystemandroid.network.RequestResponse;
@@ -33,8 +36,8 @@ import ses1grp6.dbsystemandroid.network.RequestResponse;
  */
 public class DonorHistoryFragment extends Fragment implements SimpleRecyclerAdaptor.Binder<DonorHistoryFragment.HistoryHolder> {
 
-    List<Listing> history = new ArrayList<>();
-    SimpleRecyclerAdaptor<HistoryHolder, Listing> adapter;
+    List<Application> history = new ArrayList<>();
+    SimpleRecyclerAdaptor<HistoryHolder, Application> adapter;
 
     public DonorHistoryFragment() {
         // Required empty public constructor
@@ -54,10 +57,10 @@ public class DonorHistoryFragment extends Fragment implements SimpleRecyclerAdap
         RecyclerView recyclerView = rootView.findViewById(R.id.historyRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         adapter = new SimpleRecyclerAdaptor<>(HistoryHolder.class, this, R.layout.donor_history_item, history);
-        adapter.setOnItemClickListener(new SimpleRecyclerAdaptor.OnItemClickListener<Listing>() {
+        adapter.setOnItemClickListener(new SimpleRecyclerAdaptor.OnItemClickListener<Application>() {
             @Override
-            public void onClick(View view, Listing dataSet) {
-                Intent intent = new Intent(getContext(), ListingActivity.class);
+            public void onClick(View view, Application dataSet) {
+                Intent intent = new Intent(getContext(), ApplicationActivity.class);
                 dataSet.putToIntent(intent);
                 startActivity(intent);
             }
@@ -76,17 +79,14 @@ public class DonorHistoryFragment extends Fragment implements SimpleRecyclerAdap
                     JSONArray dataArray = response.getBodyJsonArray();
 
                     for (int i = 0; i < dataArray.length(); i++) {
-                        Listing historyData;
 
                         try {
                             JSONObject jsonObject = dataArray.getJSONObject(i);
-                            if (jsonObject.getInt("accepted") == 0) continue;
-                            historyData = new Listing(jsonObject);
+                            Application application = new Application(jsonObject);
+                            history.add(application);
                         } catch (JSONException e) {
                             System.err.println("Found corrupted donor history data!");
-                            continue;
                         }
-                        history.add(historyData);
                     }
                     adapter.notifyDataSetChanged();
                 } else {
@@ -98,26 +98,27 @@ public class DonorHistoryFragment extends Fragment implements SimpleRecyclerAdap
 
     @Override
     public void onBindViewHolder(@NonNull HistoryHolder viewHolder, int i) {
-        Listing hist = history.get(i);
-        viewHolder.title.setText(getString(R.string.prefix_application_title) + "\"" + hist.getListingTitle() + "\"");
-        viewHolder.time.setText(hist.getFormattedCreatedAt()); // Hacky fix to cut off text by adding space.
-        viewHolder.charityName.setText(getString(R.string.prefix_by_name) + hist.getCharity().getName());
-        viewHolder.address.setText(getString(R.string.prefix_location) + hist.getLocation());
-        String descip = hist.getListingDescription().substring(0, Math.min(hist.getListingDescription().length(), 90));
+        Application hist = history.get(i);
+        TxStyler titleStyler = new TxStyler(getResources().getColor(R.color.colorLinkable));
+        titleStyler.prefix(viewHolder.title, getString(R.string.prefix_application_title), hist.getListing().getListingTitle());
+        viewHolder.charityName.setText(getString(R.string.prefix_by_name) + " " + hist.getCharity().getName());
+        String descip = hist.getCoverLetter().substring(0, Math.min(hist.getCoverLetter().length(), 90));
         viewHolder.description.setText(descip + ".....");
-        viewHolder.industry.setText(getString(R.string.prefix_industry) + hist.getIndustry());
+
+        if (hist.hasIndustry())
+            viewHolder.industry.setText(getString(R.string.prefix_industry) + " " + hist.getIndustry().getIndustryName());
+        else
+            viewHolder.industry.setText("");
     }
 
     public static class HistoryHolder extends RecyclerView.ViewHolder {
 
-        public final TextView title, charityName, address, time, description, industry;
+        public final TextView title, charityName, description, industry;
 
         public HistoryHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.donorHistoryTitle);
-            time = itemView.findViewById(R.id.donorHistoryTime);
             charityName = itemView.findViewById(R.id.donorHistoryCharityName);
-            address = itemView.findViewById(R.id.donorHistoryAddress);
             description = itemView.findViewById(R.id.donorHistoryDescrip);
             industry = itemView.findViewById(R.id.donorHistoryIndustry);
         }

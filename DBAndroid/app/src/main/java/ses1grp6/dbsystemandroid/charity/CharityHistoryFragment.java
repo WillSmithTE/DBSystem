@@ -34,8 +34,8 @@ import ses1grp6.dbsystemandroid.network.RequestResponse;
 
 public class CharityHistoryFragment extends Fragment implements SimpleRecyclerAdaptor.Binder<CharityHistoryFragment.HistoryHolder> {
 
-    List<CharityHistory> history = new ArrayList<>();
-    SimpleRecyclerAdaptor<HistoryHolder, CharityHistory> adapter;
+    List<Listing> history = new ArrayList<>();
+    SimpleRecyclerAdaptor<HistoryHolder, Listing> adapter;
 
     public CharityHistoryFragment() {
         // Required empty public constructor
@@ -51,10 +51,6 @@ public class CharityHistoryFragment extends Fragment implements SimpleRecyclerAd
     }
 
     private void buildRecyclerView(View rootView) {
-        // TODO REMOVE Sample/Test data
-        history.add(new CharityHistory("Some Title", new Date(), "99 Some Street, Jakarta", "Some kind of transaction was performed", "IT"));
-        // TODO END
-
         // Setup recycler view
         RecyclerView recyclerView = rootView.findViewById(R.id.historyRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
@@ -81,12 +77,12 @@ public class CharityHistoryFragment extends Fragment implements SimpleRecyclerAd
                     JSONArray dataArray = response.getBodyJsonArray();
 
                     for (int i = 0; i < dataArray.length(); i++) {
-                        CharityHistory historyData;
+                        Listing historyData;
 
                         try {
                             JSONObject jsonObject = dataArray.getJSONObject(i);
-                            historyData = new CharityHistory(jsonObject);
-                        } catch (JSONException | ParseException e) {
+                            historyData = new Listing(jsonObject);
+                        } catch (JSONException e) {
                             System.err.println("Found corrupted charity history data!");
                             continue;
                         }
@@ -103,24 +99,20 @@ public class CharityHistoryFragment extends Fragment implements SimpleRecyclerAd
 
     @Override
     public void onBindViewHolder(@NonNull HistoryHolder viewHolder, int i) {
-        CharityHistory hist = history.get(i);
-        viewHolder.title.setText(hist.title);
-        viewHolder.date.setText(new SimpleDateFormat("d MMM y", Locale.getDefault()).format(hist.date) + " "); // Hacky fix to cut off text by adding space.
-        viewHolder.address.setText(getString(R.string.prefix_location) + hist.address);
-        String descip = hist.description.substring(0, Math.min(hist.description.length(), 90));
+        Listing hist = history.get(i);
+        viewHolder.title.setText(hist.getListingTitle());
+        String descip = hist.getListingDescription().substring(0, Math.min(hist.getListingDescription().length(), 90));
         viewHolder.description.setText(descip + ".....");
-        viewHolder.industry.setText(getString(R.string.prefix_industry) + hist.industry);
+        viewHolder.industry.setText(getString(R.string.prefix_industry) + " " + hist.getIndustry());
     }
 
     public static class HistoryHolder extends RecyclerView.ViewHolder {
 
-        public final TextView title, date, address, description, industry;
+        public final TextView title, description, industry;
 
         public HistoryHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.charityHistoryTitle);
-            date = itemView.findViewById(R.id.charityHistoryTime);
-            address = itemView.findViewById(R.id.charityHistoryAddress);
             description = itemView.findViewById(R.id.charityHistoryDescrip);
             industry = itemView.findViewById(R.id.charityHistoryIndustry);
         }
