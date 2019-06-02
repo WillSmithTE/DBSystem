@@ -53,7 +53,7 @@ public class ApplyListingFragment extends Fragment {
         applyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent newIntent = new Intent(getActivity(), donorWizard.class);
+                Intent newIntent = new Intent(getActivity(), DonorWizard.class);
                 FragBundler fragBundler2 = new FragBundler(newIntent);
                 fragBundler2.putToIntent(ApplyListingFragment.class);
                 listing.putToIntent(newIntent);

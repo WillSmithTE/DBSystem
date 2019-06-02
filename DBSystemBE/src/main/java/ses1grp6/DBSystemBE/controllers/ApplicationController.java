@@ -31,6 +31,7 @@ public class ApplicationController {
             if (maybeApplication.isPresent()) {
                 Application application = maybeApplication.get();
                 application.accept();
+                new EmailController().sendEmailAcceptance(maybeApplication.get());
                 return Response.success(applicationRepository.save(application));
             } else {
                 return Response.fail("Application of id " + id + " not found.");

@@ -15,32 +15,36 @@ locations_csv = r'locations_SS1A.csv'
 df_locations = pd.read_csv(locations_csv)
 
 def seedDonor():
-	for i in range(5):
-		try:
-			insert_sql = (
-				"""INSERT INTO `donor` (name, contact_number, email, email_confirmed, password) 
-				VALUES (%s,%s,%s,%s,%s);"""
-			)
-		   
-			data = (fake.name(), str(fake.phone_number()), (fake.last_name_male() + "@test.com.au"), 1, "password")
-			c.execute(insert_sql, data)
-		except Exception as e:
-			print(e)
-		connection.commit()
+	emails = ['@gmail.com', '@yahoo.com', '@hotmail.com', '@student.uts.edu.au']
+	for i in range(100):
+		for email in emails:
+			try:
+				insert_sql = (
+					"""INSERT INTO `donor` (name, contact_number, email, email_confirmed, password) 
+					VALUES (%s,%s,%s,%s,%s);"""
+				)
+			
+				data = (fake.name(), str(fake.phone_number()), (fake.last_name_male() + str(randint(1,100)) + str(email)), 1, "password")
+				c.execute(insert_sql, data)
+			except Exception as e:
+				print(e)
+			connection.commit()
 
 def seedCharity():
-	for i in range(5):
-		try:
-			insert_sql = (
-				"""INSERT INTO `charity` (name, charity_description, contact_number, email, email_confirmed, charity_size, password) 
-				VALUES (%s,%s,%s,%s,%s,%s,%s);"""
-			)
+	emails = ['@gmail.com', '@yahoo.com', '@hotmail.com', '@student.uts.edu.au']
+	for i in range(100):
+		for email in emails:
+			try:
+				insert_sql = (
+					"""INSERT INTO `charity` (name, charity_description, contact_number, email, email_confirmed, charity_size, password) 
+					VALUES (%s,%s,%s,%s,%s,%s,%s);"""
+				)
 
-			data = (fake.company(), fake.catch_phrase(), str(fake.phone_number()), (fake.last_name_female() + "@test.com.au"), int(1), int(randint(1,10000)), "password")
-			c.execute(insert_sql, data)
-		except Exception as e:
-			print(e)
-		connection.commit()
+				data = (fake.company(), fake.catch_phrase(), str(fake.phone_number()), (fake.last_name_female() + str(randint(1,100)) + str(email)), int(1), int(randint(1,10000)), "password")
+				c.execute(insert_sql, data)
+			except Exception as e:
+				print(e)
+			connection.commit()
 
 def seedCharityListing():
 	
@@ -50,25 +54,44 @@ def seedCharityListing():
 				'Port Kembla NSW 2505',
 				'Bowral NSW 2576'
 			   ]
-	for location in locations:
+	for i in range(100):
+		for location in locations:
+			try:
+				insert_sql = (
+					"""INSERT INTO `charity_listing` (listing_title, listing_description, location, charity_id, industry_id, event_start_date, event_end_date, expires_at) 
+					VALUES (%s,%s,%s,%s,%s,%s,%s,%s);"""
+				)
+
+				listing_description_list = fake.paragraphs(nb=2, ext_word_list=None)
+				listing_description = ''.join(listing_description_list)
+			
+				data = (fake.job(), listing_description, location, int(randint(1,99)), int(randint(1,16)),"2019-06-02 12:00:00", "2019-06-02 14:00:00", "2019-06-30 00:00:00")
+				c.execute(insert_sql, data)
+			except Exception as e:
+				print(e)
+			connection.commit()
+
+
+def seedApplication():
+	for i in range(100):	
 		try:
 			insert_sql = (
-				"""INSERT INTO `charity_listing` (listing_title, listing_description, location, charity_id, industry_id) 
+				"""INSERT INTO `application` (donor_id, charity_listing_id, charity_id, cover_letter, contact_number) 
 				VALUES (%s,%s,%s,%s,%s);"""
 			)
-
-			listing_description_list = fake.paragraphs(nb=3, ext_word_list=None)
-			listing_description = ''.join(listing_description_list)
-		   
-			data = (fake.job(), listing_description, location, int(randint(6144,6148)), int(randint(1,16)))
+			cv = "Please hire me for this role. my name is " + str(fake.name() +", and I think I am a suitable candidate for this charity service. Looking forward to hearing back from you.")
+		
+			data = (int(randint(1,99)), int(randint(1,99)), int(randint(1,99)), cv, str(fake.phone_number()))
 			c.execute(insert_sql, data)
 		except Exception as e:
 			print(e)
 		connection.commit()
 
+
 def main():
-	# seedDonor()
-	# seedCharity()
+	seedDonor()
+	seedCharity()
 	seedCharityListing()
+	seedApplication()
 
 main()
