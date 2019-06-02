@@ -131,6 +131,9 @@ public class UserData {
     }
 
     public void clearStoredUserData() {
+        token = null;
+        id = -1;
+        user = null;
         appContext.getSharedPreferences("userData", Context.MODE_PRIVATE).edit().clear().apply();
     }
 
