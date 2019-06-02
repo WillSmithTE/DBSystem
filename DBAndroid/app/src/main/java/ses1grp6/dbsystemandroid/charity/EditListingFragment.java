@@ -1,11 +1,16 @@
 package ses1grp6.dbsystemandroid.charity;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,56 +20,95 @@ import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import ses1grp6.dbsystemandroid.R;
-import ses1grp6.dbsystemandroid.common.ApplicationActivity;
+import ses1grp6.dbsystemandroid.donor.ApplicantCardFragment;
 import ses1grp6.dbsystemandroid.model.Application;
 import ses1grp6.dbsystemandroid.model.Listing;
 import ses1grp6.dbsystemandroid.network.DBSystemNetwork;
 import ses1grp6.dbsystemandroid.network.RequestResponse;
-import ses1grp6.dbsystemandroid.util.FragBundler;
-import ses1grp6.dbsystemandroid.util.SimpleRecyclerAdaptor;
 
 public class EditListingFragment extends Fragment {
 
-    private List<Application> applications = new ArrayList<>();
+    private View view;
     private Listing listing;
-    private SimpleRecyclerAdaptor<ApplicationHolder, Application> adaptor;
-    private RecyclerView recyclerView;
+    private List<Fragment> cards = new LinkedList<>();
 
     public EditListingFragment() {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_edit_listing, container, false);
-        recyclerView = view.findViewById(R.id.applicantsRecyclerView);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         Intent intent = getActivity().getIntent();
         listing = Listing.getFromIntent(intent);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         fetchApplicants();
-        buildRecyclerView();
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_edit_listing, container, false);
         return view;
     }
 
+    private void addApplicantCards(final List<Application> applications) {
+        FragmentManager fragManager = getFragmentManager();
+        FragmentTransaction fragTransaction = fragManager.beginTransaction();
+
+        for (int i = 0; i < applications.size(); i++) {
+            ApplicantCardFragment fragApplicant = new ApplicantCardFragment();
+            fragApplicant.setupCard(applications.get(i));
+            cards.add(fragApplicant);
+            fragTransaction.add(R.id.listingLayout, fragApplicant);
+        }
+        fragTransaction.commit();
+    }
+
+    private void clearApplicants() {
+        FragmentManager fragManager = getFragmentManager();
+        FragmentTransaction fragTransaction = fragManager.beginTransaction();
+
+        for (Fragment f : cards) {
+            fragTransaction.remove(f);
+        }
+        cards.clear();
+        fragTransaction.commit();
+    }
+
     private void fetchApplicants() {
-        DBSystemNetwork.sendGetRequest("listing/applications/" + listing.getId(), new DBSystemNetwork.OnRequestComplete() {
+        DBSystemNetwork.sendGetRequest(getActivity(), "listing/applications/" + listing.getId(), new DBSystemNetwork.OnRequestComplete() {
             @Override
             public void onRequestCompleted(RequestResponse response) {
 
                 if (response.hasStatusSuccessful()) {
 
                     try {
+                        clearApplicants();
                         JSONArray jsonDonors = response.getBodyJsonArray();
-                        applications = new ArrayList<>(jsonDonors.length());
+                        List<Application> applications = new ArrayList<>(jsonDonors.length());
 
                         for (int i = 0; i < jsonDonors.length(); i++) {
-                            applications.add(new Application(jsonDonors.getJSONObject(i)));
+                            Application application = new Application(jsonDonors.getJSONObject(i));
+
+                            if (application.isPending()) {
+                                applications.add(application);
+                            }
                         }
-                        adaptor.notifyDataSetChanged();
+
+                        if (applications.size() == 0) {
+                            showApplicantsEmpty();
+                        } else {
+                            addApplicantCards(applications);
+                        }
                     } catch (JSONException e) {
                         Toast.makeText(getContext(), "Unable to read applications from response", Toast.LENGTH_LONG).show();
                         System.err.println(response.getErrorMessage());
@@ -77,35 +121,11 @@ public class EditListingFragment extends Fragment {
         });
     }
 
-    public void buildRecyclerView() {
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        adaptor = new SimpleRecyclerAdaptor<>(ApplicationHolder.class, new Binder(), R.layout.card_application, applications);
-        recyclerView.setAdapter(adaptor);
-        adaptor.setOnItemClickListener(new SimpleRecyclerAdaptor.OnItemClickListener<Application>() {
-            @Override
-            public void onClick(View view, Application dataSet) {
-                Intent intent = new Intent(getContext(), ApplicationActivity.class);
-                dataSet.putToIntent(intent);
-                startActivity(intent);
-            }
-        });
-    }
-
-    private class Binder implements SimpleRecyclerAdaptor.Binder<ApplicationHolder> {
-        @Override
-        public void onBindViewHolder(@NonNull ApplicationHolder viewHolder, int i) {
-            Application application = applications.get(i);
-            viewHolder.applicantName.setText(application.getDonor().getName());
-        }
-    }
-
-    private static class ApplicationHolder extends RecyclerView.ViewHolder {
-
-        public final TextView applicantName;
-
-        public ApplicationHolder(@NonNull View itemView) {
-            super(itemView);
-            applicantName = itemView.findViewById(R.id.applicantName);
-        }
+    private void showApplicantsEmpty() {
+        TextView text = new TextView(getContext());
+        text.setText("None");
+        text.setGravity(Gravity.CENTER);
+        text.setPadding(50, 50, 50, 50);
+        ((ViewGroup)view).addView(text);
     }
 }

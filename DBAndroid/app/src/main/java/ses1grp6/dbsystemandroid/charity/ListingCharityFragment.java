@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,7 +24,9 @@ import ses1grp6.dbsystemandroid.R;
 import ses1grp6.dbsystemandroid.model.Listing;
 import ses1grp6.dbsystemandroid.network.DBSystemNetwork;
 import ses1grp6.dbsystemandroid.network.RequestResponse;
+import ses1grp6.dbsystemandroid.util.FragBundler;
 import ses1grp6.dbsystemandroid.util.UserData;
+import ses1grp6.dbsystemandroid.common.ListingActivity;
 
 public class ListingCharityFragment extends Fragment implements ListingCharitiesAdapter.ItemClickListener {
     Context context;
@@ -54,7 +58,7 @@ public class ListingCharityFragment extends Fragment implements ListingCharities
     }
 
     private void arrayBuild(){
-        DBSystemNetwork.sendGetRequest("listing/charity/" + UserData.getInstance().getId(), new DBSystemNetwork.OnRequestComplete() {
+        DBSystemNetwork.sendGetRequest(getActivity(), "listing/charity/" + UserData.getInstance().getId(), new DBSystemNetwork.OnRequestComplete() {
             @Override
             public void onRequestCompleted(RequestResponse response) {
                 if (response.isConnectionSuccessful()) {
@@ -91,20 +95,14 @@ public class ListingCharityFragment extends Fragment implements ListingCharities
     }
 
     @Override
-    public void onItemClick(View view, int id) {
+    public void onItemClick(View view, int id, Listing listing) {
         String s = "Id " + id + " has been clicked";
-//        Toast.makeText(context, s,
-//                Toast.LENGTH_LONG).show();
-//        System.out.println(s);
-//
-//        Intent intent = new Intent(getActivity(), ProfileActivity.class);
-//        Listing donor = listingCharities.get(0);
-//        for (Listing d : donors){
-//            if (d.getId() == id) {
-//                donor = d;
-//            }
-//        }
-//        intent.putExtra("donor", donor);
-//        startActivity(intent);
+        System.out.println(s + listing.getListingTitle());
+
+        Intent intent = new Intent(getContext(), ListingActivity.class);
+        FragBundler fragBundler = new FragBundler(intent);
+        fragBundler.putToIntent(EditListingFragment.class);
+        listing.putToIntent(intent);
+        startActivity(intent);
     }
 }

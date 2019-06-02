@@ -2,10 +2,17 @@ package ses1grp6.dbsystemandroid.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import ses1grp6.dbsystemandroid.model.Charity;
+import ses1grp6.dbsystemandroid.model.Donor;
+import ses1grp6.dbsystemandroid.model.User;
+import ses1grp6.dbsystemandroid.network.DBSystemNetwork;
 import ses1grp6.dbsystemandroid.network.RequestResponse;
 
 public class UserData {
@@ -15,6 +22,7 @@ public class UserData {
     private int id = -1;
     private String token;
     private UserType userType;
+    private User user;
 
     private UserData(Context appContext) {
         this.appContext = appContext;
@@ -41,6 +49,45 @@ public class UserData {
         } else {
             return instance;
         }
+    }
+
+    /**
+     * Tries to fetch user profile and caches is.
+     * @param activity a running activity
+     * @param listener callback when user profile fetched. Can be left to null if a callback is not desired.
+     */
+    public void fetchUser(final FragmentActivity activity, @Nullable final OnUserRecievedListener listener) {
+        String requestMapping = userType == UserType.CHARITY ? "charity/" : "donor/";
+
+        if (user != null) {
+            if (listener != null) listener.onUserReceived(user);
+            return;
+        }
+
+        DBSystemNetwork.sendGetRequest(activity, requestMapping + UserData.getInstance().getId(), new DBSystemNetwork.OnRequestComplete() {
+            @Override
+            public void onRequestCompleted(RequestResponse response) {
+                if (response.hasStatusSuccessful()) {
+                    JSONObject body = response.getBodyJsonObject();
+
+                    try {
+                        if (userType == UserType.CHARITY) {
+                            user = new Charity(body);
+                            if (listener != null) listener.onUserReceived(user);
+                        } else {
+                            user = new Donor(body);
+                            if (listener != null) listener.onUserReceived(user);
+                        }
+                    } catch (JSONException e) {
+                        Toast.makeText(activity.getApplicationContext(), "Unable to read user profile from server", Toast.LENGTH_LONG).show();
+                        System.err.println(e);
+                    }
+                } else {
+                    Toast.makeText(activity.getApplicationContext(), "Unable to get user profile from server", Toast.LENGTH_LONG).show();
+                    System.err.println(response.getErrorMessage());
+                }
+            }
+        });
     }
 
     public void setData(RequestResponse response) throws JSONException {
@@ -101,6 +148,11 @@ public class UserData {
 
     public UserType getUserType() {
         return userType;
+    }
+
+    public interface OnUserRecievedListener {
+
+        void onUserReceived(User user);
     }
 }
 

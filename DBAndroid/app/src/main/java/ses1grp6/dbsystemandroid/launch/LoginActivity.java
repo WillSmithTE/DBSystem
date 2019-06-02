@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -18,10 +19,15 @@ import ses1grp6.dbsystemandroid.util.UserData;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private static final String LOGIN_FAILED_MESSAGE = "Login failed.";
+    private EditText emailInput, passwordInput;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        emailInput = findViewById(R.id.emailInput);
+        passwordInput = findViewById(R.id.passwordInput);
     }
 
     /**
@@ -34,13 +40,13 @@ public class LoginActivity extends AppCompatActivity {
     private void POSTRequestLogin() {
         JSONObject postParams = new JSONObject();
         try {
-            postParams.put("email", ((EditText)findViewById(R.id.emailInput)).getText().toString());
-            postParams.put("password", ((EditText)findViewById(R.id.passwordInput)).getText().toString());
+            postParams.put("email", emailInput.getText().toString());
+            postParams.put("password", passwordInput.getText().toString());
         } catch (JSONException e) {
 
         }
 
-        DBSystemNetwork.sendPostRequest("auth/login/", postParams, new DBSystemNetwork.OnRequestComplete() {
+        DBSystemNetwork.sendPostRequest(this, "auth/login/", postParams, new DBSystemNetwork.OnRequestComplete() {
             @Override
             public void onRequestCompleted(RequestResponse response) {
 
@@ -58,6 +64,11 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(LoginActivity.this, response.getErrorMessage(),
                             Toast.LENGTH_LONG).show();
+                }
+
+                if (response.getErrorMessage().equals(LOGIN_FAILED_MESSAGE)) {
+                    emailInput.getText().clear();
+                    passwordInput.getText().clear();
                 }
             }
         });
@@ -80,6 +91,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void changeToDashboard() {
         Intent intent = new Intent(this, DashboardActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
 }

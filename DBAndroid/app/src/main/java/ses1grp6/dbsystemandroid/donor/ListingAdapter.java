@@ -10,6 +10,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import ses1grp6.dbsystemandroid.R;
+import ses1grp6.dbsystemandroid.model.Application;
 import ses1grp6.dbsystemandroid.model.Listing;
 
 public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.DonorListViewHolder> {
@@ -19,12 +20,13 @@ public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.DonorLis
     public int getItem(int position) { return donors.get(position - 1).getId(); }
 
     public class DonorListViewHolder extends RecyclerView.ViewHolder {
-        TextView listingTitle, listingDesc, listingLocation;
+        TextView listingTitle, listingDesc, listingIndustry, listingBy;
         public DonorListViewHolder(@NonNull View itemView) {
             super(itemView);
             listingTitle = (TextView) itemView.findViewById(R.id.listing_charities_item_title);
             listingDesc = (TextView) itemView.findViewById(R.id.listing_charities_item_desc);
-            listingLocation = (TextView) itemView.findViewById(R.id.listing_charities_item_location);
+            listingBy = itemView.findViewById(R.id.listing_charities_item_by);
+            listingIndustry = itemView.findViewById(R.id.listing_charities_item_industry);
         }
     }
 
@@ -41,21 +43,23 @@ public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.DonorLis
 
     @Override
     public void onBindViewHolder(@NonNull final DonorListViewHolder donorListViewHolder, int i) {
-        Listing donor = donors.get(i);
+        final Listing listing = donors.get(i);
 
-        String listingTitle = donor.getListingTitle();
-        String listingDesc = donor.getListingDescription();
-        String listingLocation = donor.getLocation();
-        final int id = donor.getId();
+        String listingTitle = listing.getListingTitle();
+        String listingDesc = listing.getListingDescription();
+        String listingBy = listing.getCharity().getName();
+        String listingIndustry = listing.getIndustry().getIndustryName();
+        final int id = listing.getId();
 
         donorListViewHolder.listingTitle.setText(listingTitle);
         donorListViewHolder.listingDesc.setText(listingDesc);
-        donorListViewHolder.listingLocation.setText(listingLocation);
+        donorListViewHolder.listingBy.setText("By " + listingBy);
+        donorListViewHolder.listingIndustry.setText("Under " + listingIndustry);
 
         donorListViewHolder.itemView.setOnClickListener (new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (itemClickListener != null) itemClickListener.onItemClick(view, id);
+                if (itemClickListener != null) itemClickListener.onItemClick(view, id, listing);
             }
         });
     }
@@ -75,6 +79,8 @@ public class ListingAdapter extends RecyclerView.Adapter<ListingAdapter.DonorLis
     }
 
     public interface ItemClickListener {
-        void onItemClick(View view, int id);
+
+        void onItemClick(View view, int id, Listing listing);
+
     }
 }

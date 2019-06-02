@@ -13,5 +13,8 @@
         <item
             android:id="@+id/donorNavHistory"
             android:title="History" />
+        <item
+            android:id="@+id/donorLogOut"
+            android:title="Log Out" />
     </group>
 </menu>

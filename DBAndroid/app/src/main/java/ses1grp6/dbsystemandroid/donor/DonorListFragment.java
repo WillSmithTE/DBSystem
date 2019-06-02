@@ -40,7 +40,7 @@ public class DonorListFragment extends Fragment implements DonorsAdapter.ItemCli
     }
 
     private void getDonors(){
-        DBSystemNetwork.sendGetRequest("donor/", new DBSystemNetwork.OnRequestComplete() {
+        DBSystemNetwork.sendGetRequest(getActivity(), "donor/", new DBSystemNetwork.OnRequestComplete() {
             @Override
             public void onRequestCompleted(RequestResponse response) {
                 if (response.isConnectionSuccessful()) {

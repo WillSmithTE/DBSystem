@@ -3,6 +3,7 @@ package ses1grp6.DBSystemBE.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.TransactionException;
 import org.springframework.web.bind.annotation.*;
+import ses1grp6.DBSystemBE.controllers.EmailController;
 import ses1grp6.DBSystemBE.model.ResponseStatus;
 import ses1grp6.DBSystemBE.model.*;
 import ses1grp6.DBSystemBE.repositories.CharityRepository;
@@ -15,16 +16,12 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import java.nio.charset.Charset;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import java.util.Optional;
-import java.util.Properties;
 import java.util.function.Supplier;
 
 /**
@@ -96,48 +93,11 @@ public class AuthController {
             if (preExistingUser.isEmailConfirmed()) {
                 return AuthController.createLoginSuccessObject(loginRequest, userType, preExistingUser.getId());
             } else {
-                sendConfirmationEmail(loginRequest.getEmail(), preExistingUser.getId());
+                new EmailController().sendConfirmationEmail(loginRequest.getEmail(), preExistingUser.getId());
                 return Response.fail("Email not confirmed. Confirmation email resent.");
             }
         } else {
             return Response.fail("Login failed.");
-        }
-    }
-
-    private void sendConfirmationEmail(String emailAddress, Integer userId) {
-        final String username = "SES6donorAPP@gmail.com";
-        final String password = "Mdy6Rb5axNpkS8Gh";
-
-        Properties prop = new Properties();
-        prop.put("mail.smtp.host", "smtp.gmail.com");
-        prop.put("mail.smtp.port", "587");
-        prop.put("mail.smtp.auth", "true");
-        prop.put("mail.smtp.starttls.enable", "true"); //TLS
-
-        Session session = Session.getInstance(prop,
-                new javax.mail.Authenticator() {
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(username, password);
-                    }
-                });
-
-        try {
-
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(username));
-            message.setRecipients(
-                    Message.RecipientType.TO,
-                    InternetAddress.parse(emailAddress)
-            );
-            message.setSubject("Email Confirmation Donor App");
-            message.setText("Click the link to confirm your email.\n" + "http://192.168.0.2:8080/auth/confirm/" + userId);
-
-            Transport.send(message);
-
-            System.out.println("Done");
-
-        } catch (MessagingException e) {
-            e.printStackTrace();
         }
     }
 
@@ -146,7 +106,7 @@ public class AuthController {
         if (preExistingUser == null) {
             try {
                 User newUser = (User) repository.save(userGenerator.get());
-                sendConfirmationEmail(email, newUser.getId());
+                new EmailController().sendConfirmationEmail(email, newUser.getId());
                 return Response.success(newUser);
             } catch (TransactionException e) {
                 return Response.fail("Failed to register: " + e.getMessage());
