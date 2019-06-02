@@ -1,13 +1,11 @@
 package ses1grp6.dbsystemandroid.donor;
 
 import android.content.Intent;
-import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -15,7 +13,6 @@ import org.json.JSONObject;
 
 import ses1grp6.dbsystemandroid.DashboardActivity;
 import ses1grp6.dbsystemandroid.R;
-import ses1grp6.dbsystemandroid.charity.CharityWizard;
 import ses1grp6.dbsystemandroid.model.Listing;
 import ses1grp6.dbsystemandroid.network.DBSystemNetwork;
 import ses1grp6.dbsystemandroid.network.RequestResponse;
@@ -23,7 +20,7 @@ import ses1grp6.dbsystemandroid.util.UserData;
 import ses1grp6.dbsystemandroid.util.simpleResult.ResultData;
 import ses1grp6.dbsystemandroid.util.simpleResult.SimpleResultActivity;
 
-public class donorWizard extends AppCompatActivity {
+public class DonorWizard extends AppCompatActivity {
     Intent intent;
     Listing listing;
 
@@ -65,7 +62,7 @@ public class donorWizard extends AppCompatActivity {
             public void onRequestCompleted(RequestResponse response) {
                 if (response.hasStatusSuccessful()) {
 
-                    Intent intent = new Intent(donorWizard.this, SimpleResultActivity.class);
+                    Intent intent = new Intent(DonorWizard.this, SimpleResultActivity.class);
                     ResultData resultData = new ResultData("Application Successful",
                             "Please wait for a response");
 
@@ -73,7 +70,7 @@ public class donorWizard extends AppCompatActivity {
                     resultData.putToIntent(intent);
                     startActivity(intent);
                 } else {
-                    Toast.makeText(donorWizard.this, response.getErrorMessage(),
+                    Toast.makeText(DonorWizard.this, response.getErrorMessage(),
                             Toast.LENGTH_LONG).show();
                 }
             }
