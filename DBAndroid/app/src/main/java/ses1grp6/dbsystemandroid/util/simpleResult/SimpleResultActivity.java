@@ -39,7 +39,7 @@ public class SimpleResultActivity extends AppCompatActivity {
 
         if (resultData.hasBackActivity()) {
             Intent intent = new Intent(this, resultData.getBackActivity());
-            intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
     }
