@@ -18,12 +18,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import ses1grp6.dbsystemandroid.R;
 import ses1grp6.dbsystemandroid.common.ListingActivity;
@@ -102,6 +99,7 @@ public class CharityHistoryFragment extends Fragment implements SimpleRecyclerAd
             @Override
             public void onClick(View view, Listing dataSet) {
                 Intent intent = new Intent(getContext(), ListingActivity.class);
+                dataSet.removeExpiryAt(); // We don't want to display expiry date.
                 dataSet.putToIntent(intent);
                 startActivity(intent);
             }
@@ -131,7 +129,7 @@ public class CharityHistoryFragment extends Fragment implements SimpleRecyclerAd
                             continue;
                         }
 
-                        if (!historyData.hasExpiresAt() || historyData.getExpiresAt().before(currentDate)) {
+                        if (!historyData.hasExpired()) {
                             fullHistory.add(historyData);
                             history.add(historyData);
                         }

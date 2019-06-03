@@ -108,7 +108,6 @@ public class ListingCharityFragment extends Fragment implements ListingCharities
             @Override
             public void onRequestCompleted(RequestResponse response) {
                 if (response.isConnectionSuccessful()) {
-                    Date currentDate = new Date();
 
                     try {
                         listingCharities = new ArrayList<>();
@@ -118,7 +117,7 @@ public class ListingCharityFragment extends Fragment implements ListingCharities
                             JSONObject obj = response.getJsonObject().getJSONArray("body").getJSONObject(i);
                             Listing listing = new Listing(obj);
 
-                            if (listing.hasExpiresAt() && currentDate.before(listing.getExpiresAt())) {
+                            if (!listing.hasExpired()) {
                                 listingCharities.add(listing);
                                 fullList.add(listing);
                             }

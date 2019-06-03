@@ -25,6 +25,7 @@ public class Listing implements Parcelable {
     private static final String EVENT_START_DATE = "eventStartDate";
     private static final String EVENT_END_DATE = "eventEndDate";
     private static final String EXPIRES_AT = "expiresAt";
+    private static final String OLD = "CLOSED#";
     private int id;
     private Charity charity;
     private String listingTitle;
@@ -84,6 +85,10 @@ public class Listing implements Parcelable {
         return listingDescription != null;
     }
 
+    public boolean hasExpired() {
+        return expiresAt.before(new Date()) || listingTitle.substring(0, OLD.length() + 1).equals(OLD);
+    }
+
     public boolean hasEventStartDate() {
         return eventStartDate != null;
     }
@@ -102,6 +107,13 @@ public class Listing implements Parcelable {
 
     public boolean hasIndustry() {
         return industry != null;
+    }
+
+    /**
+     * Utility for when expiry dates do not want to be displayed.
+     */
+    public void removeExpiryAt() {
+        this.expiresAt = null;
     }
 
     public void putToIntent(Intent intent) {
@@ -187,7 +199,7 @@ public class Listing implements Parcelable {
     }
 
     public String getListingTitle() {
-        return listingTitle;
+        return listingTitle.substring(0, OLD.length() + 1).equals(OLD) ? listingTitle.substring(5) : listingTitle; // Make it nicer for closed applications
     }
 
     public String getContactNumber() {

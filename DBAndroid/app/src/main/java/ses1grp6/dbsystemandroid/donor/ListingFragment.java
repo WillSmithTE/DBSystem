@@ -76,7 +76,6 @@ public class ListingFragment extends Fragment implements ListingAdapter.ItemClic
             public void onRequestCompleted(RequestResponse response) {
                 if (response.isConnectionSuccessful()) {
                     try {
-                        Date currentDate = new Date();
                         listingCharities = new ArrayList<>();
                         int max = response.getJsonObject().getJSONArray("body").length();
                         if (max > 20) max = 20;
@@ -84,7 +83,7 @@ public class ListingFragment extends Fragment implements ListingAdapter.ItemClic
                             JSONObject obj = response.getJsonObject().getJSONArray("body").getJSONObject(i);
                             Listing listing = new Listing(obj);
 
-                            if (listing.hasExpiresAt() && currentDate.before(listing.getExpiresAt())) {
+                            if (!listing.hasExpired()) {
                                 listingCharities.add(listing);
                             }
                         }
