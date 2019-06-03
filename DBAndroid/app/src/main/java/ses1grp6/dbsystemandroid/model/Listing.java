@@ -37,6 +37,7 @@ public class Listing implements Parcelable {
     private Date eventEndDate;
     private Industry industry;
     private Date expiresAt;
+    private JSONObject json;
 
 
     public Listing(int id, Charity charity) {
@@ -45,6 +46,7 @@ public class Listing implements Parcelable {
     }
 
     public Listing(JSONObject jsonObject) throws JSONException {
+        this.json = jsonObject;
         this.listingTitle = jsonObject.getString(LISTING_TITLE);
         this.listingDescription = jsonObject.getString(LISTING_DESCRIPTION);
         setCreatedAt(jsonObject.getString(CREATED_AT));
@@ -67,6 +69,13 @@ public class Listing implements Parcelable {
     }
 
     /**
+     * Quick way to get json this listing was made with.
+     */
+    public JSONObject getJson() {
+        return json;
+    }
+
+    /**
      * Null checks delegated.
      */
     public boolean checkNull(JSONObject jsonObject, String key) throws JSONException{
@@ -74,7 +83,7 @@ public class Listing implements Parcelable {
     }
 
     public boolean hasListingTitle() {
-        return listingTitle != null;
+        return listingTitle != null && !listingTitle.equals("");
     }
 
     public boolean hasContactNumber() {
@@ -86,7 +95,7 @@ public class Listing implements Parcelable {
     }
 
     public boolean hasExpired() {
-        return expiresAt.before(new Date()) || listingTitle.substring(0, OLD.length() + 1).equals(OLD);
+        return expiresAt.before(new Date()) || listingTitle.substring(0, OLD.length()).equals(OLD);
     }
 
     public boolean hasEventStartDate() {
@@ -199,7 +208,7 @@ public class Listing implements Parcelable {
     }
 
     public String getListingTitle() {
-        return listingTitle.substring(0, OLD.length() + 1).equals(OLD) ? listingTitle.substring(5) : listingTitle; // Make it nicer for closed applications
+        return listingTitle.substring(0, OLD.length()).equals(OLD) ? listingTitle.substring(OLD.length() + 1) : listingTitle; // Make it nicer for closed applications
     }
 
     public String getContactNumber() {
@@ -276,6 +285,7 @@ public class Listing implements Parcelable {
         dest.writeLong(this.eventEndDate != null ? this.eventEndDate.getTime() : -1);
         dest.writeParcelable(this.industry, flags);
         dest.writeLong(this.expiresAt != null ? this.expiresAt.getTime() : -1);
+        dest.writeString(this.json.toString());
     }
 
     protected Listing(Parcel in) {
@@ -294,6 +304,12 @@ public class Listing implements Parcelable {
         this.industry = in.readParcelable(Industry.class.getClassLoader());
         long tmpExpiresAt = in.readLong();
         this.expiresAt = tmpExpiresAt == -1 ? null : new Date(tmpExpiresAt);
+
+        try {
+            this.json = new JSONObject(in.readString());
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public static final Creator<Listing> CREATOR = new Creator<Listing>() {

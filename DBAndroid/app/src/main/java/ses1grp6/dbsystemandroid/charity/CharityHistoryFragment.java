@@ -129,7 +129,7 @@ public class CharityHistoryFragment extends Fragment implements SimpleRecyclerAd
                             continue;
                         }
 
-                        if (!historyData.hasExpired()) {
+                        if (historyData.hasExpired()) {
                             fullHistory.add(historyData);
                             history.add(historyData);
                         }

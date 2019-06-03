@@ -14,13 +14,19 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -36,6 +42,7 @@ public class EditListingFragment extends Fragment {
     private View view;
     private Listing listing;
     private List<Fragment> cards = new LinkedList<>();
+    private Button closeListingBtn;
 
     public EditListingFragment() {
     }
@@ -57,7 +64,45 @@ public class EditListingFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_edit_listing, container, false);
+        closeListingBtn = view.findViewById(R.id.closeListingBtn);
+
+        closeListingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new AlertDialog.Builder(getContext())
+                        .setTitle("Close Listing")
+                        .setMessage(getString(R.string.close_listing_confirmation))
+                        .setNegativeButton(android.R.string.no, null)
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                closeListing();
+                            }
+                        })
+                        .show();
+            }
+        });
         return view;
+    }
+
+    private void closeListing() {
+
+        try {
+            JSONObject jsonObject = listing.getJson();
+            jsonObject.put("listingTitle","CLOSED#" + listing.getListingTitle());
+            DBSystemNetwork.sendPutRequest(getActivity(), "/listing/", jsonObject, new DBSystemNetwork.OnRequestComplete() {
+                @Override
+                public void onRequestCompleted(RequestResponse response) {
+                    if (response.hasStatusSuccessful()) {
+                        getActivity().finish();
+                    } else {
+                        Toast.makeText(getContext(), "Could not tell the server to close listing", Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            Toast.makeText(getContext(), "Could not create a message to server to close listing", Toast.LENGTH_LONG).show();
+        }
     }
 
     private void addApplicantCards(final List<Application> applications) {

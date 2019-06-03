@@ -28,6 +28,7 @@
     <string name="applicant_accept_confirmation">Are you sure you would like to accept this applicant?</string>
     <string name="applicant_reject_confirmation">Are you sure you would like to reject this applicant?</string>
     <string name="apply_confirmation">Are you sure you would like to apply to this listing?</string>
+    <string name="close_listing_confirmation">Are you sure you would like to close this listing?</string>
     <string name="title">Title</string>
     <string name="description">Description</string>
     <string name="location">Location</string>
