@@ -30,12 +30,15 @@ import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.List;
 
+import ses1grp6.dbsystemandroid.DashboardActivity;
 import ses1grp6.dbsystemandroid.R;
 import ses1grp6.dbsystemandroid.donor.ApplicantCardFragment;
 import ses1grp6.dbsystemandroid.model.Application;
 import ses1grp6.dbsystemandroid.model.Listing;
 import ses1grp6.dbsystemandroid.network.DBSystemNetwork;
 import ses1grp6.dbsystemandroid.network.RequestResponse;
+import ses1grp6.dbsystemandroid.util.simpleResult.ResultData;
+import ses1grp6.dbsystemandroid.util.simpleResult.SimpleResultActivity;
 
 public class EditListingFragment extends Fragment {
 
@@ -94,7 +97,11 @@ public class EditListingFragment extends Fragment {
                 @Override
                 public void onRequestCompleted(RequestResponse response) {
                     if (response.hasStatusSuccessful()) {
-                        getActivity().finish();
+                        Intent intent = new Intent(getContext(), SimpleResultActivity.class);
+                        ResultData resultData = new ResultData("Closed the Listing!", "");
+                        resultData.setBackActivity(DashboardActivity.class, "Back To Dashboard");
+                        resultData.putToIntent(intent);
+                        startActivity(intent);
                     } else {
                         Toast.makeText(getContext(), "Could not tell the server to close listing", Toast.LENGTH_LONG).show();
                     }
