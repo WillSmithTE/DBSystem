@@ -1,4 +1,4 @@
-#Group 6 SDS 1A/B Assignment Project
+# Group 6 SDS 1A/B Assignment Project
 
 This is a Donor and booking system where charities are able to look for volunteers to help out their event.
 Donors and Charities are able to interact with this system via a mobile application.
