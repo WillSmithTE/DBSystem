@@ -208,7 +208,7 @@ public class Listing implements Parcelable {
     }
 
     public String getListingTitle() {
-        return listingTitle.substring(0, OLD.length()).equals(OLD) ? listingTitle.substring(OLD.length() + 1) : listingTitle; // Make it nicer for closed applications
+        return listingTitle.substring(0, OLD.length()).equals(OLD) ? listingTitle.substring(OLD.length() - 1) : listingTitle; // Make it nicer for closed applications
     }
 
     public String getContactNumber() {
